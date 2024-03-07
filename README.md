@@ -1,2 +1,2 @@
 # Client record
-Client Record monorepo
+Client Record application monorepo
