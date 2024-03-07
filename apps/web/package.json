@@ -1,0 +1,80 @@
+{
+  "name": "client-record-ui",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.5.6",
+    "@apollo/react-hooks": "^4.0.0",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@mui/icons-material": "^5.2.5",
+    "@mui/lab": "^5.0.0-alpha.64",
+    "@mui/material": "^5.2.6",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/apollo-upload-client": "^17.0.0",
+    "@types/jest": "^27.4.0",
+    "@types/js-cookie": "^3.0.1",
+    "@types/lodash": "^4.14.178",
+    "@types/node": "^16.11.17",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@types/recompose": "^0.30.10",
+    "apollo-upload-client": "^17.0.0",
+    "formik": "^2.2.9",
+    "graphql": "^16.2.0",
+    "js-cookie": "^3.0.1",
+    "lodash": "^4.17.21",
+    "luxon": "^2.3.0",
+    "react": "^18.2.0",
+    "react-content-loader": "^6.1.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "6",
+    "react-scripts": "5.0.0",
+    "typescript": "^4.5.4",
+    "web-vitals": "^2.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "gen": "graphql-codegen --config codegen.yml"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^3.2.1",
+    "@graphql-codegen/introspection": "^2.1.1",
+    "@graphql-codegen/testing": "^2.0.0",
+    "@graphql-codegen/typescript": "^3.0.1",
+    "@graphql-codegen/typescript-operations": "^3.0.1",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.6.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "prettier": "2.5.1"
+  }
+}

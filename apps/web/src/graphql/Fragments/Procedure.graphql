@@ -1,0 +1,4 @@
+fragment CoreProcedureFields on Procedure {
+    id
+    name
+}

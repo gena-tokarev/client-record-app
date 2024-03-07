@@ -1,0 +1,17 @@
+mutation CreateAppointment($inputAppointment: AppointmentInput!) {
+    createAppointment(inputAppointment: $inputAppointment) {
+        ...CoreAppointmentFields
+        client {
+            ...CoreClientFields
+            channel {
+                ...CoreChannelFields
+            }
+        }
+        master {
+            ...CoreMasterFields
+        }
+        procedures {
+            ...CoreProcedureFields
+        }
+    }
+}

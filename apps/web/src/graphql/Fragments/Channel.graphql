@@ -1,0 +1,4 @@
+fragment CoreChannelFields on Channel {
+    id
+    name
+}

@@ -1,0 +1,21 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "prettier",
+        "plugin:prettier/recommended"
+    ],
+    "plugins": ["unused-imports", "@typescript-eslint", "prettier"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "impliedStrict": true,
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+        "unused-imports/no-unused-imports-ts": "warn",
+        "prettier/prettier": "warn"
+    }
+}
