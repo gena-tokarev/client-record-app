@@ -1,0 +1,23 @@
+entity: Phone
+items:
+  phone1:
+    value: +111
+    client: '@client1'
+  phone2:
+    value: +222
+    client: '@client1'
+  phone3:
+    value: +333
+    client: '@client2'
+  phone4:
+    value: +444
+    client: '@client2'
+  phone5:
+    value: +555
+    client: '@client3'
+  phone6:
+    value: +666
+    client: '@client3'
+  phone7:
+    value: +777
+    client: '@client3'
