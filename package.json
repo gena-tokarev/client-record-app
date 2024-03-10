@@ -2,9 +2,6 @@
   "packageManager": "yarn@4.1.0",
   "workspaces": [
     "apps/*",
-    "packages/*"
-  ],
-  "dependencies": {
-    "@nestjs/axios": "^3.0.2"
-  }
+    "packages/server"
+  ]
 }

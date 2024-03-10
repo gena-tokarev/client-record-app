@@ -9,7 +9,7 @@ export class ProxyService {
   constructor(private httpService: HttpService) {}
 
   async forwardAuthRequest(req: Request, res: Response) {
-    const url = `http://${process.env.SERVICE_AUTH_EXTERNAL_HOST}:${process.env.SERVICE_AUTH_EXTERNAL_PORT}${req.originalUrl}`;
+    const url = `http://localhost:${process.env.AUTH_APP_PORT}${req.originalUrl}`;
     const method = req.method.toLowerCase();
 
     const observable$ = this.httpService
@@ -33,6 +33,6 @@ export class ProxyService {
         }),
       );
 
-    await lastValueFrom(observable$);
+    return await lastValueFrom(observable$);
   }
 }

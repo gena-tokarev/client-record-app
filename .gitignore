@@ -36,3 +36,4 @@ lerna-debug.log*
 
 .env
 db
+.yarn/install-state.gz

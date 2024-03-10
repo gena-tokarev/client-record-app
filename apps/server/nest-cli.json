@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/client-record-api-gateway/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/client-record-api-gateway/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/client-record-api-gateway",
+  "projects": {
+    "client-record-auth": {
+      "type": "application",
+      "root": "apps/client-record-auth",
+      "entryFile": "main",
+      "sourceRoot": "apps/client-record-auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/client-record-auth/tsconfig.app.json"
+      }
+    },
+    "client-record-api-gateway": {
+      "type": "application",
+      "root": "apps/client-record-api-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/client-record-api-gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/client-record-api-gateway/tsconfig.app.json"
+      }
+    },
+    "shared": {
+      "type": "library",
+      "root": "libs/shared",
+      "entryFile": "index",
+      "sourceRoot": "libs/shared/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/shared/tsconfig.lib.json"
+      }
+    },
+    "user": {
+      "type": "library",
+      "root": "libs/user",
+      "entryFile": "index",
+      "sourceRoot": "libs/user/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/user/tsconfig.lib.json"
+      }
+    }
+  }
+}

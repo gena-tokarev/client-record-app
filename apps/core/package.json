@@ -1,5 +1,5 @@
 {
-  "name": "client-record-core",
+  "name": "@client-record/core",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -34,7 +34,7 @@
     "@types/express-session": "^1.17.7",
     "@types/lodash": "^4.14.194",
     "Faker": "^0.7.2",
-    "bcrypt": "^5.1.0",
+    "bcrypt": "^5.1.1",
     "class-validator": "^0.14.0",
     "csurf": "^1.11.0",
     "dotenv": "^16.0.3",
