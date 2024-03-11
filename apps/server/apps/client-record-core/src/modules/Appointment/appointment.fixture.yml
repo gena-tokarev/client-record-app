@@ -1,0 +1,34 @@
+entity: Appointment
+items:
+  appointment1:
+    complaints: This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.
+    client: '@client($current)'
+    master: '@master($current)'
+    date: 123423423
+    price: 200
+    results: Way to go!
+    comments: None
+    withCoating: true
+    procedures: [{ id: 3}]
+
+  appointment2:
+    complaints: This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.
+    client: '@client($current)'
+    master: '@master($current)'
+    date: 123423423
+    price: 100
+    results: Way to go!
+    comments: None
+    withCoating: true
+    procedures: [{ id: 3}]
+
+  appointment3:
+    complaints: This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.
+    client: '@client($current)'
+    master: '@master($current)'
+    date: 123423423
+    price: 50
+    results: Way to go!
+    comments: None
+    withCoating: false
+    procedures: [{ id: 3}]

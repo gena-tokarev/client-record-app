@@ -14,10 +14,10 @@ import { UserModule } from '@client-record/user';
 
 @Module({
   imports: [
+    UserModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    UserModule,
     PassportModule,
     JwtModule,
   ],

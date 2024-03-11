@@ -115,7 +115,7 @@ export class AuthController {
     res.status(200).json({ access_token });
   }
 
-  @UseGuards(AuthGuard(StrategyNamesEnum.JWT_ACCESS))
+  // @UseGuards(AuthGuard(StrategyNamesEnum.JWT_ACCESS))
   @Get('test')
   test() {
     return { test: 1 };

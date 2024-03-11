@@ -29,6 +29,12 @@
       ],
       "@client-record/user/*": [
         "libs/user/src/*"
+      ],
+      "@client-record/data-source": [
+        "libs/data-source/src"
+      ],
+      "@client-record/data-source/*": [
+        "libs/data-source/src/*"
       ]
     }
   }

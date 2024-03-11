@@ -1,0 +1,16 @@
+entity: Client
+items:
+  client1:
+    firstName: Гена
+    lastName: Tokarev
+    middleName: Tokarev
+    instagramName: iamgenatokarev1
+    channel: '@channel($current)'
+  client2:
+    firstName: Даша
+    instagramName: iamgenatokarev2
+    channel: '@channel1'
+  client3:
+    firstName: Игорь
+    channel: '@channel1'
+    instagramName: iamgenatokarev3
