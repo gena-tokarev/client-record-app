@@ -5,9 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Procedure } from './procedure.model';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Procedure]),
-  ],
+  imports: [TypeOrmModule.forFeature([Procedure])],
   providers: [ProcedureService, ProcedureResolver],
 })
 export class ProcedureModule {}

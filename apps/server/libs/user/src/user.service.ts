@@ -7,6 +7,7 @@ import { UserUpdatePayload } from './types/user-update.payload';
 import { ErrorMessagesEnum } from '@client-record/shared/enums/error-messages.enum';
 import { ErrorNamesEnum } from '@client-record/shared/enums/error-names.enum';
 import { GenericError } from '@client-record/shared/errors/GenericError';
+import { UserUpdateRefreshTokenPayload } from './types/user-update-refresh-token.payload';
 
 @Injectable()
 export class UserService {
@@ -23,16 +24,16 @@ export class UserService {
     return this.userRepository.findOne({ where: { id } });
   }
 
-  async updateRefreshToken(id: number, refreshToken: string) {
+  async updateRefreshToken(payload: UserUpdateRefreshTokenPayload) {
+    const { id, refresh_token } = payload;
     const user = await this.findById(id);
     if (user) {
-      return await this.userRepository.save({ ...user, refreshToken });
+      return await this.userRepository.save({ ...user, refresh_token });
     }
     return null;
   }
 
   async create(user: UserCreatePayload): Promise<User> {
-    console.log(user);
     try {
       return await this.userRepository.save(user);
     } catch (error) {

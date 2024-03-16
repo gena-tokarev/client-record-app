@@ -8,16 +8,21 @@ import { map } from 'rxjs/operators';
 export class ProxyService {
   constructor(private httpService: HttpService) {}
 
-  async forwardAuthRequest(req: Request, res: Response) {
+  async forwardRequest(req: Request, res: Response) {
     const url = `http://localhost:${process.env.AUTH_APP_PORT}${req.originalUrl}`;
     const method = req.method.toLowerCase();
+
+    const headers = {
+      host: req.headers.host,
+      cookie: req.headers.cookie,
+    };
 
     const observable$ = this.httpService
       .request({
         method,
         url,
         data: req.body,
-        headers: { ...req.headers },
+        headers,
       })
       .pipe(
         map((response) => {

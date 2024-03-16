@@ -1,13 +1,13 @@
 import { Appointment } from './appointment.model';
 import { AppointmentService } from './appointment.service';
 import { AppointmentInput } from './dto/appointment.input';
-import { Injectable, UseGuards } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { GraphqlJwtAccessGuard } from '../Auth/guards/graphql-jwt-access.guard';
+// import { GraphqlJwtAccessGuard } from '../Auth/guards/graphql-jwt-access.guard';
 
 @Injectable()
 @Resolver(Appointment)
-@UseGuards(GraphqlJwtAccessGuard)
+// @UseGuards(GraphqlJwtAccessGuard)
 export class AppointmentResolver {
   constructor(private appointmentService: AppointmentService) {}
 

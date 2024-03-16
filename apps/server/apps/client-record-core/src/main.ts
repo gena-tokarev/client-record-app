@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app.module';
 import { UnprocessableEntityException, ValidationPipe } from '@nestjs/common';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { formatValidationErrorMessage } from './utils/format-validation-error-message';
 import * as session from 'express-session';
 
@@ -35,7 +36,17 @@ async function bootstrap() {
       },
     }),
   );
-  await app.listen(process.env.APP_PORT ?? 4000);
+
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.TCP,
+    options: {
+      host: 'localhost',
+      port: Number(process.env.CORE_SERVICE_PORT),
+    },
+  });
+
+  await app.startAllMicroservices();
+  await app.listen(process.env.CORE_APP_PORT);
 }
 
 bootstrap();

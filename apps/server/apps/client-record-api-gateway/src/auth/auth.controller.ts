@@ -9,6 +9,6 @@ export class AuthController {
 
   @All('*')
   handleAuthRequest(@Req() req: Request, @Res() res: Response) {
-    this.proxyService.forwardAuthRequest(req, res);
+    this.proxyService.forwardRequest(req, res);
   }
 }

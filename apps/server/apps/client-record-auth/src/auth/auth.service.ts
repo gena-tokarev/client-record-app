@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -11,6 +11,11 @@ import { UserSignInPayload } from './types/user-sign-in.payload';
 import { UserAuthenticatePayload } from './types/user-authenticate.payload';
 import { Env } from '@client-record/shared/types/env.interface';
 import { User, UserService } from '@client-record/user';
+import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
+import { UserCreatePayload } from '@client-record/user/types/user-create.payload';
+import { UserUpdatePayload } from '@client-record/user/types/user-update.payload';
+import { UserUpdateRefreshTokenPayload } from '@client-record/user/types/user-update-refresh-token.payload';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +23,7 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService<Env>,
     private userService: UserService,
+    @Inject('CORE_SERVICE') private readonly coreServiceClient: ClientProxy,
   ) {}
 
   private generateAccessToken(payload: TokenPayload) {
@@ -52,10 +58,12 @@ export class AuthService {
       sub: userPayload.id,
     });
 
-    const user = await this.userService.update({
-      id: userPayload.id,
-      refresh_token: tokens.refresh_token,
-    });
+    const user = await lastValueFrom(
+      this.coreServiceClient.send('update_user', {
+        id: userPayload.id,
+        refresh_token: tokens.refresh_token,
+      }),
+    );
 
     return {
       ...user,
@@ -68,10 +76,12 @@ export class AuthService {
     const secret = this.configService.get<string>('JWT_SECRET');
     const payload = this.jwtService.verify(token, { secret }) as User;
     if (payload.refresh_token) {
-      await this.userService.update({
-        id: payload.id,
-        refresh_token: null,
-      });
+      await lastValueFrom(
+        this.coreServiceClient.send<User, UserUpdatePayload>('update_user', {
+          id: payload.id,
+          refresh_token: null,
+        }),
+      );
     }
   }
 
@@ -80,7 +90,12 @@ export class AuthService {
     userPayload: UserAuthenticatePayload,
   ): Promise<UserAuthenticateResult> {
     const { username } = userPayload;
-    const user = await this.userService.findByUsername(username);
+    const user = await lastValueFrom(
+      this.coreServiceClient.send<User, string>(
+        'find_user_by_username',
+        username,
+      ),
+    );
 
     if (user) {
       const userSingInPayload: UserSignInPayload = omit(user, 'password');
@@ -99,9 +114,11 @@ export class AuthService {
       sub: userPayload.id,
     });
 
-    await this.userService.updateRefreshToken(
-      userPayload.id,
-      tokens.refresh_token,
+    await lastValueFrom(
+      this.coreServiceClient.send<User | null, UserUpdateRefreshTokenPayload>(
+        'update_refresh_token',
+        userPayload,
+      ),
     );
 
     return {
@@ -119,13 +136,18 @@ export class AuthService {
       sub: uuidv4(),
     });
 
-    const user = await this.userService.create({
+    const user$ = this.coreServiceClient.send<
+      UserAuthenticateResult,
+      UserCreatePayload
+    >('create_user', {
       ...userPayload,
       refresh_token: tokens.refresh_token,
       password: userPayload.password
         ? await bcrypt.hash(userPayload.password, 10)
         : undefined,
     });
+
+    const user = await lastValueFrom(user$);
 
     return {
       ...omit(user, 'password'),

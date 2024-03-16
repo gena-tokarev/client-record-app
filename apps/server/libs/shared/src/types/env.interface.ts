@@ -1,8 +1,9 @@
 export interface Env {
   API_GATEWAY_APP_PORT: string;
 
-  AUTH_APP_PORT: string;
-  AUTH_SERVICE_PORT: string;
+  AUTH_APP_PORT: number;
+  AUTH_SERVICE_PORT: number;
+  CORE_SERVICE_PORT: number;
 
   JWT_SECRET: string;
   JWT_EXPIRATION_TIME: string;

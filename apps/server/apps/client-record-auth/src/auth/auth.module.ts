@@ -10,6 +10,7 @@ import { JwtRefreshStrategy } from './auth-strategies/jwt-refresh.strategy';
 import { GoogleStrategy } from './auth-strategies/google.strategy';
 import { JwtAccessFindUserStrategy } from './auth-strategies/jwt-access-find-user.strategy';
 import { UserModule } from '@client-record/user';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 // import { GraphqlJwtAccessGuard } from './guards/graphql-jwt-access.guard';
 
 @Module({
@@ -20,6 +21,16 @@ import { UserModule } from '@client-record/user';
     }),
     PassportModule,
     JwtModule,
+    ClientsModule.register([
+      {
+        name: 'CORE_SERVICE',
+        transport: Transport.TCP,
+        options: {
+          host: 'localhost',
+          port: Number(process.env.CORE_SERVICE_PORT),
+        },
+      },
+    ]),
   ],
   providers: [
     AuthService,
