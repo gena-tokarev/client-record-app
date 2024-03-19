@@ -24,7 +24,7 @@ import { TokenNamesEnum } from './types/token-names.enum';
 import { ErrorMessagesEnum } from '@client-record/shared/enums/error-messages.enum';
 import { User } from '@client-record/user';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(private authService: AuthService) {}
 
@@ -73,6 +73,7 @@ export class AuthController {
     requestDto: UserSignUpRequestDto,
     @Res() res,
   ): Promise<void> {
+    console.log(1111111111, requestDto)
     const { access_token, refresh_token, ...restResult } =
       await this.authService.signUp(requestDto);
     setAuthTokenCookiesHelper(res, TokenNamesEnum.REFRESH, refresh_token);

@@ -1,43 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
 import { Request, Response } from 'express';
-import { catchError, lastValueFrom } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { createProxyServer } from 'http-proxy';
 
 @Injectable()
 export class ProxyService {
-  constructor(private httpService: HttpService) {}
+  private proxy = createProxyServer({});
 
-  async forwardRequest(req: Request, res: Response) {
-    const url = `http://localhost:${process.env.AUTH_APP_PORT}${req.originalUrl}`;
-    const method = req.method.toLowerCase();
+  constructor() {
+    this.proxy.on('proxyReq', (proxyReq, req) => {
+      if ('body' in req) {
+        const bodyData = JSON.stringify(req.body);
+        proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+        proxyReq.write(bodyData);
+      }
+    });
+  }
 
-    const headers = {
-      host: req.headers.host,
-      cookie: req.headers.cookie,
+  async forwardRequest(targetUrl: string, req: Request, res: Response) {
+    const options = {
+      target: targetUrl,
+      changeOrigin: true,
+      selfHandleResponse: false,
+      ignorePath: true,
     };
 
-    const observable$ = this.httpService
-      .request({
-        method,
-        url,
-        data: req.body,
-        headers,
-      })
-      .pipe(
-        map((response) => {
-          Object.entries(response.headers).forEach(
-            ([key, value]: [string, string]) => {
-              res.setHeader(key, value);
-            },
-          );
-          res.status(response.status).send(response.data);
-        }),
-        catchError((error) => {
-          throw new Error(error.response?.data);
-        }),
-      );
-
-    return await lastValueFrom(observable$);
+    this.proxy.web(req, res, options);
   }
 }

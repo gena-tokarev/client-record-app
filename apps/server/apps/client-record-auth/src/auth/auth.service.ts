@@ -10,7 +10,7 @@ import { UserSignUpPayload } from './types/user-sign-up.payload';
 import { UserSignInPayload } from './types/user-sign-in.payload';
 import { UserAuthenticatePayload } from './types/user-authenticate.payload';
 import { Env } from '@client-record/shared/types/env.interface';
-import { User, UserService } from '@client-record/user';
+import { User } from '@client-record/user';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 import { UserCreatePayload } from '@client-record/user/types/user-create.payload';
@@ -22,7 +22,6 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService<Env>,
-    private userService: UserService,
     @Inject('CORE_SERVICE') private readonly coreServiceClient: ClientProxy,
   ) {}
 

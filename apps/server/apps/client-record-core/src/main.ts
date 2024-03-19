@@ -7,15 +7,15 @@ import * as session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: {
-      exposedHeaders: '*',
-      allowedHeaders: ['Content-Type', 'Authorization'],
-      credentials: true,
-      origin: 'http://localhost:3000',
-    },
+    // cors: {
+    //   exposedHeaders: '*',
+    //   allowedHeaders: ['Content-Type', 'Authorization'],
+    //   credentials: true,
+    //   origin: 'http://localhost:3000',
+    // },
   });
 
-  app.setGlobalPrefix('api/v1');
+  // app.setGlobalPrefix('api/v1');
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
