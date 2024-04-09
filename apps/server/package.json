@@ -22,7 +22,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/client-record-auth/test/jest-e2e.json",
-    "fixtures": "fixtures load ./**/*.fixture.yml --dataSource=./libs/data-source/src/core/data-source.core.ts --sync --require=ts-node/register --require=tsconfig-paths/register"
+    "fixtures": "fixtures load ./libs/data-source/src/core/**/*.fixture.yml --dataSource=./libs/data-source/src/core/data-source.core.ts --sync --require=ts-node/register --require=tsconfig-paths/register"
   },
   "dependencies": {
     "@apollo/server": "^4.10.2",

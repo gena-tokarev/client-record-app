@@ -8,13 +8,11 @@ import {
   // OneToMany,
 } from 'typeorm';
 
-
 // import { Media } from '../Media/media.model';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Client } from './client.model';
 import Master from './master.model';
 import { Procedure } from './procedure.model';
-
 
 @Entity()
 @ObjectType()
