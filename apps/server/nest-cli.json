@@ -28,7 +28,7 @@
         "tsConfigPath": "apps/client-record-api-gateway/tsconfig.app.json"
       }
     },
-    "client-record-api-core": {
+    "client-record-core": {
       "type": "application",
       "root": "apps/client-record-core",
       "entryFile": "main",
@@ -44,15 +44,6 @@
       "sourceRoot": "libs/shared/src",
       "compilerOptions": {
         "tsConfigPath": "libs/shared/tsconfig.lib.json"
-      }
-    },
-    "user": {
-      "type": "library",
-      "root": "libs/user",
-      "entryFile": "index",
-      "sourceRoot": "libs/user/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/user/tsconfig.lib.json"
       }
     },
     "data-source": {

@@ -1,6 +1,6 @@
-import { Client } from '../../Client/client.model';
+import { Client } from '../../../../../../libs/data-source/src/core/models/client.model';
 import { Field, ID, InputType } from '@nestjs/graphql';
-import Master from '../../Master/master.model';
+import Master from '../../../../../../libs/data-source/src/core/models/master.model';
 
 @InputType()
 export class AppointmentInput {

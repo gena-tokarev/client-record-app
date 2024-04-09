@@ -9,7 +9,7 @@ import { AppointmentModule } from './Appointment/appointment.module';
 import { MasterModule } from './Master/master.module';
 import { ConfigModule } from '@nestjs/config';
 import { DataSourceCoreModule } from '@client-record/data-source';
-import { UserModule } from '@client-record/user';
+import { UserModule } from './User/user.module';
 
 @Module({
   imports: [

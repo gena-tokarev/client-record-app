@@ -1,4 +1,4 @@
-import { Channel } from '../../Channel/channel.model';
+import { Channel } from '../../../../../../libs/data-source/src/core/models/channel.model';
 // import { PhoneInput } from './phone.input';
 import { Field, ID, InputType } from '@nestjs/graphql';
 

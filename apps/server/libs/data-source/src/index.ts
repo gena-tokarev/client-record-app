@@ -1,1 +1,1 @@
-export * from './data-source.core.module';
+export * from './core/data-source.core.module';

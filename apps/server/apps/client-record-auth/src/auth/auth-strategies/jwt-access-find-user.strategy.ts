@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ExtractJwt } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { TokenPayload } from '../types/token.payload';
@@ -6,7 +6,9 @@ import { Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { StrategyNamesEnum } from '../enums/strategy-names.enum';
 import { Env } from '@client-record/shared/types/env.interface';
-import { User, UserService } from '@client-record/user';
+import { User } from '@client-record/data-source/core/models/user.model';
+import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class JwtAccessFindUserStrategy extends PassportStrategy(
@@ -15,7 +17,7 @@ export class JwtAccessFindUserStrategy extends PassportStrategy(
 ) {
   constructor(
     configService: ConfigService<Env>,
-    private userService: UserService,
+    @Inject('CORE_SERVICE') private readonly coreServiceClient: ClientProxy,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -26,7 +28,12 @@ export class JwtAccessFindUserStrategy extends PassportStrategy(
   }
 
   async validate(tokenPayload: TokenPayload): Promise<User | null> {
-    const user = await this.userService.findById(tokenPayload.sub);
+    const user$ = this.coreServiceClient.send<User, number>(
+      'find_user_by_id',
+      tokenPayload.sub,
+    );
+
+    const user = await lastValueFrom(user$);
 
     if (!user) {
       return null;

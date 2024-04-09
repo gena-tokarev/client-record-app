@@ -9,13 +9,11 @@ import { AuthController } from './auth.controller';
 import { JwtRefreshStrategy } from './auth-strategies/jwt-refresh.strategy';
 import { GoogleStrategy } from './auth-strategies/google.strategy';
 import { JwtAccessFindUserStrategy } from './auth-strategies/jwt-access-find-user.strategy';
-import { UserModule } from '@client-record/user';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 // import { GraphqlJwtAccessGuard } from './guards/graphql-jwt-access.guard';
 
 @Module({
   imports: [
-    UserModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

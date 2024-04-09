@@ -1,7 +1,0 @@
-entity: User
-items:
-  user1:
-    username: user@example.com
-    password: $2a$12$U45TEvgUh6s159VxAKOcn.kgcSpxCEf4UnWvhQUDgg..Fmf5GAFTi
-    refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6InVzZXJAZXhhbXBsZS5jb20ifQ.oY0BPDINjpejNLzD6i8GKDZmDSMhwI3ljqiGyKJ3s_E
-

@@ -1,11 +1,13 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { AuthService } from '../auth.service';
 import { UserSignInRequestDto } from '../dto/request/user-sign-in.request.dto';
-import { User, UserService } from '@client-record/user';
 import { StrategyNamesEnum } from '../enums/strategy-names.enum';
 import { ErrorMessagesEnum } from '@client-record/shared/enums/error-messages.enum';
+import { User } from '@client-record/data-source/core/models/user.model';
+import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(
@@ -14,7 +16,7 @@ export class LocalStrategy extends PassportStrategy(
 ) {
   constructor(
     private authService: AuthService,
-    private userService: UserService,
+    @Inject('CORE_SERVICE') private readonly coreServiceClient: ClientProxy,
   ) {
     super();
   }
@@ -23,7 +25,12 @@ export class LocalStrategy extends PassportStrategy(
     username: UserSignInRequestDto['username'],
     password: UserSignInRequestDto['password'],
   ): Promise<User> {
-    const user = await this.userService.findByUsername(username);
+    const user$ = this.coreServiceClient.send<User, string>(
+      'find_user_by_username',
+      username,
+    );
+
+    const user = await lastValueFrom(user$);
 
     if (!user || !user.password) {
       throw new UnauthorizedException(ErrorMessagesEnum.USER_NOT_FOUND);

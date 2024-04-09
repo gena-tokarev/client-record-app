@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { setupAuthTest } from './tests/setup.auth.test';
-import { UserService } from '@client-record/user';
+import { UserService } from 'apps/client-record-core/src/modules/User';
 
 jest.mock('bcrypt');
 

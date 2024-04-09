@@ -1,4 +1,4 @@
-import { Procedure } from './procedure.model';
+import { Procedure } from '@client-record/data-source/core/models/procedure.model';
 import { ProcedureInput } from './dto/procedure.input';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Injectable } from '@nestjs/common';

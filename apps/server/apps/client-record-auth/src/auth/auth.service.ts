@@ -10,12 +10,12 @@ import { UserSignUpPayload } from './types/user-sign-up.payload';
 import { UserSignInPayload } from './types/user-sign-in.payload';
 import { UserAuthenticatePayload } from './types/user-authenticate.payload';
 import { Env } from '@client-record/shared/types/env.interface';
-import { User } from '@client-record/user';
 import { ClientProxy } from '@nestjs/microservices';
-import { lastValueFrom } from 'rxjs';
-import { UserCreatePayload } from '@client-record/user/types/user-create.payload';
-import { UserUpdatePayload } from '@client-record/user/types/user-update.payload';
-import { UserUpdateRefreshTokenPayload } from '@client-record/user/types/user-update-refresh-token.payload';
+import { catchError, lastValueFrom, throwError } from 'rxjs';
+import { UserCreatePayload } from 'apps/client-record-core/src/modules/User/types/user-create.payload';
+import { UserUpdatePayload } from 'apps/client-record-core/src/modules/User/types/user-update.payload';
+import { UserUpdateRefreshTokenPayload } from 'apps/client-record-core/src/modules/User/types/user-update-refresh-token.payload';
+import { User } from '@client-record/data-source/core/models/user.model';
 
 @Injectable()
 export class AuthService {
@@ -146,13 +146,17 @@ export class AuthService {
         : undefined,
     });
 
-    const user = await lastValueFrom(user$);
+    try {
+      const user = await lastValueFrom(user$);
 
-    return {
-      ...omit(user, 'password'),
-      refresh_token: tokens.refresh_token,
-      access_token: tokens.access_token,
-    };
+      return {
+        ...omit(user, 'password'),
+        refresh_token: tokens.refresh_token,
+        access_token: tokens.access_token,
+      };
+    } catch (e) {
+      console.log(5555, e);
+    }
   }
 
   public isValidPassword(

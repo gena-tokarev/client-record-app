@@ -25,7 +25,6 @@ export class AppController {
     const url = `http://localhost:${this.configService.get(
       'CORE_APP_PORT',
     )}${wildcardPath}`;
-
     this.proxyService.forwardRequest(url, req, res);
   }
 }

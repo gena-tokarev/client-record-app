@@ -16,13 +16,12 @@ import { StrategyNamesEnum } from './enums/strategy-names.enum';
 import { Request, Response } from 'express';
 import { UserSignUpRequestDto } from './dto/request/user-sign-up.request.dto';
 import { setAuthTokenCookiesHelper } from './helpers/set-auth-token-cookies.helper';
-import { omit } from 'lodash';
 import { GoogleAuthenticationPayload } from './types/google-authentication.payload.dto';
 import { unsetAuthTokenCookiesHelper } from './helpers/unset-auth-token-cookies.helper';
 import { DtoValidationGuard } from '@client-record/shared/guards/dto-validation.guard';
 import { TokenNamesEnum } from './types/token-names.enum';
 import { ErrorMessagesEnum } from '@client-record/shared/enums/error-messages.enum';
-import { User } from '@client-record/user';
+import { User } from '@client-record/data-source/core/models/user.model';
 
 @Controller()
 export class AuthController {
@@ -38,7 +37,7 @@ export class AuthController {
     @Res() res: Response,
   ): Promise<void> {
     const { refresh_token, access_token, ...restResult } =
-      await this.authService.signIn(omit(req.user, 'password'));
+      await this.authService.signIn(req.user);
     setAuthTokenCookiesHelper(res, TokenNamesEnum.REFRESH, refresh_token);
     setAuthTokenCookiesHelper(res, TokenNamesEnum.ACCESS, access_token);
     res.status(200).json({ ...restResult });
@@ -73,7 +72,6 @@ export class AuthController {
     requestDto: UserSignUpRequestDto,
     @Res() res,
   ): Promise<void> {
-    console.log(1111111111, requestDto)
     const { access_token, refresh_token, ...restResult } =
       await this.authService.signUp(requestDto);
     setAuthTokenCookiesHelper(res, TokenNamesEnum.REFRESH, refresh_token);
@@ -116,7 +114,7 @@ export class AuthController {
     res.status(200).json({ access_token });
   }
 
-  // @UseGuards(AuthGuard(StrategyNamesEnum.JWT_ACCESS))
+  @UseGuards(AuthGuard(StrategyNamesEnum.JWT_ACCESS))
   @Get('test')
   test() {
     return { test: 1 };

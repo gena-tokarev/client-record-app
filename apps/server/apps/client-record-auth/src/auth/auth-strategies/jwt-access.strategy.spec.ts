@@ -3,7 +3,8 @@ import { JwtAccessStrategy } from './jwt-access.strategy';
 import { ConfigService } from '@nestjs/config';
 import { UnauthorizedException } from '@nestjs/common';
 import { setupAuthTest } from '../tests/setup.auth.test';
-import { User, UserService } from '@client-record/user';
+import { UserService } from 'apps/client-record-core/src/modules/User';
+import { User } from '@client-record/data-source/core/models/user.model';
 
 describe('JwtAccessStrategy', () => {
   let jwtStrategy: JwtAccessStrategy;

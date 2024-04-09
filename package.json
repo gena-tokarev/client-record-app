@@ -1,7 +1,15 @@
 {
-  "packageManager": "yarn@4.1.0",
-  "workspaces": [
-    "apps/*",
-    "packages/server"
-  ]
+  "packageManager": "yarn@4.1.1",
+  "workspaces": {
+    "packages": [
+      "apps/*"
+    ]
+  },
+  "scripts": {
+    "demo": "yarn server-start:dev",
+    "server-start:dev": "concurrently -n \"server\" -c \"cyan\" \"yarn workspace @client-record/server demo\""
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
 }

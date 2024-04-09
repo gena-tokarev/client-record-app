@@ -3,7 +3,7 @@ import { LocalStrategy } from './local.strategy';
 import { AuthService } from '../auth.service';
 import { UnauthorizedException } from '@nestjs/common';
 import { setupAuthTest } from '../tests/setup.auth.test';
-import { User } from '@client-record/user';
+import { User } from '@client-record/data-source/core/models/user.model';
 
 describe('LocalStrategy', () => {
   let localStrategy: LocalStrategy;

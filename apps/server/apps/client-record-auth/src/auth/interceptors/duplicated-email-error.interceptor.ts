@@ -1,6 +1,6 @@
+import { User } from '@client-record/data-source/core/models/user.model';
 import { ErrorNamesEnum } from '@client-record/shared/enums/error-names.enum';
 import { SymbolKeysRegistryEnum } from '@client-record/shared/enums/symbol-keys.registry.enum';
-import { User } from '@client-record/user';
 import {
   Injectable,
   NestInterceptor,
