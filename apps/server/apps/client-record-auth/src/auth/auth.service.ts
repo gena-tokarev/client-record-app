@@ -9,13 +9,13 @@ import { UserAuthenticateResult } from './types/user-authenticate.result';
 import { UserSignUpPayload } from './types/user-sign-up.payload';
 import { UserSignInPayload } from './types/user-sign-in.payload';
 import { UserAuthenticatePayload } from './types/user-authenticate.payload';
-import { Env } from '@client-record/shared/types/env.interface';
+import { Env } from '@client-record/server/shared/types/env.interface';
 import { ClientProxy } from '@nestjs/microservices';
 import { catchError, lastValueFrom, throwError } from 'rxjs';
 import { UserCreatePayload } from 'apps/client-record-core/src/modules/User/types/user-create.payload';
 import { UserUpdatePayload } from 'apps/client-record-core/src/modules/User/types/user-update.payload';
 import { UserUpdateRefreshTokenPayload } from 'apps/client-record-core/src/modules/User/types/user-update-refresh-token.payload';
-import { User } from '@client-record/data-source/core/models/user.model';
+import { User } from '@client-record/server/data-source/core/models/user.model';
 
 @Injectable()
 export class AuthService {

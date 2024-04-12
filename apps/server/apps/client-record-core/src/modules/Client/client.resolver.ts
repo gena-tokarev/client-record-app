@@ -1,4 +1,4 @@
-import { Client } from '@client-record/data-source/core/models/client.model';
+import { Client } from '@client-record/server/data-source/core/models/client.model';
 import { ClientService } from './client.service';
 import { ClientInput } from './dto/client.input';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';

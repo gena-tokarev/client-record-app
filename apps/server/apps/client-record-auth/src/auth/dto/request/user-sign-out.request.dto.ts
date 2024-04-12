@@ -1,4 +1,4 @@
-import { User } from '@client-record/data-source/core/models/user.model';
+import { User } from '@client-record/server/data-source/core/models/user.model';
 import { IsNotEmpty } from 'class-validator';
 
 export class UserSignOutRequestDto {

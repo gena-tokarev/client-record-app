@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { RegisterUserLocalStrategyDto } from './dto/request/user-sign-in.request.dto';
 import { setupAuthTest } from './tests/setup.auth.test';
 import { RefreshRequest } from './types/request-with-user.type';
-import { User } from '@client-record/data-source/core/models/user.model';
+import { User } from '@client-record/server/data-source/core/models/user.model';
 
 describe('AuthController', () => {
   let authController: AuthController;

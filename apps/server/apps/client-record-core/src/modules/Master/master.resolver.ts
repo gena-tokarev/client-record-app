@@ -2,7 +2,7 @@ import { MasterInput } from './dto/master.input';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Injectable } from '@nestjs/common';
 import { MasterService } from './master.service';
-import Master from '@client-record/data-source/core/models/master.model';
+import Master from '@client-record/server/data-source/core/models/master.model';
 
 @Injectable()
 @Resolver(Master)

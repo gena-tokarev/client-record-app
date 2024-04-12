@@ -3,11 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryFailedError, Repository } from 'typeorm';
 import { UserCreatePayload } from './types/user-create.payload';
 import { UserUpdatePayload } from './types/user-update.payload';
-import { ErrorMessagesEnum } from '@client-record/shared/enums/error-messages.enum';
-import { ErrorNamesEnum } from '@client-record/shared/enums/error-names.enum';
-import { GenericError } from '@client-record/shared/errors/GenericError';
+import { ErrorMessagesEnum } from '@client-record/server/shared/enums/error-messages.enum';
+import { ErrorNamesEnum } from '@client-record/server/shared/enums/error-names.enum';
+import { GenericError } from '@client-record/server/shared/errors/GenericError';
 import { UserUpdateRefreshTokenPayload } from './types/user-update-refresh-token.payload';
-import { User } from '@client-record/data-source/core/models/user.model';
+import { User } from '@client-record/server/data-source/core/models/user.model';
 
 @Injectable()
 export class UserService {

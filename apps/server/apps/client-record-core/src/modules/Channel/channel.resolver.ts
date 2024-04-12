@@ -1,4 +1,4 @@
-import { Channel } from '@client-record/data-source/core/models/channel.model';
+import { Channel } from '@client-record/server/data-source/core/models/channel.model';
 import { ChannelService } from './channel.service';
 import { Injectable } from '@nestjs/common';
 import { Args, ID, Resolver, Query } from '@nestjs/graphql';

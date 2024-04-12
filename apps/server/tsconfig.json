@@ -18,24 +18,25 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@client-record/shared": [
+      "@client-record/server/shared": [
         "libs/shared/src"
       ],
-      "@client-record/shared/*": [
+      "@client-record/server/shared/*": [
         "libs/shared/src/*"
       ],
-      "@client-record/user": [
-        "libs/user/src"
-      ],
-      "@client-record/user/*": [
-        "libs/user/src/*"
-      ],
-      "@client-record/data-source": [
+      "@client-record/server/data-source": [
         "libs/data-source/src"
       ],
-      "@client-record/data-source/*": [
+      "@client-record/server/data-source/*": [
         "libs/data-source/src/*"
-      ]
+      ],
+      "@client-record/shared": [
+        "../../packages/shared/src"
+      ],
+      "@client-record/shared/*": [
+        "../../packages/shared/src/*"
+      ],
     }
-  }
+  },
+  "include": ["node_modules/@client-record/shared", "@client-record/shared"]
 }

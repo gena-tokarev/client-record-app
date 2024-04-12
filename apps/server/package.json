@@ -22,10 +22,11 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/client-record-auth/test/jest-e2e.json",
-    "fixtures": "fixtures load ./libs/data-source/src/core/**/*.fixture.yml --dataSource=./libs/data-source/src/core/data-source.core.ts --sync --require=ts-node/register --require=tsconfig-paths/register"
+    "fixtures": "fixtures load ./libs/data-source/src/core/fixtures/*.fixture.yml --dataSource=./libs/data-source/src/core/data-source.core.ts --sync --require=ts-node/register --require=tsconfig-paths/register"
   },
   "dependencies": {
     "@apollo/server": "^4.10.2",
+    "@client-record/shared": "workspace:*",
     "@nestjs/apollo": "^12.1.0",
     "@nestjs/axios": "^3.0.2",
     "@nestjs/common": "^10.3.7",
@@ -40,7 +41,6 @@
     "@nestjs/typeorm": "^10.0.2",
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
-    "class-validator": "^0.14.1",
     "express-session": "^1.18.0",
     "graphql": "^16.8.1",
     "http-proxy": "^1.18.1",
@@ -105,9 +105,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@client-record/shared(|/.*)$": "<rootDir>/libs/shared/src/$1",
-      "^@client-record/user(|/.*)$": "<rootDir>/libs/user/src/$1",
-      "^@client-record/data-source(|/.*)$": "<rootDir>/libs/data-source/src/$1"
+      "^@client-record/server/shared(|/.*)$": "<rootDir>/libs/shared/src/$1",
+      "^@client-record/server/data-source(|/.*)$": "<rootDir>/libs/data-source/src/$1"
     }
   }
 }

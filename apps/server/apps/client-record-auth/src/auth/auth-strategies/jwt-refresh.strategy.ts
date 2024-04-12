@@ -5,9 +5,9 @@ import { TokenPayload } from '../types/token.payload';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-jwt';
 import { StrategyNamesEnum } from '../enums/strategy-names.enum';
-import { Env } from '@client-record/shared/types/env.interface';
-import { ErrorMessagesEnum } from '@client-record/shared/enums/error-messages.enum';
-import { User } from '@client-record/data-source/core/models/user.model';
+import { Env } from '@client-record/server/shared/types/env.interface';
+import { ErrorMessagesEnum } from '@client-record/server/shared/enums/error-messages.enum';
+import { User } from '@client-record/server/data-source/core/models/user.model';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 

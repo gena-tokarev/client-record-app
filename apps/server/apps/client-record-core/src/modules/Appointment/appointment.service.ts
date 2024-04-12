@@ -2,7 +2,7 @@ import { AppointmentInput } from './dto/appointment.input';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { Appointment } from '@client-record/data-source/core/models/appointment.model';
+import { Appointment } from '@client-record/server/data-source/core/models/appointment.model';
 
 @Injectable()
 export class AppointmentService {

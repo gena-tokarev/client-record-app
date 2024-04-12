@@ -2,7 +2,7 @@ import { Repository } from 'typeorm';
 import { ProcedureInput } from './dto/procedure.input';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Procedure } from '@client-record/data-source/core/models/procedure.model';
+import { Procedure } from '@client-record/server/data-source/core/models/procedure.model';
 
 @Injectable()
 export class ProcedureService {

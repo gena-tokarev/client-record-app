@@ -1,4 +1,4 @@
-import { Appointment } from '@client-record/data-source/core/models/appointment.model';
+import { Appointment } from '@client-record/server/data-source/core/models/appointment.model';
 import { AppointmentService } from './appointment.service';
 import { AppointmentInput } from './dto/appointment.input';
 import { Injectable } from '@nestjs/common';
