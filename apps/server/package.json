@@ -105,8 +105,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@client-record/server/shared(|/.*)$": "<rootDir>/libs/shared/src/$1",
-      "^@client-record/server/data-source(|/.*)$": "<rootDir>/libs/data-source/src/$1"
+      "^@client-record/server-shared(|/.*)$": "<rootDir>/libs/shared/src/$1",
+      "^@client-record/data-source(|/.*)$": "<rootDir>/libs/data-source/src/$1"
     }
   }
 }

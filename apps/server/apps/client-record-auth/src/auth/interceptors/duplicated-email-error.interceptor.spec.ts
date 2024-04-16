@@ -6,8 +6,8 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { of, throwError } from 'rxjs';
-import { SymbolKeysRegistryEnum } from '@client-record/server/shared/enums/symbol-keys.registry.enum';
-import { ErrorNamesEnum } from '@client-record/server/shared/enums/error-names.enum';
+import { SymbolKeysRegistryEnum } from '@client-record/server-shared/enums/symbol-keys.registry.enum';
+import { ErrorNamesEnum } from '@client-record/server-shared/enums/error-names.enum';
 
 describe('AuthDuplicatedEmailErrorInterceptor', () => {
   let interceptor: AuthDuplicatedEmailErrorInterceptor;

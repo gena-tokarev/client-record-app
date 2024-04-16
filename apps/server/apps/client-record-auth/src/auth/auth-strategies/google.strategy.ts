@@ -6,7 +6,7 @@ import { StrategyNamesEnum } from '../enums/strategy-names.enum';
 import { Request } from 'express';
 import { GoogleProfileRequestDto } from '../dto/request/google-profile.request.dto';
 import { GoogleAuthenticationPayload } from '../types/google-authentication.payload.dto';
-import { Env } from '@client-record/server/shared/types/env.interface';
+import { Env } from '@client-record/server-shared/types/env.interface';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(

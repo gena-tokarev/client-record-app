@@ -2,7 +2,7 @@ import { Repository } from 'typeorm';
 import { ClientInput } from './dto/client.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { Client } from '@client-record/server/data-source/core/models/client.model';
+import { Client } from '@client-record/data-source/core/models/client.model';
 
 @Injectable()
 export class ClientService {

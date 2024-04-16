@@ -1,4 +1,4 @@
-import { Phone } from '@client-record/server/data-source/core/models/phone.model';
+import { Phone } from '@client-record/data-source/core/models/phone.model';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 

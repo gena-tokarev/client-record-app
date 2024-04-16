@@ -14,14 +14,14 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthDuplicatedEmailErrorInterceptor } from './interceptors/duplicated-email-error.interceptor';
 import { StrategyNamesEnum } from './enums/strategy-names.enum';
 import { Request, Response } from 'express';
-import { UserSignUpRequestDto } from '@client-record/shared/dto/user-sign-up.request.dto';
+import { UserSignUpRequestDto } from '@client-record/packages/shared/dto/user-sign-up.request.dto';
 import { setAuthTokenCookiesHelper } from './helpers/set-auth-token-cookies.helper';
 import { GoogleAuthenticationPayload } from './types/google-authentication.payload.dto';
 import { unsetAuthTokenCookiesHelper } from './helpers/unset-auth-token-cookies.helper';
-import { DtoValidationGuard } from '@client-record/server/shared/guards/dto-validation.guard';
+import { DtoValidationGuard } from '@client-record/server-shared/guards/dto-validation.guard';
 import { TokenNamesEnum } from './types/token-names.enum';
-import { ErrorMessagesEnum } from '@client-record/server/shared/enums/error-messages.enum';
-import { User } from '@client-record/server/data-source/core/models/user.model';
+import { ErrorMessagesEnum } from '@client-record/server-shared/enums/error-messages.enum';
+import { User } from '@client-record/data-source/core/models/user.model';
 
 @Controller()
 export class AuthController {

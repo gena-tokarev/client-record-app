@@ -10,7 +10,7 @@ import {
   MockGlobalModules,
   MockGlobalProviders,
 } from '../../tests/global-metadata.mocks';
-import { User } from '@client-record/server/data-source/core/models/user.model';
+import { User } from '@client-record/data-source/core/models/user.model';
 
 export const setupAuthTest = () =>
   Test.createTestingModule({

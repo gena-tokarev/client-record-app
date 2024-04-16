@@ -2,7 +2,7 @@ import { Repository } from 'typeorm';
 import { MasterInput } from './dto/master.input';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import Master from '@client-record/server/data-source/core/models/master.model';
+import Master from '@client-record/data-source/core/models/master.model';
 
 @Injectable()
 export class MasterService {

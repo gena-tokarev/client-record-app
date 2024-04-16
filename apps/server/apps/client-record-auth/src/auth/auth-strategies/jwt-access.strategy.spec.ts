@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { UnauthorizedException } from '@nestjs/common';
 import { setupAuthTest } from '../tests/setup.auth.test';
 import { UserService } from 'apps/client-record-core/src/modules/User';
-import { User } from '@client-record/server/data-source/core/models/user.model';
+import { User } from '@client-record/data-source/core/models/user.model';
 
 describe('JwtAccessStrategy', () => {
   let jwtStrategy: JwtAccessStrategy;

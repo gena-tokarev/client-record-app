@@ -8,7 +8,7 @@ import { ChannelModule } from './Channel/channel.module';
 import { AppointmentModule } from './Appointment/appointment.module';
 import { MasterModule } from './Master/master.module';
 import { ConfigModule } from '@nestjs/config';
-import { DataSourceCoreModule } from '@client-record/server/data-source';
+import { DataSourceCoreModule } from '@client-record/data-source';
 import { UserModule } from './User/user.module';
 
 @Module({

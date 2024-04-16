@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@client-record/shared": [
+        "packages/shared/src"
+      ],
+      "@client-record/shared/*": [
+        "packages/shared/src/*"
+      ]
+    }
+  }
+}

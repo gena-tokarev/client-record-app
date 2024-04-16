@@ -46,6 +46,14 @@
         "tsConfigPath": "libs/shared/tsconfig.lib.json"
       }
     },
+    "shared-common": {
+      "type": "library",
+      "root": "libs/packages/shared",
+      "sourceRoot": "libs/packages/shared/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/packages/shared/tsconfig.json"
+      }
+    },
     "data-source": {
       "type": "library",
       "root": "libs/data-source",

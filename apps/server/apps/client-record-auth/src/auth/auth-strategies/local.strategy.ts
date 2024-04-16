@@ -4,8 +4,8 @@ import { Strategy } from 'passport-local';
 import { AuthService } from '../auth.service';
 import { UserSignInRequestDto } from '../dto/request/user-sign-in.request.dto';
 import { StrategyNamesEnum } from '../enums/strategy-names.enum';
-import { ErrorMessagesEnum } from '@client-record/server/shared/enums/error-messages.enum';
-import { User } from '@client-record/server/data-source/core/models/user.model';
+import { ErrorMessagesEnum } from '@client-record/server-shared/enums/error-messages.enum';
+import { User } from '@client-record/data-source/core/models/user.model';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 
