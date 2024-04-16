@@ -5,11 +5,12 @@ export function setAuthTokenCookiesHelper(
   res: Response,
   name: TokenNamesEnum,
   value: string,
+  isSecure = false,
 ) {
   res.cookie(name, value, {
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     httpOnly: name === TokenNamesEnum.REFRESH,
-    secure: process.env.NODE_ENV === 'production',
+    secure: isSecure,
     sameSite: 'lax',
   });
 }

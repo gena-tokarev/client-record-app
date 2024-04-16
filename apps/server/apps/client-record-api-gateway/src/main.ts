@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
-dotenv.config();
+import { ConfigService } from '@nestjs/config';
+import { Env } from '@client-record/server-shared/types/env.interface';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -12,6 +12,7 @@ async function bootstrap() {
       origin: 'http://localhost:3000',
     },
   });
-  await app.listen(process.env.API_GATEWAY_APP_PORT);
+  const configService = app.get(ConfigService<Env>);
+  await app.listen(configService.get('API_GATEWAY_APP_PORT'));
 }
 bootstrap();

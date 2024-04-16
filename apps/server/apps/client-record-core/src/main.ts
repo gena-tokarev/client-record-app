@@ -1,12 +1,14 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './modules/app.module';
+import { AppModule } from './app.module';
 import { UnprocessableEntityException, ValidationPipe } from '@nestjs/common';
 import { formatValidationErrorMessage } from './utils/format-validation-error-message';
 import * as session from 'express-session';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
 
   // app.setGlobalPrefix('api/v1');
   app.useGlobalPipes(
@@ -18,9 +20,10 @@ async function bootstrap() {
       },
     }),
   );
+
   app.use(
     session({
-      secret: process.env.SESSION_SECRET ?? 'randow_STRING_();123',
+      secret: configService.get('SESSION_SECRET', 'randow_STRING_();123'),
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -34,12 +37,12 @@ async function bootstrap() {
     transport: Transport.TCP,
     options: {
       host: 'localhost',
-      port: Number(process.env.CORE_SERVICE_PORT),
+      port: configService.get('CORE_SERVICE_PORT', 4000),
     },
   });
 
   await app.startAllMicroservices();
-  await app.listen(process.env.CORE_APP_PORT);
+  await app.listen(configService.get('CORE_APP_PORT', 3000));
 }
 
 bootstrap();

@@ -22,10 +22,15 @@ import { DtoValidationGuard } from '@client-record/server-shared/guards/dto-vali
 import { TokenNamesEnum } from './types/token-names.enum';
 import { ErrorMessagesEnum } from '@client-record/server-shared/enums/error-messages.enum';
 import { User } from '@client-record/data-source/core/models/user.model';
+import { ConfigService } from '@nestjs/config';
+import { Env } from '@client-record/server-shared/types/env.interface';
 
 @Controller()
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private configService: ConfigService<Env>,
+  ) {}
 
   @Post('login')
   @UseGuards(
@@ -38,15 +43,33 @@ export class AuthController {
   ): Promise<void> {
     const { refresh_token, access_token, ...restResult } =
       await this.authService.signIn(req.user);
-    setAuthTokenCookiesHelper(res, TokenNamesEnum.REFRESH, refresh_token);
-    setAuthTokenCookiesHelper(res, TokenNamesEnum.ACCESS, access_token);
+    setAuthTokenCookiesHelper(
+      res,
+      TokenNamesEnum.REFRESH,
+      refresh_token,
+      this.configService.get('NODE_ENV') === 'production',
+    );
+    setAuthTokenCookiesHelper(
+      res,
+      TokenNamesEnum.ACCESS,
+      access_token,
+      this.configService.get('NODE_ENV') === 'production',
+    );
     res.status(200).json({ ...restResult });
   }
 
   @Get('logout')
   async logout(@Req() req: Request, @Res() res: Response) {
-    unsetAuthTokenCookiesHelper(res, TokenNamesEnum.REFRESH);
-    unsetAuthTokenCookiesHelper(res, TokenNamesEnum.ACCESS);
+    unsetAuthTokenCookiesHelper(
+      res,
+      TokenNamesEnum.REFRESH,
+      this.configService.get('NODE_ENV') === 'production',
+    );
+    unsetAuthTokenCookiesHelper(
+      res,
+      TokenNamesEnum.ACCESS,
+      this.configService.get('NODE_ENV') === 'production',
+    );
 
     const authHeader = req.headers.authorization;
 
@@ -74,8 +97,18 @@ export class AuthController {
   ): Promise<void> {
     const { access_token, refresh_token, ...restResult } =
       await this.authService.signUp(requestDto);
-    setAuthTokenCookiesHelper(res, TokenNamesEnum.REFRESH, refresh_token);
-    setAuthTokenCookiesHelper(res, TokenNamesEnum.ACCESS, access_token);
+    setAuthTokenCookiesHelper(
+      res,
+      TokenNamesEnum.REFRESH,
+      refresh_token,
+      this.configService.get('NODE_ENV') === 'production',
+    );
+    setAuthTokenCookiesHelper(
+      res,
+      TokenNamesEnum.ACCESS,
+      access_token,
+      this.configService.get('NODE_ENV') === 'production',
+    );
     res.status(200).json(restResult);
   }
 
@@ -96,8 +129,18 @@ export class AuthController {
     const { refresh_token, access_token } = await this.authService.authenticate(
       { username },
     );
-    setAuthTokenCookiesHelper(res, TokenNamesEnum.REFRESH, refresh_token);
-    setAuthTokenCookiesHelper(res, TokenNamesEnum.ACCESS, access_token);
+    setAuthTokenCookiesHelper(
+      res,
+      TokenNamesEnum.REFRESH,
+      refresh_token,
+      this.configService.get('NODE_ENV') === 'production',
+    );
+    setAuthTokenCookiesHelper(
+      res,
+      TokenNamesEnum.ACCESS,
+      access_token,
+      this.configService.get('NODE_ENV') === 'production',
+    );
     if (typeof req.session.callbackUrl === 'string') {
       res.redirect(decodeURIComponent(req.session.callbackUrl));
     }
@@ -110,7 +153,12 @@ export class AuthController {
     const { access_token } = await this.authService.refreshAuthentication(
       req.user,
     );
-    setAuthTokenCookiesHelper(res, TokenNamesEnum.ACCESS, access_token);
+    setAuthTokenCookiesHelper(
+      res,
+      TokenNamesEnum.ACCESS,
+      access_token,
+      this.configService.get('NODE_ENV') === 'production',
+    );
     res.status(200).json({ access_token });
   }
 

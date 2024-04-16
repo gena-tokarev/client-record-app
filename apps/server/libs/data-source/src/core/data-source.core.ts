@@ -1,5 +1,4 @@
 import { DataSource } from 'typeorm';
-import * as dotenv from 'dotenv';
 import { User } from './models/user.model';
 import { Procedure } from './models/procedure.model';
 import { Channel } from './models/channel.model';
@@ -7,7 +6,8 @@ import { Appointment } from './models/appointment.model';
 import Master from './models/master.model';
 import { Phone } from './models/phone.model';
 import { Client } from './models/client.model';
-dotenv.config();
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '../../.env' });
 
 export const DataSourceCore = new DataSource({
   type: 'postgres',

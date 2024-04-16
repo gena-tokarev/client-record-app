@@ -1,22 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import * as dotenv from 'dotenv';
-dotenv.config();
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
     options: {
       host: 'localhost',
-      port: Number(process.env.AUTH_SERVICE_PORT),
+      port: configService.get('AUTH_SERVICE_PORT'),
     },
   });
 
   await app.startAllMicroservices();
-  await app.listen(process.env.AUTH_APP_PORT);
+  await app.listen(configService.get('AUTH_APP_PORT'));
 }
 
 bootstrap();

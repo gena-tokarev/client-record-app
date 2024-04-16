@@ -11,7 +11,7 @@ import { UserSignInPayload } from './types/user-sign-in.payload';
 import { UserAuthenticatePayload } from './types/user-authenticate.payload';
 import { Env } from '@client-record/server-shared/types/env.interface';
 import { ClientProxy } from '@nestjs/microservices';
-import { catchError, lastValueFrom, throwError } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { UserCreatePayload } from 'apps/client-record-core/src/modules/User/types/user-create.payload';
 import { UserUpdatePayload } from 'apps/client-record-core/src/modules/User/types/user-update.payload';
 import { UserUpdateRefreshTokenPayload } from 'apps/client-record-core/src/modules/User/types/user-update-refresh-token.payload';
@@ -133,6 +133,14 @@ export class AuthService {
     const tokens = this.generateUserTokens({
       username: userPayload.username,
       sub: uuidv4(),
+    });
+
+    console.log(userPayload, {
+      ...userPayload,
+      refresh_token: tokens.refresh_token,
+      password: userPayload.password
+        ? await bcrypt.hash(userPayload.password, 10)
+        : undefined,
     });
 
     const user$ = this.coreServiceClient.send<

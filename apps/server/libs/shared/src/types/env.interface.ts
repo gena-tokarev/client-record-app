@@ -1,4 +1,5 @@
 export interface Env {
+  NODE_ENV: string;
   API_GATEWAY_APP_PORT: string;
 
   AUTH_APP_PORT: number;

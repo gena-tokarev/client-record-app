@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { LocalStrategy } from './auth-strategies/local.strategy';
 import { JwtAccessStrategy } from './auth-strategies/jwt-access.strategy';
@@ -10,23 +9,27 @@ import { JwtRefreshStrategy } from './auth-strategies/jwt-refresh.strategy';
 import { GoogleStrategy } from './auth-strategies/google.strategy';
 import { JwtAccessFindUserStrategy } from './auth-strategies/jwt-access-find-user.strategy';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ConfigModule } from '@client-record/config/config.module';
+import { ConfigService } from '@nestjs/config';
 // import { GraphqlJwtAccessGuard } from './guards/graphql-jwt-access.guard';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule,
     PassportModule,
     JwtModule,
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: 'CORE_SERVICE',
-        transport: Transport.TCP,
-        options: {
-          host: 'localhost',
-          port: Number(process.env.CORE_SERVICE_PORT),
-        },
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: 'localhost',
+            port: configService.get('CORE_SERVICE_PORT', 4000),
+          },
+        }),
       },
     ]),
   ],

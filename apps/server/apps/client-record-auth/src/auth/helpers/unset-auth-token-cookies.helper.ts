@@ -4,11 +4,12 @@ import { Response } from 'express';
 export function unsetAuthTokenCookiesHelper(
   res: Response,
   name: TokenNamesEnum,
+  isSecure = false,
 ) {
   res.cookie(name, '', {
     expires: new Date(0),
     httpOnly: name === TokenNamesEnum.ACCESS,
-    secure: process.env.NODE_ENV === 'production',
+    secure: isSecure,
     sameSite: 'lax',
   });
 }

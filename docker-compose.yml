@@ -12,3 +12,17 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "${DB_PORT}:${DB_PORT}"
+    expose:
+      - "${DB_PORT}:${DB_PORT}"
+  app:
+    build: .
+    ports:
+      - "${WEB_PORT}:${WEB_PORT}"
+      - "${API_GATEWAY_APP_PORT}:${API_GATEWAY_APP_PORT}"
+    depends_on:
+      - db
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/apps/server/node_modules
+      - /usr/src/app/apps/web-ssr/node_modules
