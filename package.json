@@ -8,8 +8,10 @@
     ]
   },
   "scripts": {
-    "demo": "concurrently -n \"server,web\" -c \"cyan,green\" \"yarn server-start:dev\" \"yarn web-start:dev\"",
-    "server-start:dev": "yarn workspace @client-record/server demo",
+    "start:demo": "concurrently -n \"server,web\" -c \"cyan,green\" \"yarn server-start:demo\" \"yarn web-start:dev\"",
+    "start:dev": "concurrently -n \"server,web\" -c \"cyan,green\" \"yarn server-start:dev\" \"yarn web-start:dev\"",
+    "server-start:demo": "yarn workspace @client-record/server demo",
+    "server-start:dev": "yarn workspace @client-record/server start:dev",
     "web-start:dev": "yarn workspace @client-record/web-ssr dev"
   },
   "dependencies": {

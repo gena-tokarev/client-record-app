@@ -12,8 +12,6 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "${DB_PORT}:${DB_PORT}"
-    expose:
-      - "${DB_PORT}:${DB_PORT}"
   app:
     build: .
     ports:
@@ -25,4 +23,5 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
       - /usr/src/app/apps/server/node_modules
+      - /usr/src/app/apps/server/dist
       - /usr/src/app/apps/web-ssr/node_modules

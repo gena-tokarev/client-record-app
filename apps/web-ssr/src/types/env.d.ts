@@ -5,6 +5,7 @@ declare module "process" {
         API_HOST: string;
         NEXT_APP_HOST: string;
         NEXT_APP_LOGIN_PATH: string;
+        OAUTH_REDIRECT_URL: string;
       }
     }
   }
