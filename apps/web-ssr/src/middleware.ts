@@ -9,4 +9,6 @@ export default withAuthMiddleware(defaultMiddleware, {
   redirectPath: process.env.NEXT_APP_LOGIN_PATH,
 });
 
-export const config = { matcher: ["/appointments"] };
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+};

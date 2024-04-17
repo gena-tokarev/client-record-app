@@ -38,7 +38,7 @@ const LoginPageClient = () => {
 
   const handleGoogle = useCallback(() => {
     window.open(
-      `${process.env.API_HOST}/auth/google?frontend_redirect_uri=${encodeURIComponent(process.env.OAUTH_REDIRECT_URL)}`,
+      `${process.env.API_HOST}/auth/google?frontend_redirect_uri=${encodeURIComponent(process.env.NEXT_APP_HOST)}`,
       "_self",
     );
   }, []);
