@@ -20,7 +20,6 @@ export class GoogleStrategy extends PassportStrategy(
       callbackURL: configService.get('GOOGLE_CALLBACK_URL'),
       scope: ['email', 'profile'],
       state: true,
-      prompt: 'select_account',
     });
   }
 
@@ -28,7 +27,7 @@ export class GoogleStrategy extends PassportStrategy(
     if (typeof req.query.frontend_redirect_uri === 'string') {
       req.session.callbackUrl = req.query.frontend_redirect_uri;
     }
-    super.authenticate(req, options);
+    super.authenticate(req, { ...options, prompt: 'select_account' });
   }
 
   validate(
