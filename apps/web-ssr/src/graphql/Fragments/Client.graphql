@@ -1,0 +1,13 @@
+fragment CoreClientFields on Client {
+    id
+    firstName
+    lastName
+    middleName
+    instagramName
+    phones {
+        ...CorePhoneFields
+    }
+    channel {
+        ...CoreChannelFields
+    }
+}

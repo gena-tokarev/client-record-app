@@ -1,0 +1,14 @@
+query Appointment($appointmentId: ID!) {
+    appointment(id: $appointmentId) {
+        ...CoreAppointmentFields
+        client {
+            ...CoreClientFields
+        }
+        master {
+            ...CoreMasterFields
+        }
+        procedures {
+            ...CoreProcedureFields
+        }
+    }
+}

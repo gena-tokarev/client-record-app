@@ -1,0 +1,5 @@
+query ProcedureByMaster($masterId: ID!) {
+    procedureByMaster(masterId: $masterId) {
+        ...CoreProcedureFields
+    }
+}

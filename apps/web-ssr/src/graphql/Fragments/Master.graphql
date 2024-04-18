@@ -1,0 +1,4 @@
+fragment CoreMasterFields on Master {
+    id
+    name
+}
