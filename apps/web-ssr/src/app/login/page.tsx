@@ -26,14 +26,17 @@ const LoginPageClient = () => {
     },
   });
 
-  const onSubmit = useCallback((values: UserSignUpRequestDto) => {
-    fetch(`${process.env.API_HOST}/auth/register`, {
+  const onSubmit = useCallback(async (values: UserSignUpRequestDto) => {
+    await fetch(`${process.env.API_HOST}/auth/register`, {
       method: "POST",
       body: JSON.stringify(values),
       headers: {
         "content-type": "application/json",
       },
+      credentials: "include",
     });
+
+    window.open(process.env.NEXT_APP_HOST, "_self");
   }, []);
 
   const handleGoogle = useCallback(() => {

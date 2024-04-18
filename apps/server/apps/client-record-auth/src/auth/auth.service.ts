@@ -135,14 +135,6 @@ export class AuthService {
       sub: uuidv4(),
     });
 
-    console.log(userPayload, {
-      ...userPayload,
-      refresh_token: tokens.refresh_token,
-      password: userPayload.password
-        ? await bcrypt.hash(userPayload.password, 10)
-        : undefined,
-    });
-
     const user$ = this.coreServiceClient.send<
       UserAuthenticateResult,
       UserCreatePayload

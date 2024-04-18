@@ -15,7 +15,8 @@ export function withAuthMiddleware(
       CookieTokenNamesEnum.REFRESH,
     )?.value;
 
-    const targetingRedirectPath = request.nextUrl.pathname === redirectPath;
+    const targetingRedirectPath =
+      request.nextUrl.pathname.startsWith(redirectPath);
 
     if (!accessToken || !refreshToken) {
       if (!targetingRedirectPath) {
