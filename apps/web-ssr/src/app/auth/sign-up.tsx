@@ -36,9 +36,9 @@ const SignUp = () => {
   return (
     <AuthCard<SignUpValidator>
       form={form}
-      title="Enter your credentials"
-      description="Enter your email below to log in"
-      submitLabel="Sign In"
+      title="Register a new account"
+      description="Enter your data below"
+      submitLabel="Sign Up"
       onSubmit={handleSubmit}
     >
       <>

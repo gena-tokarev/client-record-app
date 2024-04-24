@@ -29,8 +29,8 @@ const SignIn = () => {
   return (
     <AuthCard<UserSignInRequestDto>
       form={form}
-      title="Enter your credentials"
-      description="Enter your email below to log in"
+      title="Log into your account"
+      description="Enter your credentials below"
       submitLabel="Sign In"
       onSubmit={handleLocal}
     >
