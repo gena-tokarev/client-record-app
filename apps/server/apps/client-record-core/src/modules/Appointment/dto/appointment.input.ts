@@ -22,9 +22,6 @@ export class AppointmentInput {
   @Field()
   price: number;
 
-  @Field()
-  withCoating: boolean;
-
   @Field(() => ID)
   client: Client;
 

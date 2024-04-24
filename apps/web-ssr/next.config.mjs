@@ -15,7 +15,7 @@ const nextConfig = {
   env: {
     API_HOST: `http://localhost:${process.env.API_GATEWAY_APP_PORT}`,
     NEXT_APP_HOST: `http://localhost:${process.env.WEB_PORT}`,
-    NEXT_APP_LOGIN_PATH: "/login",
+    NEXT_APP_LOGIN_PATH: process.env.NEXT_APP_LOGIN_PATH,
   },
 };
 

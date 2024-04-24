@@ -24,6 +24,7 @@ import { ErrorMessagesEnum } from '@client-record/server-shared/enums/error-mess
 import { User } from '@client-record/data-source/core/models/user.model';
 import { ConfigService } from '@nestjs/config';
 import { Env } from '@client-record/server-shared/types/env.interface';
+import { UserSignInRequestDto } from '@client-record/packages/shared/dto/user-sign-in.request.dto';
 
 @Controller()
 export class AuthController {
@@ -34,7 +35,7 @@ export class AuthController {
 
   @Post('login')
   @UseGuards(
-    DtoValidationGuard(UserSignUpRequestDto),
+    DtoValidationGuard(UserSignInRequestDto),
     AuthGuard(StrategyNamesEnum.LOCAL),
   )
   async signIn(
@@ -58,7 +59,7 @@ export class AuthController {
     res.status(200).json({ ...restResult });
   }
 
-  @Get('logout')
+  @Post('logout')
   async logout(@Req() req: Request, @Res() res: Response) {
     unsetAuthTokenCookiesHelper(
       res,

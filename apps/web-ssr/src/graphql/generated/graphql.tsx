@@ -41,7 +41,6 @@ export type AppointmentInput = {
   price: Scalars['Float']['input'];
   procedures: Array<Scalars['ID']['input']>;
   results: Scalars['String']['input'];
-  withCoating: Scalars['Boolean']['input'];
 };
 
 export type Channel = {
@@ -226,7 +225,7 @@ export type QueryProcedureByMasterArgs = {
   masterId: Scalars['ID']['input'];
 };
 
-export type CoreAppointmentFieldsFragment = { __typename?: 'Appointment', id: string, complaints: string, date: number, results: string, withCoating: boolean, price: number, comments?: string | null };
+export type CoreAppointmentFieldsFragment = { __typename?: 'Appointment', id: string, complaints: string, date: number, results: string, price: number, comments?: string | null };
 
 export type CoreChannelFieldsFragment = { __typename?: 'Channel', id: string, name: string };
 
@@ -243,7 +242,7 @@ export type CreateAppointmentMutationVariables = Exact<{
 }>;
 
 
-export type CreateAppointmentMutation = { __typename?: 'Mutation', createAppointment: { __typename?: 'Appointment', id: string, complaints: string, date: number, results: string, withCoating: boolean, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, channel: { __typename?: 'Channel', id: string, name: string }, phones: Array<{ __typename?: 'Phone', id: string, value: string }> }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null } };
+export type CreateAppointmentMutation = { __typename?: 'Mutation', createAppointment: { __typename?: 'Appointment', id: string, complaints: string, date: number, results: string, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, channel: { __typename?: 'Channel', id: string, name: string }, phones: Array<{ __typename?: 'Phone', id: string, value: string }> }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null } };
 
 export type CreateClientMutationVariables = Exact<{
   inputClient: ClientInput;
@@ -257,19 +256,19 @@ export type UpdateAppointmentMutationVariables = Exact<{
 }>;
 
 
-export type UpdateAppointmentMutation = { __typename?: 'Mutation', updateAppointment: { __typename?: 'Appointment', id: string, complaints: string, date: number, results: string, withCoating: boolean, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, channel: { __typename?: 'Channel', id: string, name: string }, phones: Array<{ __typename?: 'Phone', id: string, value: string }> }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null } };
+export type UpdateAppointmentMutation = { __typename?: 'Mutation', updateAppointment: { __typename?: 'Appointment', id: string, complaints: string, date: number, results: string, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, channel: { __typename?: 'Channel', id: string, name: string }, phones: Array<{ __typename?: 'Phone', id: string, value: string }> }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null } };
 
 export type AppointmentQueryVariables = Exact<{
   appointmentId: Scalars['ID']['input'];
 }>;
 
 
-export type AppointmentQuery = { __typename?: 'Query', appointment: { __typename?: 'Appointment', id: string, complaints: string, date: number, results: string, withCoating: boolean, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null } };
+export type AppointmentQuery = { __typename?: 'Query', appointment: { __typename?: 'Appointment', id: string, complaints: string, date: number, results: string, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null } };
 
 export type AppointmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AppointmentsQuery = { __typename?: 'Query', appointments: Array<{ __typename?: 'Appointment', id: string, complaints: string, date: number, results: string, withCoating: boolean, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null }> };
+export type AppointmentsQuery = { __typename?: 'Query', appointments: Array<{ __typename?: 'Appointment', id: string, complaints: string, date: number, results: string, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null }> };
 
 export type ChannelsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -304,7 +303,6 @@ export const CoreAppointmentFieldsFragmentDoc = gql`
   complaints
   date
   results
-  withCoating
   price
   comments
 }

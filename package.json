@@ -13,6 +13,7 @@
     "server-start:demo": "yarn workspace @client-record/server demo",
     "server-start:dev": "yarn workspace @client-record/server start:dev",
     "web-start:dev": "yarn workspace @client-record/web-ssr dev",
+    "web:gen": "yarn workspace @client-record/web-ssr gen",
     "db:fill": "yarn workspace @client-record/server fixtures"
   },
   "dependencies": {
