@@ -3,7 +3,10 @@ import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProviderClient } from "@/components/providers/theme-provider.client";
-import { AuthProviderClient } from "@/components/providers/Auth/auth-provider.client";
+import { AuthProviderClient } from "@/components/providers/auth/auth-provider.client";
+import { QueryProviderClient } from "@/components/providers/query-provider.client";
+import { Header } from "@/components/header/page";
+import { Loader2 } from "lucide-react";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -34,7 +37,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProviderClient>{children}</AuthProviderClient>
+          <QueryProviderClient>
+            <AuthProviderClient>
+              <Header />
+              {children}
+            </AuthProviderClient>
+          </QueryProviderClient>
         </ThemeProviderClient>
       </body>
     </html>

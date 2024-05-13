@@ -5,7 +5,7 @@ import AuthCard from "./auth-card";
 import { UserSignInRequestDto } from "@client-record/shared/src/dto/user-sign-in.request.dto";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";
 import { memo, useContext } from "react";
-import AuthContext from "@/components/providers/Auth/auth-context";
+import AuthContext from "@/components/providers/auth/auth-context";
 import {
   FormControl,
   FormField,
@@ -44,7 +44,7 @@ const SignIn = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Email" {...field} />
+                    <Input type="email" placeholder="Email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -60,7 +60,7 @@ const SignIn = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Password" {...field} />
+                  <Input type="password" placeholder="Password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

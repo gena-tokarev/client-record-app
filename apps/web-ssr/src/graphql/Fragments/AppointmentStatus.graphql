@@ -1,0 +1,4 @@
+fragment CoreAppointmentStatusFields on AppointmentStatus {
+    id
+    value
+}

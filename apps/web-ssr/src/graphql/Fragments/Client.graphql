@@ -4,6 +4,7 @@ fragment CoreClientFields on Client {
     lastName
     middleName
     instagramName
+    fullName
     phones {
         ...CorePhoneFields
     }

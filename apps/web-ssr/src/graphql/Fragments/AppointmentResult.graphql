@@ -1,0 +1,4 @@
+fragment CoreAppointmentResultFields on AppointmentResult {
+    id
+    value
+}

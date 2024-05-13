@@ -10,5 +10,11 @@ query Appointment($appointmentId: ID!) {
         procedures {
             ...CoreProcedureFields
         }
+        status {
+            ...CoreAppointmentStatusFields
+        }
+        results {
+            ...CoreAppointmentResultFields
+        }
     }
 }

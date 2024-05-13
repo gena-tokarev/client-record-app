@@ -2,7 +2,6 @@ fragment CoreAppointmentFields on Appointment {
     id
     complaints
     date
-    results
     price
     comments
 }

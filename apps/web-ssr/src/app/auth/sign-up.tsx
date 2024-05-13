@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import AuthCard from "./auth-card";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";
 import { memo, useCallback, useContext } from "react";
-import AuthContext from "@/components/providers/Auth/auth-context";
+import AuthContext from "@/components/providers/auth/auth-context";
 import {
   FormControl,
   FormField,
@@ -51,7 +51,7 @@ const SignUp = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Email" {...field} />
+                    <Input type="email" placeholder="Email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

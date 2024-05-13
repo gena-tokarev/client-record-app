@@ -9,8 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PropsWithChildren, useCallback, useContext } from "react";
-import AuthContext from "@/components/providers/Auth/auth-context";
+import { PropsWithChildren, useContext } from "react";
+import AuthContext from "@/components/providers/auth/auth-context";
 import { FieldValues, UseFormReturn } from "react-hook-form";
 
 interface AuthCardProps<T extends FieldValues> {

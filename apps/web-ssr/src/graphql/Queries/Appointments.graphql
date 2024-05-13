@@ -10,5 +10,11 @@ query Appointments {
         procedures {
             ...CoreProcedureFields
         }
+        status {
+            ...CoreAppointmentStatusFields
+        }
+        results {
+            ...CoreAppointmentResultFields
+        }
     }
 }
