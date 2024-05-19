@@ -1,5 +1,10 @@
 # Client record
 Client Record application monorepo
+powered by:
+1. next.js/react.js
+2. nest.js
+3. graphql
+4. postgreSQL
 
 ## Quick demo
 1. Make sure you have `docker` installed.
