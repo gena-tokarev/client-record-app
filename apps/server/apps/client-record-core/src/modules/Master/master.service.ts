@@ -15,11 +15,13 @@ export class MasterService {
     return this.masterRepository.find();
   }
 
-  findOneById(id: number) {
-    return this.masterRepository.find({
-      where: { id },
-      relations: ['procedures'],
-    })[0];
+  async findOneById(id: number) {
+    return (
+      await this.masterRepository.find({
+        where: { id },
+        relations: ['procedures'],
+      })
+    )[0];
   }
 
   async save(data: MasterInput): Promise<Master> {

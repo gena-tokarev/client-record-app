@@ -1,5 +1,5 @@
-query Appointments {
-    appointments {
+query Appointment($appointmentId: ID!) {
+    appointment(id: $appointmentId) {
         ...CoreAppointmentFields
         client {
             ...CoreClientFields
@@ -12,9 +12,6 @@ query Appointments {
         }
         status {
             ...CoreAppointmentStatusFields
-        }
-        results {
-            ...CoreAppointmentResultFields
         }
     }
 }

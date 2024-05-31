@@ -4,11 +4,11 @@ import { ConfigService } from '@nestjs/config';
 import { TokenPayload } from '../types/token.payload';
 import { Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { StrategyNamesEnum } from '../enums/strategy-names.enum';
 import { Env } from '@client-record/server-shared/types/env.interface';
 import { User } from '@client-record/data-source/core/models/user.model';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
+import { StrategyNamesEnum } from '../enums/strategy-names.enum';
 
 @Injectable()
 export class JwtAccessFindUserStrategy extends PassportStrategy(

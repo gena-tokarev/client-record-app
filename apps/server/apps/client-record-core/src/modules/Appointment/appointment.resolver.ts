@@ -1,17 +1,28 @@
 import { Appointment } from '@client-record/data-source/core/models/appointment.model';
 import { AppointmentService } from './appointment.service';
-import { AppointmentInput } from './dto/appointment.input';
-import { Injectable } from '@nestjs/common';
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
-// import { GraphqlJwtAccessGuard } from '../Auth/guards/graphql-jwt-access.guard';
+import { CreateAppointmentInput } from './inputs/create-appointment.input';
+import { Injectable, UseGuards } from '@nestjs/common';
+import {
+  Args,
+  ID,
+  Mutation,
+  Query,
+  Resolver,
+  Subscription,
+} from '@nestjs/graphql';
+
+import { PubSub } from 'graphql-subscriptions';
+import { GqlAuthGuard } from '../../guards/gql-auth.guard';
+import { UpdateAppointmentInput } from './inputs/update-appointment.input';
+const pubSub = new PubSub();
 
 @Injectable()
 @Resolver(Appointment)
-// @UseGuards(GraphqlJwtAccessGuard)
 export class AppointmentResolver {
   constructor(private appointmentService: AppointmentService) {}
 
   @Query(() => [Appointment])
+  @UseGuards(GqlAuthGuard)
   appointments() {
     return this.appointmentService.findAll();
   }
@@ -23,14 +34,19 @@ export class AppointmentResolver {
 
   @Mutation(() => Appointment)
   async createAppointment(
-    @Args('inputAppointment') newAppointment: AppointmentInput,
+    @Args('inputAppointment') newAppointment: CreateAppointmentInput,
   ) {
-    return this.appointmentService.save(newAppointment);
+    const createdAppointment =
+      await this.appointmentService.save(newAppointment);
+    await pubSub.publish('onAppointmentUpdated', {
+      onAppointmentUpdated: createdAppointment,
+    });
+    return createdAppointment;
   }
 
   @Mutation(() => Appointment)
   updateAppointment(
-    @Args('inputAppointment') inputAppointment: AppointmentInput,
+    @Args('inputAppointment') inputAppointment: UpdateAppointmentInput,
   ) {
     return this.appointmentService.save(inputAppointment);
   }
@@ -38,5 +54,13 @@ export class AppointmentResolver {
   @Mutation(() => Boolean)
   deleteAppointment(@Args('id', { type: () => ID }) id: number) {
     return this.appointmentService.delete(id);
+  }
+
+  @Subscription(() => Appointment, {
+    name: 'onAppointmentUpdated',
+    nullable: true,
+  })
+  async appointmentsUpdated() {
+    return pubSub.asyncIterator('onAppointmentUpdated');
   }
 }

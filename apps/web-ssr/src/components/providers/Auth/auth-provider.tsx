@@ -32,7 +32,6 @@ const AuthProvider: FC<Props> = ({ children }) => {
 
   const handleLocal = useCallback(
     async (values: UserSignInRequestDto) => {
-      console.log(12312, values);
       await fetch(`${process.env.API_HOST}/auth/login`, {
         method: "POST",
         body: JSON.stringify(values),
@@ -42,7 +41,10 @@ const AuthProvider: FC<Props> = ({ children }) => {
         credentials: "include",
       });
 
-      router.replace(process.env.NEXT_APP_HOST);
+      window.location.href = process.env.NEXT_APP_HOST;
+      // router.replace(process.env.NEXT_APP_HOST);
+      // const timestamp = new Date().getTime(); // Получение текущего времени
+      // router.replace(`${process.env.NEXT_APP_HOST}`);
     },
     [router],
   );

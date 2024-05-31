@@ -26,6 +26,7 @@ export class AuthService {
   ) {}
 
   private generateAccessToken(payload: TokenPayload) {
+    console.log(1111, this.configService.get('JWT_EXPIRATION_TIME'));
     return this.jwtService.sign(payload, {
       secret: this.configService.get('JWT_SECRET'),
       expiresIn: this.configService.get('JWT_EXPIRATION_TIME'),
@@ -146,17 +147,13 @@ export class AuthService {
         : undefined,
     });
 
-    try {
-      const user = await lastValueFrom(user$);
+    const user = await lastValueFrom(user$);
 
-      return {
-        ...omit(user, 'password'),
-        refresh_token: tokens.refresh_token,
-        access_token: tokens.access_token,
-      };
-    } catch (e) {
-      console.log(5555, e);
-    }
+    return {
+      ...omit(user, 'password'),
+      refresh_token: tokens.refresh_token,
+      access_token: tokens.access_token,
+    };
   }
 
   public isValidPassword(
@@ -164,5 +161,12 @@ export class AuthService {
     hashedPassword: string,
   ): Promise<boolean> {
     return bcrypt.compare(password, hashedPassword);
+  }
+
+  public findUserByUsername(username: string) {
+    return this.coreServiceClient.send<User, string>(
+      'find_user_by_username',
+      username,
+    );
   }
 }

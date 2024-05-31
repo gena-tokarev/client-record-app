@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 import * as session from 'express-session';
+import { UnprocessableEntityException, ValidationPipe } from '@nestjs/common';
+import { formatValidationErrorMessage } from './utils/format-validation-error-message';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,6 +29,16 @@ async function bootstrap() {
       port: configService.get('AUTH_SERVICE_PORT'),
     },
   });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      exceptionFactory(errors) {
+        const formattedErrors = formatValidationErrorMessage(errors);
+        return new UnprocessableEntityException(formattedErrors);
+      },
+    }),
+  );
 
   await app.startAllMicroservices();
   await app.listen(configService.get('AUTH_APP_PORT'));

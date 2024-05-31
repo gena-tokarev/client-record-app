@@ -12,7 +12,6 @@ import {
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthDuplicatedEmailErrorInterceptor } from './interceptors/duplicated-email-error.interceptor';
-import { StrategyNamesEnum } from './enums/strategy-names.enum';
 import { Request, Response } from 'express';
 import { UserSignUpRequestDto } from '@client-record/packages/shared/dto/user-sign-up.request.dto';
 import { setAuthTokenCookiesHelper } from './helpers/set-auth-token-cookies.helper';
@@ -25,6 +24,8 @@ import { User } from '@client-record/data-source/core/models/user.model';
 import { ConfigService } from '@nestjs/config';
 import { Env } from '@client-record/server-shared/types/env.interface';
 import { UserSignInRequestDto } from '@client-record/packages/shared/dto/user-sign-in.request.dto';
+import { StrategyNamesEnum } from 'apps/client-record-auth/src/auth/enums/strategy-names.enum';
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller()
 export class AuthController {
@@ -172,5 +173,11 @@ export class AuthController {
   @Get('providers')
   providers() {
     return {};
+  }
+
+  @MessagePattern('validate_token')
+  @UseGuards(AuthGuard(StrategyNamesEnum.JWT_ACCESS))
+  validateToken() {
+    return true;
   }
 }

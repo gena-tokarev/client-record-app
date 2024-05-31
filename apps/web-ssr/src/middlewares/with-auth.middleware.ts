@@ -11,21 +11,12 @@ export function withAuthMiddleware(
 ) {
   return function (request: NextRequest) {
     const accessToken = request.cookies.get(CookieTokenNamesEnum.ACCESS)?.value;
-    const refreshToken = request.cookies.get(
-      CookieTokenNamesEnum.REFRESH,
-    )?.value;
 
     const targetingRedirectPath =
       request.nextUrl.pathname.startsWith(redirectPath);
 
-    if (!accessToken || !refreshToken) {
-      if (!targetingRedirectPath) {
-        return NextResponse.redirect(new URL(redirectPath, request.url));
-      }
-    } else {
-      if (targetingRedirectPath) {
-        return NextResponse.redirect(new URL(process.env.NEXT_APP_HOST));
-      }
+    if (!accessToken && !targetingRedirectPath) {
+      return NextResponse.redirect(new URL(redirectPath, request.url));
     }
 
     NextResponse.next();

@@ -1,4 +1,4 @@
-mutation UpdateAppointment($inputAppointment: AppointmentInput!) {
+mutation UpdateAppointment($inputAppointment: UpdateAppointmentInput!) {
     updateAppointment(inputAppointment: $inputAppointment) {
         ...CoreAppointmentFields
         client {

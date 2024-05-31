@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { UnprocessableEntityException, ValidationPipe } from '@nestjs/common';
-import { formatValidationErrorMessage } from './utils/format-validation-error-message';
+import { ValidationPipe } from '@nestjs/common';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 
@@ -10,15 +9,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   // app.setGlobalPrefix('api/v1');
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      exceptionFactory(errors) {
-        const formattedErrors = formatValidationErrorMessage(errors);
-        return new UnprocessableEntityException(formattedErrors);
-      },
-    }),
-  );
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,

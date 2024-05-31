@@ -1,16 +1,16 @@
 entity: Client
 items:
   client1:
-    firstName: Гена
+    firstName: Gena
     lastName: Tokarev
-    middleName: Tokarev
+    middleName: Alexandr
     instagramName: iamgenatokarev1
     channel: '@channel($current)'
   client2:
-    firstName: Даша
-    instagramName: iamgenatokarev2
+    firstName: Maya
+    instagramName: missmaya2
     channel: '@channel1'
   client3:
-    firstName: Игорь
+    firstName: Igor
     channel: '@channel1'
-    instagramName: iamgenatokarev3
+    instagramName: igorthebest

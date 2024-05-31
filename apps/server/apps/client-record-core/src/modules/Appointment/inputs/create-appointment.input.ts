@@ -1,20 +1,13 @@
-import { Client } from '../../../../../../libs/data-source/src/core/models/client.model';
 import { Field, ID, InputType } from '@nestjs/graphql';
-import Master from '../../../../../../libs/data-source/src/core/models/master.model';
+import { CreateAppointmentDto } from '@client-record/packages/shared/dto/appointment/create-appointment.dto';
 
 @InputType()
-export class AppointmentInput {
-  @Field({ nullable: true })
-  id?: number;
-
+export class CreateAppointmentInput extends CreateAppointmentDto {
   @Field()
   date: number;
 
   @Field()
   complaints: string;
-
-  @Field()
-  results: string;
 
   @Field({ nullable: true })
   comments: string;
@@ -23,13 +16,16 @@ export class AppointmentInput {
   price: number;
 
   @Field(() => ID)
-  client: Client;
+  client: string;
 
   @Field(() => ID)
-  master: Master;
+  master: string;
 
   @Field(() => [ID])
   procedures: string[];
+
+  @Field(() => ID)
+  status: string;
 
   // @Field(() => [ID])
   // media?: string[];

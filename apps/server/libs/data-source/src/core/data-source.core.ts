@@ -6,6 +6,7 @@ import { Appointment } from './models/appointment.model';
 import Master from './models/master.model';
 import { Phone } from './models/phone.model';
 import { Client } from './models/client.model';
+import { AppointmentStatus } from './models/appointment-status.model';
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../../.env' });
 
@@ -16,7 +17,16 @@ export const DataSourceCore = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [User, Procedure, Channel, Appointment, Client, Master, Phone],
+  entities: [
+    User,
+    Procedure,
+    Channel,
+    AppointmentStatus,
+    Appointment,
+    Client,
+    Master,
+    Phone,
+  ],
   synchronize: true,
   logger: 'advanced-console',
   logging: true,

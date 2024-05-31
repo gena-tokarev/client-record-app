@@ -5,8 +5,10 @@ import { cn } from "@/lib/utils";
 import { ThemeProviderClient } from "@/components/providers/theme-provider.client";
 import { AuthProviderClient } from "@/components/providers/auth/auth-provider.client";
 import { QueryProviderClient } from "@/components/providers/query-provider.client";
-import { Header } from "@/components/header/page";
-import { Loader2 } from "lucide-react";
+import { Header } from "@/components/header";
+import { GraphqlProvider } from "@/components/providers/graphql-provider.client";
+import { Sidebar } from "@/components/sidebar";
+import SidebarProvider from "@/components/providers/sidebar-provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -27,7 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen bg-muted/40 font-sans antialiased",
           fontSans.variable,
         )}
       >
@@ -37,12 +39,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <QueryProviderClient>
-            <AuthProviderClient>
-              <Header />
-              {children}
-            </AuthProviderClient>
-          </QueryProviderClient>
+          <GraphqlProvider>
+            <QueryProviderClient>
+              <AuthProviderClient>
+                <div className="min-h-screen flex flex-col">{children}</div>
+              </AuthProviderClient>
+            </QueryProviderClient>
+          </GraphqlProvider>
         </ThemeProviderClient>
       </body>
     </html>

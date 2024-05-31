@@ -1,13 +1,13 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, ID, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class MasterInput {
-  @Field({ nullable: true })
+  @Field(() => ID, { nullable: true })
   id?: number;
 
-  @Field()
+  @Field(() => String)
   name: string;
 
-  @Field(() => [Number])
+  @Field(() => [Int])
   procedureIds: number[];
 }

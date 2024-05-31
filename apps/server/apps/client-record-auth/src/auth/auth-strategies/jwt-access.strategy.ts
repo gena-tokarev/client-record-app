@@ -1,14 +1,13 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { TokenPayload } from '../types/token.payload';
 import { PassportStrategy } from '@nestjs/passport';
-import { StrategyNamesEnum } from '../enums/strategy-names.enum';
 import { Env } from '@client-record/server-shared/types/env.interface';
-import { ErrorMessagesEnum } from '@client-record/server-shared/enums/error-messages.enum';
-import { User } from '@client-record/data-source/core/models/user.model';
-import { ClientProxy } from '@nestjs/microservices';
+import { StrategyNamesEnum } from '../enums/strategy-names.enum';
+import { AuthService } from '../auth.service';
 import { lastValueFrom } from 'rxjs';
+import { ErrorMessagesEnum } from '@client-record/server-shared/enums/error-messages.enum';
 
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(
@@ -17,21 +16,20 @@ export class JwtAccessStrategy extends PassportStrategy(
 ) {
   constructor(
     configService: ConfigService<Env>,
-    @Inject('CORE_SERVICE') private readonly coreServiceClient: ClientProxy,
+    private authService: AuthService,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (request: any) => request?.token,
+      ]),
       ignoreExpiration: false,
       secretOrKey: configService.get('JWT_SECRET'),
       requestKey: 'tokenPayload',
     });
   }
 
-  async validate(tokenPayload: TokenPayload): Promise<User> {
-    const user$ = this.coreServiceClient.send<User, number>(
-      'find_user_by_id',
-      tokenPayload.sub,
-    );
+  async validate(tokenPayload: TokenPayload) {
+    const user$ = this.authService.findUserByUsername(tokenPayload.username);
 
     const user = await lastValueFrom(user$);
 

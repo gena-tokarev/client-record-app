@@ -5,7 +5,7 @@ import SignUp from "./sign-up";
 
 const AuthPageClient = () => {
   return (
-    <div className="flex items-center justify-center min-h-[100vh]">
+    <div className="flex items-center justify-center h-[100%] bg-background">
       <div className="m-6">
         <Tabs defaultValue="signin" className="w-[400px]">
           <TabsList className="grid w-full grid-cols-2 mb-4">

@@ -19,6 +19,12 @@ import { ConfigModule } from '@client-record/config/config.module';
       playground: true,
       autoSchemaFile: true,
       useGlobalPrefix: true,
+      installSubscriptionHandlers: true,
+      subscriptions: {
+        'graphql-ws': true,
+      },
+      allowBatchedHttpRequests: true,
+      context: ({ req }) => ({ req }),
     }),
     ProcedureModule,
     MasterModule,

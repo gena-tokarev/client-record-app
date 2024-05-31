@@ -1,4 +1,7 @@
 {
     "name": "@client-record/shared",
-    "version": "0.0.1"
+    "version": "0.0.1",
+    "dependencies": {
+        "@nestjs/mapped-types": "^2.0.5"
+    }
 }

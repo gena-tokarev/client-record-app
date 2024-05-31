@@ -2,11 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-google-oauth20';
 import { ConfigService } from '@nestjs/config';
-import { StrategyNamesEnum } from '../enums/strategy-names.enum';
-import { Request } from 'express';
 import { GoogleProfileRequestDto } from '../dto/request/google-profile.request.dto';
 import { GoogleAuthenticationPayload } from '../types/google-authentication.payload.dto';
 import { Env } from '@client-record/server-shared/types/env.interface';
+import { StrategyNamesEnum } from '../enums/strategy-names.enum';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(
@@ -23,7 +22,7 @@ export class GoogleStrategy extends PassportStrategy(
     });
   }
 
-  async authenticate(req: Request, options) {
+  async authenticate(req: any, options) {
     if (typeof req.query.frontend_redirect_uri === 'string') {
       req.session.callbackUrl = req.query.frontend_redirect_uri;
     }

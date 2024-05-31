@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SignUpValidator } from "@/app/auth/validators/sign-up.validator";
+import { SignUpValidator } from "@/app/(unauthorized)/auth/validators/sign-up.validator";
 
 const SignUp = () => {
   const form = useForm<SignUpValidator>({

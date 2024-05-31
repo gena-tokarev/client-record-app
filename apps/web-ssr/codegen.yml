@@ -5,7 +5,7 @@ generates:
     src/graphql/generated/graphql.ts:
         plugins:
             - typescript
-            - typescript-graphql-request
+            - typescript-react-apollo
             - typescript-operations
         config:
             withHooks: true

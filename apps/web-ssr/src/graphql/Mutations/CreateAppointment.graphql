@@ -1,4 +1,4 @@
-mutation CreateAppointment($inputAppointment: AppointmentInput!) {
+mutation CreateAppointment($inputAppointment: CreateAppointmentInput!) {
     createAppointment(inputAppointment: $inputAppointment) {
         ...CoreAppointmentFields
         client {

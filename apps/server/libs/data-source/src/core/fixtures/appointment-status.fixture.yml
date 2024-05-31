@@ -1,0 +1,13 @@
+entity: AppointmentStatus
+items:
+  appointmentStatus1:
+    value: 'Scheduled'
+
+  appointmentStatus2:
+    value: 'In progress'
+
+  appointmentStatus3:
+    value: 'Done'
+
+  appointmentStatus4:
+    value: 'Denial of service'

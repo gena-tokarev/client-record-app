@@ -1,8 +1,9 @@
-import { AppointmentInput } from './dto/appointment.input';
+import { CreateAppointmentInput } from './inputs/create-appointment.input';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Appointment } from '@client-record/data-source/core/models/appointment.model';
+import { UpdateAppointmentInput } from './inputs/update-appointment.input';
 
 @Injectable()
 export class AppointmentService {
@@ -21,6 +22,7 @@ export class AppointmentService {
         'master',
         'master.procedures',
         'procedures',
+        'status',
         // "media",
       ],
     });
@@ -35,26 +37,14 @@ export class AppointmentService {
         'master',
         'master.procedures',
         'procedures',
+        'status',
         // "media",
       ],
     });
   }
 
-  async save(data: AppointmentInput) {
-    const {
-      procedures: procedureIds,
-      // media: mediaItemsIds,
-      ...appointment
-    } = data;
-
-    const procedures = procedureIds.map((id) => ({ id: parseInt(id) }));
-    // const media = mediaItemsIds.map((id) => ({ id: parseInt(id) }));
-
-    const { id } = await this.appointmentRepository.save({
-      ...appointment,
-      procedures,
-      // media,
-    });
+  async save(data: CreateAppointmentInput | UpdateAppointmentInput) {
+    const { id } = await this.appointmentRepository.save(data);
 
     return this.findOneById(id);
   }

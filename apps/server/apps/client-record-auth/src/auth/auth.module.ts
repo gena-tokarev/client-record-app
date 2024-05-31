@@ -27,7 +27,7 @@ import { ConfigService } from '@nestjs/config';
           transport: Transport.TCP,
           options: {
             host: 'localhost',
-            port: configService.get('CORE_SERVICE_PORT', 4000),
+            port: configService.get('CORE_SERVICE_PORT'),
           },
         }),
       },

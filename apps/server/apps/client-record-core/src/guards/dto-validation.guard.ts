@@ -4,7 +4,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { validate } from 'class-validator';
-import { formatValidationErrorMessage } from '../utils/format-validation-error-message';
+import { formatValidationErrorMessage } from '../../../client-record-auth/src/utils/format-validation-error-message';
 
 export function DtoValidationGuard(dtoClass: any) {
   class DtoValidator<T extends {}> implements CanActivate {

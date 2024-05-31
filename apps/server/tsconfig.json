@@ -36,12 +36,18 @@
       "@client-record/config/*": [
         "libs/config/src/*"
       ],
+      "@client-record/auth": [
+        "libs/auth/src"
+      ],
+      "@client-record/auth/*": [
+        "libs/auth/src/*"
+      ],
       "@client-record/packages/shared": [
         "libs/packages/shared/src"
       ],
       "@client-record/packages/shared/*": [
         "libs/packages/shared/src/*"
-      ]
+      ],
     }
   }
 }

@@ -1,5 +1,5 @@
-import { GraphQLClient, RequestOptions } from 'graphql-request';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -7,7 +7,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
-type GraphQLClientRequestHeaders = RequestOptions['requestHeaders'];
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -27,28 +27,8 @@ export type Appointment = {
   master: Master;
   price: Scalars['Float']['output'];
   procedures?: Maybe<Array<Procedure>>;
-  results?: Maybe<Array<AppointmentResult>>;
   status: AppointmentStatus;
   withCoating: Scalars['Boolean']['output'];
-};
-
-export type AppointmentInput = {
-  client: Scalars['ID']['input'];
-  comments?: InputMaybe<Scalars['String']['input']>;
-  complaints: Scalars['String']['input'];
-  date: Scalars['Float']['input'];
-  id?: InputMaybe<Scalars['Float']['input']>;
-  master: Scalars['ID']['input'];
-  price: Scalars['Float']['input'];
-  procedures: Array<Scalars['ID']['input']>;
-  results: Array<Scalars['ID']['input']>;
-  status: Array<Scalars['ID']['input']>;
-};
-
-export type AppointmentResult = {
-  __typename?: 'AppointmentResult';
-  id: Scalars['ID']['output'];
-  value: Scalars['String']['output'];
 };
 
 export type AppointmentStatus = {
@@ -85,6 +65,17 @@ export type ClientInput = {
   phones: Array<Scalars['String']['input']>;
 };
 
+export type CreateAppointmentInput = {
+  client: Scalars['ID']['input'];
+  comments?: InputMaybe<Scalars['String']['input']>;
+  complaints: Scalars['String']['input'];
+  date: Scalars['Float']['input'];
+  master: Scalars['ID']['input'];
+  price: Scalars['Float']['input'];
+  procedures: Array<Scalars['ID']['input']>;
+  status: Scalars['ID']['input'];
+};
+
 export type Master = {
   __typename?: 'Master';
   id: Scalars['ID']['output'];
@@ -93,9 +84,9 @@ export type Master = {
 };
 
 export type MasterInput = {
-  id?: InputMaybe<Scalars['Float']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
   name: Scalars['String']['input'];
-  procedureIds: Array<Scalars['Float']['input']>;
+  procedureIds: Array<Scalars['Int']['input']>;
 };
 
 export type Mutation = {
@@ -116,7 +107,7 @@ export type Mutation = {
 
 
 export type MutationCreateAppointmentArgs = {
-  inputAppointment: AppointmentInput;
+  inputAppointment: CreateAppointmentInput;
 };
 
 
@@ -156,7 +147,7 @@ export type MutationDeleteProcedureArgs = {
 
 
 export type MutationUpdateAppointmentArgs = {
-  inputAppointment: AppointmentInput;
+  inputAppointment: UpdateAppointmentInput;
 };
 
 
@@ -239,6 +230,23 @@ export type QueryProcedureByMasterArgs = {
   masterId: Scalars['ID']['input'];
 };
 
+export type Subscription = {
+  __typename?: 'Subscription';
+  onAppointmentUpdated?: Maybe<Appointment>;
+};
+
+export type UpdateAppointmentInput = {
+  client?: InputMaybe<Scalars['ID']['input']>;
+  comments?: InputMaybe<Scalars['String']['input']>;
+  complaints?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['Float']['input']>;
+  id?: InputMaybe<Scalars['Float']['input']>;
+  master?: InputMaybe<Scalars['ID']['input']>;
+  price?: InputMaybe<Scalars['Float']['input']>;
+  procedures?: InputMaybe<Array<Scalars['ID']['input']>>;
+  status?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export const CoreAppointmentFieldsFragmentDoc = gql`
     fragment CoreAppointmentFields on Appointment {
   id
@@ -246,12 +254,6 @@ export const CoreAppointmentFieldsFragmentDoc = gql`
   date
   price
   comments
-}
-    `;
-export const CoreAppointmentResultFieldsFragmentDoc = gql`
-    fragment CoreAppointmentResultFields on AppointmentResult {
-  id
-  value
 }
     `;
 export const CoreAppointmentStatusFieldsFragmentDoc = gql`
@@ -302,7 +304,7 @@ export const CoreProcedureFieldsFragmentDoc = gql`
 }
     `;
 export const CreateAppointmentDocument = gql`
-    mutation CreateAppointment($inputAppointment: AppointmentInput!) {
+    mutation CreateAppointment($inputAppointment: CreateAppointmentInput!) {
   createAppointment(inputAppointment: $inputAppointment) {
     ...CoreAppointmentFields
     client {
@@ -324,6 +326,32 @@ ${CoreClientFieldsFragmentDoc}
 ${CoreChannelFieldsFragmentDoc}
 ${CoreMasterFieldsFragmentDoc}
 ${CoreProcedureFieldsFragmentDoc}`;
+export type CreateAppointmentMutationFn = Apollo.MutationFunction<CreateAppointmentMutation, CreateAppointmentMutationVariables>;
+
+/**
+ * __useCreateAppointmentMutation__
+ *
+ * To run a mutation, you first call `useCreateAppointmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateAppointmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createAppointmentMutation, { data, loading, error }] = useCreateAppointmentMutation({
+ *   variables: {
+ *      inputAppointment: // value for 'inputAppointment'
+ *   },
+ * });
+ */
+export function useCreateAppointmentMutation(baseOptions?: Apollo.MutationHookOptions<CreateAppointmentMutation, CreateAppointmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateAppointmentMutation, CreateAppointmentMutationVariables>(CreateAppointmentDocument, options);
+      }
+export type CreateAppointmentMutationHookResult = ReturnType<typeof useCreateAppointmentMutation>;
+export type CreateAppointmentMutationResult = Apollo.MutationResult<CreateAppointmentMutation>;
+export type CreateAppointmentMutationOptions = Apollo.BaseMutationOptions<CreateAppointmentMutation, CreateAppointmentMutationVariables>;
 export const CreateClientDocument = gql`
     mutation CreateClient($inputClient: ClientInput!) {
   createClient(inputClient: $inputClient) {
@@ -335,8 +363,34 @@ export const CreateClientDocument = gql`
 }
     ${CoreClientFieldsFragmentDoc}
 ${CoreChannelFieldsFragmentDoc}`;
+export type CreateClientMutationFn = Apollo.MutationFunction<CreateClientMutation, CreateClientMutationVariables>;
+
+/**
+ * __useCreateClientMutation__
+ *
+ * To run a mutation, you first call `useCreateClientMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateClientMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createClientMutation, { data, loading, error }] = useCreateClientMutation({
+ *   variables: {
+ *      inputClient: // value for 'inputClient'
+ *   },
+ * });
+ */
+export function useCreateClientMutation(baseOptions?: Apollo.MutationHookOptions<CreateClientMutation, CreateClientMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateClientMutation, CreateClientMutationVariables>(CreateClientDocument, options);
+      }
+export type CreateClientMutationHookResult = ReturnType<typeof useCreateClientMutation>;
+export type CreateClientMutationResult = Apollo.MutationResult<CreateClientMutation>;
+export type CreateClientMutationOptions = Apollo.BaseMutationOptions<CreateClientMutation, CreateClientMutationVariables>;
 export const UpdateAppointmentDocument = gql`
-    mutation UpdateAppointment($inputAppointment: AppointmentInput!) {
+    mutation UpdateAppointment($inputAppointment: UpdateAppointmentInput!) {
   updateAppointment(inputAppointment: $inputAppointment) {
     ...CoreAppointmentFields
     client {
@@ -358,6 +412,32 @@ ${CoreClientFieldsFragmentDoc}
 ${CoreChannelFieldsFragmentDoc}
 ${CoreMasterFieldsFragmentDoc}
 ${CoreProcedureFieldsFragmentDoc}`;
+export type UpdateAppointmentMutationFn = Apollo.MutationFunction<UpdateAppointmentMutation, UpdateAppointmentMutationVariables>;
+
+/**
+ * __useUpdateAppointmentMutation__
+ *
+ * To run a mutation, you first call `useUpdateAppointmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAppointmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAppointmentMutation, { data, loading, error }] = useUpdateAppointmentMutation({
+ *   variables: {
+ *      inputAppointment: // value for 'inputAppointment'
+ *   },
+ * });
+ */
+export function useUpdateAppointmentMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAppointmentMutation, UpdateAppointmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateAppointmentMutation, UpdateAppointmentMutationVariables>(UpdateAppointmentDocument, options);
+      }
+export type UpdateAppointmentMutationHookResult = ReturnType<typeof useUpdateAppointmentMutation>;
+export type UpdateAppointmentMutationResult = Apollo.MutationResult<UpdateAppointmentMutation>;
+export type UpdateAppointmentMutationOptions = Apollo.BaseMutationOptions<UpdateAppointmentMutation, UpdateAppointmentMutationVariables>;
 export const AppointmentDocument = gql`
     query Appointment($appointmentId: ID!) {
   appointment(id: $appointmentId) {
@@ -374,17 +454,46 @@ export const AppointmentDocument = gql`
     status {
       ...CoreAppointmentStatusFields
     }
-    results {
-      ...CoreAppointmentResultFields
-    }
   }
 }
     ${CoreAppointmentFieldsFragmentDoc}
 ${CoreClientFieldsFragmentDoc}
 ${CoreMasterFieldsFragmentDoc}
 ${CoreProcedureFieldsFragmentDoc}
-${CoreAppointmentStatusFieldsFragmentDoc}
-${CoreAppointmentResultFieldsFragmentDoc}`;
+${CoreAppointmentStatusFieldsFragmentDoc}`;
+
+/**
+ * __useAppointmentQuery__
+ *
+ * To run a query within a React component, call `useAppointmentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAppointmentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAppointmentQuery({
+ *   variables: {
+ *      appointmentId: // value for 'appointmentId'
+ *   },
+ * });
+ */
+export function useAppointmentQuery(baseOptions: Apollo.QueryHookOptions<AppointmentQuery, AppointmentQueryVariables> & ({ variables: AppointmentQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AppointmentQuery, AppointmentQueryVariables>(AppointmentDocument, options);
+      }
+export function useAppointmentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AppointmentQuery, AppointmentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AppointmentQuery, AppointmentQueryVariables>(AppointmentDocument, options);
+        }
+export function useAppointmentSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AppointmentQuery, AppointmentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AppointmentQuery, AppointmentQueryVariables>(AppointmentDocument, options);
+        }
+export type AppointmentQueryHookResult = ReturnType<typeof useAppointmentQuery>;
+export type AppointmentLazyQueryHookResult = ReturnType<typeof useAppointmentLazyQuery>;
+export type AppointmentSuspenseQueryHookResult = ReturnType<typeof useAppointmentSuspenseQuery>;
+export type AppointmentQueryResult = Apollo.QueryResult<AppointmentQuery, AppointmentQueryVariables>;
 export const AppointmentsDocument = gql`
     query Appointments {
   appointments {
@@ -401,17 +510,45 @@ export const AppointmentsDocument = gql`
     status {
       ...CoreAppointmentStatusFields
     }
-    results {
-      ...CoreAppointmentResultFields
-    }
   }
 }
     ${CoreAppointmentFieldsFragmentDoc}
 ${CoreClientFieldsFragmentDoc}
 ${CoreMasterFieldsFragmentDoc}
 ${CoreProcedureFieldsFragmentDoc}
-${CoreAppointmentStatusFieldsFragmentDoc}
-${CoreAppointmentResultFieldsFragmentDoc}`;
+${CoreAppointmentStatusFieldsFragmentDoc}`;
+
+/**
+ * __useAppointmentsQuery__
+ *
+ * To run a query within a React component, call `useAppointmentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAppointmentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAppointmentsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAppointmentsQuery(baseOptions?: Apollo.QueryHookOptions<AppointmentsQuery, AppointmentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AppointmentsQuery, AppointmentsQueryVariables>(AppointmentsDocument, options);
+      }
+export function useAppointmentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AppointmentsQuery, AppointmentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AppointmentsQuery, AppointmentsQueryVariables>(AppointmentsDocument, options);
+        }
+export function useAppointmentsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AppointmentsQuery, AppointmentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AppointmentsQuery, AppointmentsQueryVariables>(AppointmentsDocument, options);
+        }
+export type AppointmentsQueryHookResult = ReturnType<typeof useAppointmentsQuery>;
+export type AppointmentsLazyQueryHookResult = ReturnType<typeof useAppointmentsLazyQuery>;
+export type AppointmentsSuspenseQueryHookResult = ReturnType<typeof useAppointmentsSuspenseQuery>;
+export type AppointmentsQueryResult = Apollo.QueryResult<AppointmentsQuery, AppointmentsQueryVariables>;
 export const ChannelsDocument = gql`
     query Channels {
   channels {
@@ -419,6 +556,38 @@ export const ChannelsDocument = gql`
   }
 }
     ${CoreChannelFieldsFragmentDoc}`;
+
+/**
+ * __useChannelsQuery__
+ *
+ * To run a query within a React component, call `useChannelsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useChannelsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useChannelsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useChannelsQuery(baseOptions?: Apollo.QueryHookOptions<ChannelsQuery, ChannelsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ChannelsQuery, ChannelsQueryVariables>(ChannelsDocument, options);
+      }
+export function useChannelsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ChannelsQuery, ChannelsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ChannelsQuery, ChannelsQueryVariables>(ChannelsDocument, options);
+        }
+export function useChannelsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ChannelsQuery, ChannelsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ChannelsQuery, ChannelsQueryVariables>(ChannelsDocument, options);
+        }
+export type ChannelsQueryHookResult = ReturnType<typeof useChannelsQuery>;
+export type ChannelsLazyQueryHookResult = ReturnType<typeof useChannelsLazyQuery>;
+export type ChannelsSuspenseQueryHookResult = ReturnType<typeof useChannelsSuspenseQuery>;
+export type ChannelsQueryResult = Apollo.QueryResult<ChannelsQuery, ChannelsQueryVariables>;
 export const ClientsDocument = gql`
     query Clients {
   clients {
@@ -426,6 +595,38 @@ export const ClientsDocument = gql`
   }
 }
     ${CoreClientFieldsFragmentDoc}`;
+
+/**
+ * __useClientsQuery__
+ *
+ * To run a query within a React component, call `useClientsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useClientsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useClientsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useClientsQuery(baseOptions?: Apollo.QueryHookOptions<ClientsQuery, ClientsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ClientsQuery, ClientsQueryVariables>(ClientsDocument, options);
+      }
+export function useClientsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ClientsQuery, ClientsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ClientsQuery, ClientsQueryVariables>(ClientsDocument, options);
+        }
+export function useClientsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ClientsQuery, ClientsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ClientsQuery, ClientsQueryVariables>(ClientsDocument, options);
+        }
+export type ClientsQueryHookResult = ReturnType<typeof useClientsQuery>;
+export type ClientsLazyQueryHookResult = ReturnType<typeof useClientsLazyQuery>;
+export type ClientsSuspenseQueryHookResult = ReturnType<typeof useClientsSuspenseQuery>;
+export type ClientsQueryResult = Apollo.QueryResult<ClientsQuery, ClientsQueryVariables>;
 export const MastersDocument = gql`
     query Masters {
   masters {
@@ -437,6 +638,38 @@ export const MastersDocument = gql`
 }
     ${CoreMasterFieldsFragmentDoc}
 ${CoreProcedureFieldsFragmentDoc}`;
+
+/**
+ * __useMastersQuery__
+ *
+ * To run a query within a React component, call `useMastersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMastersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMastersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMastersQuery(baseOptions?: Apollo.QueryHookOptions<MastersQuery, MastersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MastersQuery, MastersQueryVariables>(MastersDocument, options);
+      }
+export function useMastersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MastersQuery, MastersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MastersQuery, MastersQueryVariables>(MastersDocument, options);
+        }
+export function useMastersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<MastersQuery, MastersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<MastersQuery, MastersQueryVariables>(MastersDocument, options);
+        }
+export type MastersQueryHookResult = ReturnType<typeof useMastersQuery>;
+export type MastersLazyQueryHookResult = ReturnType<typeof useMastersLazyQuery>;
+export type MastersSuspenseQueryHookResult = ReturnType<typeof useMastersSuspenseQuery>;
+export type MastersQueryResult = Apollo.QueryResult<MastersQuery, MastersQueryVariables>;
 export const ProcedureByMasterDocument = gql`
     query ProcedureByMaster($masterId: ID!) {
   procedureByMaster(masterId: $masterId) {
@@ -444,6 +677,39 @@ export const ProcedureByMasterDocument = gql`
   }
 }
     ${CoreProcedureFieldsFragmentDoc}`;
+
+/**
+ * __useProcedureByMasterQuery__
+ *
+ * To run a query within a React component, call `useProcedureByMasterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProcedureByMasterQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProcedureByMasterQuery({
+ *   variables: {
+ *      masterId: // value for 'masterId'
+ *   },
+ * });
+ */
+export function useProcedureByMasterQuery(baseOptions: Apollo.QueryHookOptions<ProcedureByMasterQuery, ProcedureByMasterQueryVariables> & ({ variables: ProcedureByMasterQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProcedureByMasterQuery, ProcedureByMasterQueryVariables>(ProcedureByMasterDocument, options);
+      }
+export function useProcedureByMasterLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProcedureByMasterQuery, ProcedureByMasterQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProcedureByMasterQuery, ProcedureByMasterQueryVariables>(ProcedureByMasterDocument, options);
+        }
+export function useProcedureByMasterSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ProcedureByMasterQuery, ProcedureByMasterQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ProcedureByMasterQuery, ProcedureByMasterQueryVariables>(ProcedureByMasterDocument, options);
+        }
+export type ProcedureByMasterQueryHookResult = ReturnType<typeof useProcedureByMasterQuery>;
+export type ProcedureByMasterLazyQueryHookResult = ReturnType<typeof useProcedureByMasterLazyQuery>;
+export type ProcedureByMasterSuspenseQueryHookResult = ReturnType<typeof useProcedureByMasterSuspenseQuery>;
+export type ProcedureByMasterQueryResult = Apollo.QueryResult<ProcedureByMasterQuery, ProcedureByMasterQueryVariables>;
 export const ProceduresDocument = gql`
     query Procedures {
   procedures {
@@ -456,49 +722,83 @@ export const ProceduresDocument = gql`
     ${CoreProcedureFieldsFragmentDoc}
 ${CoreMasterFieldsFragmentDoc}`;
 
-export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
-
-
-const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType, _variables) => action();
-
-export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
-  return {
-    CreateAppointment(variables: CreateAppointmentMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<CreateAppointmentMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateAppointmentMutation>(CreateAppointmentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateAppointment', 'mutation', variables);
-    },
-    CreateClient(variables: CreateClientMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<CreateClientMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateClientMutation>(CreateClientDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateClient', 'mutation', variables);
-    },
-    UpdateAppointment(variables: UpdateAppointmentMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<UpdateAppointmentMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateAppointmentMutation>(UpdateAppointmentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'UpdateAppointment', 'mutation', variables);
-    },
-    Appointment(variables: AppointmentQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AppointmentQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<AppointmentQuery>(AppointmentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Appointment', 'query', variables);
-    },
-    Appointments(variables?: AppointmentsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AppointmentsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<AppointmentsQuery>(AppointmentsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Appointments', 'query', variables);
-    },
-    Channels(variables?: ChannelsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ChannelsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ChannelsQuery>(ChannelsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Channels', 'query', variables);
-    },
-    Clients(variables?: ClientsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ClientsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ClientsQuery>(ClientsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Clients', 'query', variables);
-    },
-    Masters(variables?: MastersQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<MastersQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<MastersQuery>(MastersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Masters', 'query', variables);
-    },
-    ProcedureByMaster(variables: ProcedureByMasterQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ProcedureByMasterQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ProcedureByMasterQuery>(ProcedureByMasterDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ProcedureByMaster', 'query', variables);
-    },
-    Procedures(variables?: ProceduresQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ProceduresQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ProceduresQuery>(ProceduresDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Procedures', 'query', variables);
+/**
+ * __useProceduresQuery__
+ *
+ * To run a query within a React component, call `useProceduresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProceduresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProceduresQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useProceduresQuery(baseOptions?: Apollo.QueryHookOptions<ProceduresQuery, ProceduresQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProceduresQuery, ProceduresQueryVariables>(ProceduresDocument, options);
+      }
+export function useProceduresLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProceduresQuery, ProceduresQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProceduresQuery, ProceduresQueryVariables>(ProceduresDocument, options);
+        }
+export function useProceduresSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ProceduresQuery, ProceduresQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ProceduresQuery, ProceduresQueryVariables>(ProceduresDocument, options);
+        }
+export type ProceduresQueryHookResult = ReturnType<typeof useProceduresQuery>;
+export type ProceduresLazyQueryHookResult = ReturnType<typeof useProceduresLazyQuery>;
+export type ProceduresSuspenseQueryHookResult = ReturnType<typeof useProceduresSuspenseQuery>;
+export type ProceduresQueryResult = Apollo.QueryResult<ProceduresQuery, ProceduresQueryVariables>;
+export const OnAppointmentUpdatedDocument = gql`
+    subscription OnAppointmentUpdated {
+  onAppointmentUpdated {
+    ...CoreAppointmentFields
+    client {
+      ...CoreClientFields
     }
-  };
+    master {
+      ...CoreMasterFields
+    }
+    procedures {
+      ...CoreProcedureFields
+    }
+    status {
+      ...CoreAppointmentStatusFields
+    }
+  }
 }
-export type Sdk = ReturnType<typeof getSdk>;
-export type CoreAppointmentFieldsFragment = { __typename?: 'Appointment', id: string, complaints: string, date: number, price: number, comments?: string | null };
+    ${CoreAppointmentFieldsFragmentDoc}
+${CoreClientFieldsFragmentDoc}
+${CoreMasterFieldsFragmentDoc}
+${CoreProcedureFieldsFragmentDoc}
+${CoreAppointmentStatusFieldsFragmentDoc}`;
 
-export type CoreAppointmentResultFieldsFragment = { __typename?: 'AppointmentResult', id: string, value: string };
+/**
+ * __useOnAppointmentUpdatedSubscription__
+ *
+ * To run a query within a React component, call `useOnAppointmentUpdatedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnAppointmentUpdatedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOnAppointmentUpdatedSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOnAppointmentUpdatedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<OnAppointmentUpdatedSubscription, OnAppointmentUpdatedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<OnAppointmentUpdatedSubscription, OnAppointmentUpdatedSubscriptionVariables>(OnAppointmentUpdatedDocument, options);
+      }
+export type OnAppointmentUpdatedSubscriptionHookResult = ReturnType<typeof useOnAppointmentUpdatedSubscription>;
+export type OnAppointmentUpdatedSubscriptionResult = Apollo.SubscriptionResult<OnAppointmentUpdatedSubscription>;
+export type CoreAppointmentFieldsFragment = { __typename?: 'Appointment', id: string, complaints: string, date: number, price: number, comments?: string | null };
 
 export type CoreAppointmentStatusFieldsFragment = { __typename?: 'AppointmentStatus', id: string, value: string };
 
@@ -513,7 +813,7 @@ export type CorePhoneFieldsFragment = { __typename?: 'Phone', id: string, value:
 export type CoreProcedureFieldsFragment = { __typename?: 'Procedure', id: string, name: string };
 
 export type CreateAppointmentMutationVariables = Exact<{
-  inputAppointment: AppointmentInput;
+  inputAppointment: CreateAppointmentInput;
 }>;
 
 
@@ -527,7 +827,7 @@ export type CreateClientMutationVariables = Exact<{
 export type CreateClientMutation = { __typename?: 'Mutation', createClient: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, channel: { __typename?: 'Channel', id: string, name: string }, phones: Array<{ __typename?: 'Phone', id: string, value: string }> } };
 
 export type UpdateAppointmentMutationVariables = Exact<{
-  inputAppointment: AppointmentInput;
+  inputAppointment: UpdateAppointmentInput;
 }>;
 
 
@@ -538,12 +838,12 @@ export type AppointmentQueryVariables = Exact<{
 }>;
 
 
-export type AppointmentQuery = { __typename?: 'Query', appointment: { __typename?: 'Appointment', id: string, complaints: string, date: number, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string }, results?: Array<{ __typename?: 'AppointmentResult', id: string, value: string }> | null } };
+export type AppointmentQuery = { __typename?: 'Query', appointment: { __typename?: 'Appointment', id: string, complaints: string, date: number, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string } } };
 
 export type AppointmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AppointmentsQuery = { __typename?: 'Query', appointments: Array<{ __typename?: 'Appointment', id: string, complaints: string, date: number, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string }, results?: Array<{ __typename?: 'AppointmentResult', id: string, value: string }> | null }> };
+export type AppointmentsQuery = { __typename?: 'Query', appointments: Array<{ __typename?: 'Appointment', id: string, complaints: string, date: number, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string } }> };
 
 export type ChannelsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -571,3 +871,8 @@ export type ProceduresQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ProceduresQuery = { __typename?: 'Query', procedures: Array<{ __typename?: 'Procedure', id: string, name: string, masters?: Array<{ __typename?: 'Master', id: string, name: string }> | null }> };
+
+export type OnAppointmentUpdatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OnAppointmentUpdatedSubscription = { __typename?: 'Subscription', onAppointmentUpdated?: { __typename?: 'Appointment', id: string, complaints: string, date: number, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string } } | null };
