@@ -4,7 +4,7 @@ import { CreateAppointmentDto } from '@client-record/packages/shared/dto/appoint
 @InputType()
 export class CreateAppointmentInput extends CreateAppointmentDto {
   @Field()
-  date: number;
+  date: string;
 
   @Field()
   complaints: string;

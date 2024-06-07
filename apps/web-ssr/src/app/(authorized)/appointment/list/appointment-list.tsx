@@ -22,7 +22,7 @@ import { FC, useEffect, useState } from "react";
 // import { graphqlApiClient } from "@/services/graphql-api-service";
 // import { useQuery } from "@tanstack/react-query";
 
-export const Appointments: FC<{ initialData: AppointmentsQuery }> = ({
+export const AppointmentList: FC<{ initialData: AppointmentsQuery }> = ({
   initialData,
 }) => {
   // const { data } = useQuery({

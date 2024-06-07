@@ -1,0 +1,6 @@
+query AppointmentStatuses {
+    appointmentStatuses {
+        id
+        value
+    }
+}

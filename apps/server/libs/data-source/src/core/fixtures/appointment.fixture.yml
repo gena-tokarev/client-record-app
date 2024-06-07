@@ -4,7 +4,7 @@ items:
     complaints: Skin peeling off between the toes, sometimes itchy
     client: '@client($current)'
     master: '@master($current)'
-    date: 123423423
+    date: "2023-06-07T15:30:00"
     price: 200
     results:
     comments: None
@@ -17,7 +17,7 @@ items:
     complaints: Persistent pain in the bunions, making it hard to wear shoes
     client: '@client($current)'
     master: '@master($current)'
-    date: 123423423
+    date: "2023-06-07T15:30:00"
     price: 100
     comments: None
     procedures:
@@ -29,7 +29,7 @@ items:
     complaints: Ingrown toenails causing redness and infection
     client: '@client($current)'
     master: '@master($current)'
-    date: 123423423
+    date: "2023-06-07T15:30:00"
     price: 50
     comments: None
     procedures:
@@ -40,7 +40,7 @@ items:
     complaints: Sharp, stabbing pain in the heel when standing or walking
     client: '@client1'
     master: '@master1'
-    date: 123423423
+    date: "2023-06-07T15:30:00"
     price: 50
     comments: None
     procedures:

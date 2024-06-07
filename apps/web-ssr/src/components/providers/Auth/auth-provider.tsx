@@ -30,24 +30,21 @@ const AuthProvider: FC<Props> = ({ children }) => {
     [router],
   );
 
-  const handleLocal = useCallback(
-    async (values: UserSignInRequestDto) => {
-      await fetch(`${process.env.API_HOST}/auth/login`, {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-          "content-type": "application/json",
-        },
-        credentials: "include",
-      });
+  const handleLocal = useCallback(async (values: UserSignInRequestDto) => {
+    await fetch(`${process.env.API_HOST}/auth/login`, {
+      method: "POST",
+      body: JSON.stringify(values),
+      headers: {
+        "content-type": "application/json",
+      },
+      credentials: "include",
+    });
 
-      window.location.href = process.env.NEXT_APP_HOST;
-      // router.replace(process.env.NEXT_APP_HOST);
-      // const timestamp = new Date().getTime(); // Получение текущего времени
-      // router.replace(`${process.env.NEXT_APP_HOST}`);
-    },
-    [router],
-  );
+    window.location.href = process.env.NEXT_APP_HOST;
+    // router.replace(process.env.NEXT_APP_HOST);
+    // const timestamp = new Date().getTime(); // Получение текущего времени
+    // router.replace(`${process.env.NEXT_APP_HOST}`);
+  }, []);
 
   const handleGoogle = useCallback(() => {
     window.open(

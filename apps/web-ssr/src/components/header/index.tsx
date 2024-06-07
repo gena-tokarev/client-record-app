@@ -1,22 +1,21 @@
 "use client";
 
+import { AppBar, Toolbar, Typography } from "@mui/material";
 import { AccountDropdown } from "../account-dropdown";
-import { CreateNew } from "../create-new";
 import { SidebarToggle } from "../sidebar/sidebar-toggle";
+import { CreateNew } from "../create-new";
 
 export const Header = () => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background">
-      <div className="pl-4 pr-8 flex h-14 items-center">
+    <AppBar position="static">
+      <Toolbar>
         <SidebarToggle />
-        <div className="flex-1"></div>
-        <div className="flex items-center">
-          <CreateNew />
-          <div className="ml-4">
-            <AccountDropdown />
-          </div>
-        </div>
-      </div>
-    </header>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Test
+        </Typography>
+        <CreateNew />
+        <AccountDropdown />
+      </Toolbar>
+    </AppBar>
   );
 };

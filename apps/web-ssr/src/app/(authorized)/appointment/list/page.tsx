@@ -1,4 +1,4 @@
-import { Appointments } from "./appointments";
+import { AppointmentList } from "./appointment-list";
 import { fetchQuery } from "@/graphql/graphql-client.server";
 import {
   AppointmentsDocument,
@@ -18,7 +18,7 @@ const AppointmentsPage = async () => {
     return null;
   }
 
-  return <Appointments initialData={data} />;
+  return <AppointmentList initialData={data} />;
   // return (
   //   <PrefetchQuery
   //     fetchQueryOptions={{

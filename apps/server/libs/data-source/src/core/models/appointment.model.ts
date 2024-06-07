@@ -27,8 +27,8 @@ export class Appointment {
   complaints!: string;
 
   @Field(() => Number)
-  @Column('bigint')
-  date!: number;
+  @Column('timestamp')
+  date!: string;
 
   @Field(() => Boolean)
   @Column('boolean', { default: false })

@@ -1,7 +1,7 @@
 import { MaxLength } from 'class-validator';
 
 export class CreateAppointmentDto {
-  date: number;
+  date: string;
 
   @MaxLength(10)
   complaints: string;

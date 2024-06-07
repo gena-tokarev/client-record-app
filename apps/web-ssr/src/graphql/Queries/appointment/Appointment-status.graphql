@@ -1,0 +1,6 @@
+query AppointmentStatus($appointmentStatusId: ID!) {
+    appointmentStatus(id: $appointmentStatusId) {
+        id
+        value
+    }
+}

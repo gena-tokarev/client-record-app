@@ -6,9 +6,11 @@ import { Appointment } from '@client-record/data-source/core/models/appointment.
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GqlAuthGuard } from '../../guards/gql-auth.guard';
+import { AppointmentStatusModule } from './appointment-status/appointment-status.module';
 
 @Module({
   imports: [
+    AppointmentStatusModule,
     TypeOrmModule.forFeature([Appointment]),
     ClientsModule.registerAsync([
       {
