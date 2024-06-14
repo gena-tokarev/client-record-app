@@ -26,7 +26,6 @@ export class AuthService {
   ) {}
 
   private generateAccessToken(payload: TokenPayload) {
-    console.log(1111, this.configService.get('JWT_EXPIRATION_TIME'));
     return this.jwtService.sign(payload, {
       secret: this.configService.get('JWT_SECRET'),
       expiresIn: this.configService.get('JWT_EXPIRATION_TIME'),

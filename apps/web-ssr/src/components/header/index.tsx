@@ -10,9 +10,11 @@ export const Header = () => {
     <AppBar position="static">
       <Toolbar>
         <SidebarToggle />
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Test
-        </Typography>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1 }}
+        ></Typography>
         <CreateNew />
         <AccountDropdown />
       </Toolbar>

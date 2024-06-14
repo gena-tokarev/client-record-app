@@ -8,16 +8,16 @@ import {
 } from "@apollo/client";
 import { registerApolloClient } from "@apollo/experimental-nextjs-app-support/rsc";
 import { getCookieServer } from "@/lib/get-cookie/get-cookie.server";
-import { getAuthLink } from "@/graphql/get-auth-link";
 import { redirect } from "next/navigation";
+import { getAuthLink } from "./get-auth-link";
 
-export const authLink = getAuthLink(getCookieServer("access_token"));
+export const { getClient } = registerApolloClient(async () => {
+  const token = await getCookieServer("access_token");
 
-export const { getClient } = registerApolloClient(() => {
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: ApolloLink.from([
-      authLink,
+      getAuthLink(token),
       new HttpLink({
         // this needs to be an absolute url, as relative urls cannot be used in SSR
         uri: process.env.API_HOST_GRAPHQL_ROUTE,
@@ -38,7 +38,7 @@ export async function fetchQuery<TData>({
   query,
   variables = {},
 }: FetchQueryOptions): Promise<TData | null> {
-  const client = getClient();
+  const client = await getClient();
 
   try {
     const response = await client.query<TData>({ query, variables });

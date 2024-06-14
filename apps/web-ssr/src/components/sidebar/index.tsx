@@ -12,6 +12,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import Link from "next/link";
 
 const LINKS = [
   {
@@ -30,14 +31,20 @@ export const Sidebar = () => {
       <Box sx={{ width: 250 }} role="presentation" onClick={toogle}>
         <List>
           {LINKS.map((link) => (
-            <ListItem key={link.id} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <link.icon />
-                </ListItemIcon>
-                <ListItemText primary={link.label} />
-              </ListItemButton>
-            </ListItem>
+            <Link
+              key={link.id}
+              href={link.href}
+              style={{ color: "inherit", textDecoration: "inherit" }}
+            >
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <link.icon />
+                  </ListItemIcon>
+                  <ListItemText primary={link.label} />
+                </ListItemButton>
+              </ListItem>
+            </Link>
           ))}
         </List>
       </Box>

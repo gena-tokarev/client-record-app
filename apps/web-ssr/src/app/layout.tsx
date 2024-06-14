@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { AuthProviderClient } from "@/components/providers/auth/auth-provider.client";
-import { QueryProviderClient } from "@/components/providers/query-provider.client";
-import { GraphqlProvider } from "@/components/providers/graphql-provider.client";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/theme";
@@ -22,22 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen bg-muted/40 font-sans antialiased",
-        )}
-      >
+      <body className={cn("min-h-screen bg-muted/40 font-sans antialiased")}>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <LocalizationProviderClient>
             <ThemeProvider theme={theme}>
               <CssBaseline />
-              <GraphqlProvider>
-                <QueryProviderClient>
-                  <AuthProviderClient>
-                    <div className="min-h-screen flex flex-col">{children}</div>
-                  </AuthProviderClient>
-                </QueryProviderClient>
-              </GraphqlProvider>
+              <AuthProviderClient>{children}</AuthProviderClient>
             </ThemeProvider>
           </LocalizationProviderClient>
         </AppRouterCacheProvider>

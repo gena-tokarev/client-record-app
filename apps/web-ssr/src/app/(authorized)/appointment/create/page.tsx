@@ -1,7 +1,7 @@
-import { CreateAppointment } from "./create-appointment";
+import { CreateAppointment } from "@/components/appointment/create-appointment";
 
-const AppointmentsPage = () => {
+const CreateAppointmentPage = () => {
   return <CreateAppointment />;
 };
 
-export default AppointmentsPage;
+export default CreateAppointmentPage;

@@ -4,13 +4,13 @@ import { DateTime } from "luxon";
 import {
   useAppointmentStatusesQuery,
   useClientsQuery,
-  useCreateAppointmentMutation,
   useMastersQuery,
   useProceduresQuery,
 } from "@/graphql/generated/graphql";
-import { CreateAppointmentDto } from "@client-record/shared/src/dto/appointment/create-appointment.dto";
-import { classValidatorResolver } from "@hookform/resolvers/class-validator";
-import { Controller, useForm } from "react-hook-form";
+import {
+  CreateAppointmentDto,
+  UpdateAppointmentDto,
+} from "@client-record/shared/src/schemas/appointment.schema";
 import {
   Box,
   Button,
@@ -23,47 +23,51 @@ import {
   Typography,
 } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { useCallback } from "react";
-import { CreateAppointmentFromFields } from "./create-appointment-form-fields";
 import { TextFieldValueAsNumber } from "@/components/form/text-field-value-as-number";
+import { Controller, SubmitHandler, UseFormReturn } from "react-hook-form";
 
-export const CreateAppointment = () => {
+type AppointmentFormProps<T extends "create" | "update"> = {
+  form: UseFormReturn<
+    T extends "create" ? CreateAppointmentDto : UpdateAppointmentDto,
+    any,
+    undefined
+  >;
+  onSubmit: SubmitHandler<
+    T extends "create" ? CreateAppointmentDto : UpdateAppointmentDto
+  >;
+  isSubmitting?: boolean;
+  mode: T;
+};
+
+export function AppointmentForm<T extends "create" | "update">(
+  props: AppointmentFormProps<T>,
+) {
+  const { form: receivedForm, onSubmit, isSubmitting } = props;
+
+  const form = receivedForm as UseFormReturn<
+    CreateAppointmentDto | UpdateAppointmentDto,
+    any,
+    undefined
+  >;
+
   const { data: dataClients } = useClientsQuery();
   const { data: dataMasters } = useMastersQuery();
   const { data: dataProcedures } = useProceduresQuery();
   const { data: dataAppointmentStatuses } = useAppointmentStatusesQuery();
-  const [
-    createAppointment,
-    { data: dataAppointmentCreated, loading: appointmentCreateLoading },
-  ] = useCreateAppointmentMutation();
-
-  const form = useForm<CreateAppointmentDto>({
-    resolver: classValidatorResolver(CreateAppointmentDto),
-    defaultValues: {
-      date: DateTime.now().toISO(),
-      complaints: "",
-      price: 0,
-      client: "",
-      master: "",
-      procedures: [],
-      status: "",
-    },
-  });
-
-  const handleSubmit = useCallback(
-    (appointment: CreateAppointmentDto) => {
-      console.log(111, appointment);
-      createAppointment({ variables: { inputAppointment: appointment } });
-    },
-    [createAppointment],
-  );
 
   return (
     <Paper elevation={2} sx={{ m: 2, p: 4 }}>
       <Typography variant="h5" sx={{ mb: 4 }}>
-        Create appointment
+        {props.mode === "create" ? "Create appointment" : "Update appointment"}
       </Typography>
-      <Box component="form" onSubmit={form.handleSubmit(handleSubmit)}>
+      <Box
+        component="form"
+        onSubmit={form.handleSubmit(
+          onSubmit as SubmitHandler<
+            CreateAppointmentDto | UpdateAppointmentDto
+          >,
+        )}
+      >
         <Controller
           name="date"
           control={form.control}
@@ -71,7 +75,7 @@ export const CreateAppointment = () => {
             <DateTimePicker
               {...field}
               onChange={(value) => field.onChange(value?.toISO())}
-              value={DateTime.fromISO(field.value)}
+              value={DateTime.fromISO(field.value ?? "")}
               // fullWidth
               label="Date"
               // error={!!form.formState.errors.date}
@@ -199,16 +203,31 @@ export const CreateAppointment = () => {
             </FormControl>
           )}
         />
+        <Controller
+          name="comments"
+          control={form.control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Comments"
+              type="text"
+              fullWidth
+              margin="normal"
+              error={!!form.formState.errors.comments}
+              helperText={form.formState.errors.comments?.message}
+            />
+          )}
+        />
         <Button
           type="submit"
           variant="contained"
           color="primary"
           sx={{ mt: 2 }}
-          disabled={appointmentCreateLoading}
+          disabled={isSubmitting}
         >
           Submit
         </Button>
       </Box>
     </Paper>
   );
-};
+}

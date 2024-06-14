@@ -1,7 +1,7 @@
+import SignIn from "@/components/auth/sign-in";
+import SignUp from "@/components/auth/sign-up";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SignIn from "./sign-in";
-import SignUp from "./sign-up";
 
 const AuthPageClient = () => {
   return (

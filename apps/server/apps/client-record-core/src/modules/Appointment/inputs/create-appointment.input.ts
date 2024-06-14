@@ -1,8 +1,8 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
-import { CreateAppointmentDto } from '@client-record/packages/shared/dto/appointment/create-appointment.dto';
+import { CreateAppointmentDto } from '@client-record/packages/shared/schemas/appointment.schema';
 
 @InputType()
-export class CreateAppointmentInput extends CreateAppointmentDto {
+export class CreateAppointmentInput implements CreateAppointmentDto {
   @Field()
   date: string;
 

@@ -1,4 +1,8 @@
 import { Appointment } from '@client-record/data-source/core/models/appointment.model';
+import {
+  CreateAppointmentDto,
+  createAppointmentSchema,
+} from '@client-record/packages/shared/schemas/appointment.schema';
 import { AppointmentService } from './appointment.service';
 import { CreateAppointmentInput } from './inputs/create-appointment.input';
 import { Injectable, UseGuards } from '@nestjs/common';
@@ -14,6 +18,7 @@ import {
 import { PubSub } from 'graphql-subscriptions';
 import { GqlAuthGuard } from '../../guards/gql-auth.guard';
 import { UpdateAppointmentInput } from './inputs/update-appointment.input';
+import { ValidationPipe } from '../../pipes/validation-pipe';
 const pubSub = new PubSub();
 
 @Injectable()
@@ -34,7 +39,11 @@ export class AppointmentResolver {
 
   @Mutation(() => Appointment)
   async createAppointment(
-    @Args('inputAppointment') newAppointment: CreateAppointmentInput,
+    @Args(
+      'inputAppointment',
+      new ValidationPipe<CreateAppointmentDto>(createAppointmentSchema),
+    )
+    newAppointment: CreateAppointmentInput,
   ) {
     const createdAppointment =
       await this.appointmentService.save(newAppointment);

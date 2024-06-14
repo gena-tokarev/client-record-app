@@ -2165,6 +2165,7 @@ __metadata:
     typeorm: "npm:^0.3.20"
     typeorm-fixtures-cli: "npm:^4.0.0"
     typescript: "npm:^5.4.3"
+    zod: "npm:^3.23.8"
   languageName: unknown
   linkType: soft
 
@@ -2172,7 +2173,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@client-record/shared@workspace:packages/shared"
   dependencies:
-    "@nestjs/mapped-types": "npm:^2.0.5"
+    zod: "npm:^3.23.8"
   languageName: unknown
   linkType: soft
 
@@ -2192,12 +2193,14 @@ __metadata:
     "@graphql-codegen/typescript-graphql-request": "npm:^6.2.0"
     "@graphql-codegen/typescript-operations": "npm:^4.2.0"
     "@graphql-codegen/typescript-react-apollo": "npm:^4.3.0"
-    "@graphql-codegen/typescript-react-query": "npm:^6.1.0"
     "@hookform/resolvers": "npm:^3.3.4"
     "@mui/icons-material": "npm:^5.15.19"
     "@mui/material": "npm:^5.15.19"
     "@mui/material-nextjs": "npm:^5.15.11"
+    "@mui/x-data-grid": "npm:^7.6.2"
     "@mui/x-date-pickers": "npm:^7.6.1"
+    "@nestjs/common": "npm:^10.3.9"
+    "@nestjs/mapped-types": "npm:^2.0.5"
     "@radix-ui/react-avatar": "npm:^1.0.4"
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@radix-ui/react-dropdown-menu": "npm:^2.0.6"
@@ -2207,9 +2210,6 @@ __metadata:
     "@radix-ui/react-select": "npm:^2.0.0"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@radix-ui/react-tabs": "npm:^1.0.4"
-    "@tanstack/react-query": "npm:^5.32.0"
-    "@tanstack/react-query-devtools": "npm:^5.32.0"
-    "@tanstack/react-query-next-experimental": "npm:^5.32.0"
     "@types/luxon": "npm:^3.4.2"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
@@ -2237,6 +2237,7 @@ __metadata:
     tailwind-merge: "npm:^2.2.2"
     tailwindcss: "npm:^3.3.0"
     tailwindcss-animate: "npm:^1.0.7"
+    zod: "npm:^3.23.8"
   languageName: unknown
   linkType: soft
 
@@ -3005,21 +3006,6 @@ __metadata:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     graphql-tag: ^2.0.0
   checksum: 10c0/c5e58729367571867a8e2e17a640a6ff42070b8c7f498a2bfea35b0b4ae74b62245981feb5d26a03601db58967c54e74b341b681247bd9241b63327510c151e7
-  languageName: node
-  linkType: hard
-
-"@graphql-codegen/typescript-react-query@npm:^6.1.0":
-  version: 6.1.0
-  resolution: "@graphql-codegen/typescript-react-query@npm:6.1.0"
-  dependencies:
-    "@graphql-codegen/plugin-helpers": "npm:^3.0.0"
-    "@graphql-codegen/visitor-plugin-common": "npm:2.13.1"
-    auto-bind: "npm:~4.0.0"
-    change-case-all: "npm:1.0.15"
-    tslib: "npm:~2.6.0"
-  peerDependencies:
-    graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 10c0/fc4786ddc4a10520ac85c627e270a8ae1e1d84903ae691f2e8fc997cb4a4cc19c9d65c494a587cb19946f650c90e70128b8af6f0e3407ecc6fed1685a1bc68fd
   languageName: node
   linkType: hard
 
@@ -4555,6 +4541,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/x-data-grid@npm:^7.6.2":
+  version: 7.6.2
+  resolution: "@mui/x-data-grid@npm:7.6.2"
+  dependencies:
+    "@babel/runtime": "npm:^7.24.6"
+    "@mui/system": "npm:^5.15.15"
+    "@mui/utils": "npm:^5.15.14"
+    clsx: "npm:^2.1.1"
+    prop-types: "npm:^15.8.1"
+    reselect: "npm:^4.1.8"
+  peerDependencies:
+    "@mui/material": ^5.15.14
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  checksum: 10c0/605093df08e8e731774d1c826cb7777361b9b23650fa63a5ae1cc33e8184f789051c8ed129e618b77a75ffb539bdc00d9b9454b0d4ef6d5fa32cf30290b8270a
+  languageName: node
+  linkType: hard
+
 "@mui/x-date-pickers@npm:^7.6.1":
   version: 7.6.1
   resolution: "@mui/x-date-pickers@npm:7.6.1"
@@ -4700,6 +4704,27 @@ __metadata:
     class-validator:
       optional: true
   checksum: 10c0/d25fba11d553f32a1c80e16da85ff05739eba5678d752feac159ba4ff6c4129d254bd289c95d64106e5c13d78e716a1f3673e6db7897bbcd569fbef49d4f9ec0
+  languageName: node
+  linkType: hard
+
+"@nestjs/common@npm:^10.3.9":
+  version: 10.3.9
+  resolution: "@nestjs/common@npm:10.3.9"
+  dependencies:
+    iterare: "npm:1.2.1"
+    tslib: "npm:2.6.2"
+    uid: "npm:2.0.2"
+  peerDependencies:
+    class-transformer: "*"
+    class-validator: "*"
+    reflect-metadata: ^0.1.12 || ^0.2.0
+    rxjs: ^7.1.0
+  peerDependenciesMeta:
+    class-transformer:
+      optional: true
+    class-validator:
+      optional: true
+  checksum: 10c0/fadd1ea6781a941ae6ae6bc043fc6a55321d5f76f96f42fe211ae1764dccb411413fa753843569e99ebb6b97b4923b73a04eb3eb7a326f25e4a2e2c8e298e2f6
   languageName: node
   linkType: hard
 
@@ -6261,54 +6286,6 @@ __metadata:
   dependencies:
     tslib: "npm:^2.4.0"
   checksum: 10c0/b6fa49bcf6c00571d0eb7837b163f8609960d4d77538160585e27ed167361e9776bd6e5eb9646ffac2fb4d43c58df9ca50dab9d96ab097e6591bc82a75fd1164
-  languageName: node
-  linkType: hard
-
-"@tanstack/query-core@npm:5.32.0":
-  version: 5.32.0
-  resolution: "@tanstack/query-core@npm:5.32.0"
-  checksum: 10c0/58e7b053579a23dba36189a1fd87261819b31b344648f693fd613c722260066e11ad8c82dc07f5e5af2e276bde1b9f6a1dd6da3bf93cdd3583d128a2b373fce0
-  languageName: node
-  linkType: hard
-
-"@tanstack/query-devtools@npm:5.28.10":
-  version: 5.28.10
-  resolution: "@tanstack/query-devtools@npm:5.28.10"
-  checksum: 10c0/7d055a1f189096a60a0e45623042aeeca285176d15bc0830a0c71c551f7065961ead1a1ae4dce8e189af11b39e2ee0c07aa05f4cf0e32e9e245881b02d7504e5
-  languageName: node
-  linkType: hard
-
-"@tanstack/react-query-devtools@npm:^5.32.0":
-  version: 5.32.0
-  resolution: "@tanstack/react-query-devtools@npm:5.32.0"
-  dependencies:
-    "@tanstack/query-devtools": "npm:5.28.10"
-  peerDependencies:
-    "@tanstack/react-query": ^5.32.0
-    react: ^18.0.0
-  checksum: 10c0/79bd124c834eb367b4bf89e7960c504c71b02dbe3db959f8fc4a4479e7b65614f6ec669c0a5a97db3fdb0f2995db00ebf7fff041ee620c9bd18c0e7aa2d9ae38
-  languageName: node
-  linkType: hard
-
-"@tanstack/react-query-next-experimental@npm:^5.32.0":
-  version: 5.32.0
-  resolution: "@tanstack/react-query-next-experimental@npm:5.32.0"
-  peerDependencies:
-    "@tanstack/react-query": ^5.32.0
-    next: ^13 || ^14
-    react: ^18.0.0
-  checksum: 10c0/735a689a04024152fba84ee43bb9c6d84e328ae973547023907943ad175c4667c39137755aab1b803ecdcb644f9aa6632b72cb16385ae3523880f1ba75fa9036
-  languageName: node
-  linkType: hard
-
-"@tanstack/react-query@npm:^5.32.0":
-  version: 5.32.0
-  resolution: "@tanstack/react-query@npm:5.32.0"
-  dependencies:
-    "@tanstack/query-core": "npm:5.32.0"
-  peerDependencies:
-    react: ^18.0.0
-  checksum: 10c0/0b55b4f9d91e0f72cf12298c1659ee6520723eed16b7d523bc69269331544af8b62699b72d89840dc8ae75076144ac121ed1373d4f8e7d4cd48f5e0eb1d73d80
   languageName: node
   linkType: hard
 
@@ -18951,6 +18928,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"reselect@npm:^4.1.8":
+  version: 4.1.8
+  resolution: "reselect@npm:4.1.8"
+  checksum: 10c0/06a305a504affcbb67dd0561ddc8306b35796199c7e15b38934c80606938a021eadcf68cfd58e7bb5e17786601c37602a3362a4665c7bf0a96c1041ceee9d0b7
+  languageName: node
+  linkType: hard
+
 "resolve-cwd@npm:^3.0.0":
   version: 3.0.0
   resolution: "resolve-cwd@npm:3.0.0"
@@ -22480,5 +22464,12 @@ __metadata:
   version: 0.8.15
   resolution: "zen-observable@npm:0.8.15"
   checksum: 10c0/71cc2f2bbb537300c3f569e25693d37b3bc91f225cefce251a71c30bc6bb3e7f8e9420ca0eb57f2ac9e492b085b8dfa075fd1e8195c40b83c951dd59c6e4fbf8
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.23.8":
+  version: 3.23.8
+  resolution: "zod@npm:3.23.8"
+  checksum: 10c0/8f14c87d6b1b53c944c25ce7a28616896319d95bc46a9660fe441adc0ed0a81253b02b5abdaeffedbeb23bdd25a0bf1c29d2c12dd919aef6447652dd295e3e69
   languageName: node
   linkType: hard

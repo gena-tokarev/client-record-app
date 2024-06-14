@@ -13,6 +13,6 @@ async function bootstrap() {
     },
   });
   const configService = app.get(ConfigService<Env>);
-  await app.listen(configService.get('API_GATEWAY_APP_PORT'));
+  await app.listen(configService.get('API_GATEWAY_APP_PORT', 4030));
 }
 bootstrap();

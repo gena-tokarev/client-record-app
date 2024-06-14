@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 // import { Media } from '../Media/media.model';
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Client } from './client.model';
 import Master from './master.model';
 import { Procedure } from './procedure.model';
@@ -18,7 +18,7 @@ import { AppointmentStatus } from './appointment-status.model';
 @Entity()
 @ObjectType()
 export class Appointment {
-  @Field(() => ID)
+  @Field(() => Int)
   @PrimaryGeneratedColumn('increment')
   id!: number;
 
@@ -26,13 +26,9 @@ export class Appointment {
   @Column('text')
   complaints!: string;
 
-  @Field(() => Number)
+  @Field(() => Date)
   @Column('timestamp')
-  date!: string;
-
-  @Field(() => Boolean)
-  @Column('boolean', { default: false })
-  withCoating: boolean;
+  date!: Date;
 
   @Field(() => Number)
   @Column('int', { default: 0 })
@@ -50,7 +46,7 @@ export class Appointment {
   @ManyToOne(() => Master, (master) => master.id, { nullable: false })
   master: string;
 
-  @Field(() => [Procedure], { nullable: true })
+  @Field(() => [Procedure], { nullable: false })
   @ManyToMany(() => Procedure, (procedure) => procedure.id, {
     cascade: true,
     nullable: true,
