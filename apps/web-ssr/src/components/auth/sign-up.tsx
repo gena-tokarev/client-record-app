@@ -1,19 +1,14 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import AuthCard from "./auth-card";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";
 import { memo, useCallback, useContext } from "react";
 import AuthContext from "@/components/providers/auth/auth-context";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { SignUpValidator } from "@/components/auth/validators/sign-up.validator";
+import { TextField } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 
 const SignUp = () => {
   const form = useForm<SignUpValidator>({
@@ -38,64 +33,58 @@ const SignUp = () => {
       form={form}
       title="Register a new account"
       description="Enter your data below"
-      submitLabel="Sign Up"
       onSubmit={handleSubmit}
+      submitButton={(isLoading: boolean) => (
+        <LoadingButton
+          variant="outlined"
+          fullWidth
+          type="submit"
+          startIcon={<HowToRegIcon />}
+          loading={isLoading}
+        >
+          Sign Up
+        </LoadingButton>
+      )}
     >
       <>
-        <FormField
-          control={form.control}
+        <Controller
           name="username"
-          render={({ field }) => {
-            return (
-              <>
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="Email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </>
-            );
-          }}
-        />
-        <FormField
           control={form.control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Email"
+              type="text"
+              fullWidth
+              margin="normal"
+            />
+          )}
+        />
+        <Controller
           name="password"
-          render={({ field }) => {
-            return (
-              <>
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="Password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </>
-            );
-          }}
-        />
-        <FormField
           control={form.control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Password"
+              type="password"
+              fullWidth
+              margin="normal"
+            />
+          )}
+        />
+        <Controller
           name="confirmPassword"
-          render={({ field }) => {
-            return (
-              <>
-                <FormItem>
-                  <FormLabel>Confirm password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Confrm password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </>
-            );
-          }}
+          control={form.control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Password"
+              type="password"
+              fullWidth
+              margin="normal"
+            />
+          )}
         />
       </>
     </AuthCard>

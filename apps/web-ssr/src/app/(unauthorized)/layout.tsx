@@ -1,12 +1,17 @@
+import { Box } from "@mui/material";
 import { FC, PropsWithChildren } from "react";
 
 const UnauthorizedLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="flex-1 flex">
-        <div className="flex-1">{children}</div>
-      </div>
-    </div>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Box sx={{ flex: 1, overflow: "hidden" }}>{children}</Box>
+    </Box>
   );
 };
 

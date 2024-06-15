@@ -1,19 +1,14 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import AuthCard from "./auth-card";
 import { UserSignInRequestDto } from "@client-record/shared/src/schemas/user-sign-in.request.dto";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";
 import { memo, useContext } from "react";
 import AuthContext from "@/components/providers/auth/auth-context";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { TextField } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import LoginIcon from '@mui/icons-material/Login';
 
 const SignIn = () => {
   const form = useForm<UserSignInRequestDto>({
@@ -33,39 +28,44 @@ const SignIn = () => {
       description="Enter your credentials below"
       submitLabel="Sign In"
       onSubmit={handleLocal}
+      submitButton={(isLoading: boolean) => (
+        <LoadingButton
+          variant="outlined"
+          fullWidth
+          type="submit"
+          startIcon={<LoginIcon />}
+          loading={isLoading}
+        >
+          Sign In
+        </LoadingButton>
+      )}
     >
       <>
-        <FormField
-          control={form.control}
+        <Controller
           name="username"
-          render={({ field }) => {
-            return (
-              <>
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="Email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </>
-            );
-          }}
-        />
-        <FormField
           control={form.control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Email"
+              type="text"
+              fullWidth
+              margin="normal"
+            />
+          )}
+        />
+        <Controller
           name="password"
-          render={({ field }) => {
-            return (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input type="password" placeholder="Password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
+          control={form.control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Password"
+              type="password"
+              fullWidth
+              margin="normal"
+            />
+          )}
         />
       </>
     </AuthCard>
