@@ -9,17 +9,19 @@ import {
 } from 'typeorm';
 
 // import { Media } from '../Media/media.model';
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Client } from './client.model';
 import Master from './master.model';
 import { Procedure } from './procedure.model';
 import { AppointmentStatus } from './appointment-status.model';
+import { Transform } from 'class-transformer';
 
 @Entity()
 @ObjectType()
 export class Appointment {
-  @Field(() => Int)
+  @Field(() => ID)
   @PrimaryGeneratedColumn('increment')
+  @Transform(({ value }) => value.toString(), { toPlainOnly: true })
   id!: number;
 
   @Field(() => String)
@@ -40,19 +42,19 @@ export class Appointment {
 
   @Field(() => Client)
   @ManyToOne(() => Client, (client) => client.id, { nullable: false })
-  client: string;
+  client: Client;
 
   @Field(() => Master)
   @ManyToOne(() => Master, (master) => master.id, { nullable: false })
-  master: string;
+  master: Master;
 
-  @Field(() => [Procedure], { nullable: false })
+  @Field(() => [Procedure], { nullable: true })
   @ManyToMany(() => Procedure, (procedure) => procedure.id, {
     cascade: true,
     nullable: true,
   })
   @JoinTable()
-  procedures?: string[];
+  procedures?: Procedure[];
 
   @Field(() => AppointmentStatus)
   @ManyToOne(
@@ -60,7 +62,7 @@ export class Appointment {
     (appointmentStatus) => appointmentStatus.id,
     { nullable: false },
   )
-  status: string;
+  status: AppointmentStatus;
 
   // @Field(() => [Media], { nullable: true })
   // @OneToMany(() => Media, (media) => media.appointment, {

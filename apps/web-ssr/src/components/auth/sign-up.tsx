@@ -8,7 +8,7 @@ import AuthContext from "@/components/providers/auth/auth-context";
 import { SignUpValidator } from "@/components/auth/validators/sign-up.validator";
 import { TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 const SignUp = () => {
   const form = useForm<SignUpValidator>({
@@ -36,7 +36,7 @@ const SignUp = () => {
       onSubmit={handleSubmit}
       submitButton={(isLoading: boolean) => (
         <LoadingButton
-          variant="outlined"
+          variant="contained"
           fullWidth
           type="submit"
           startIcon={<HowToRegIcon />}

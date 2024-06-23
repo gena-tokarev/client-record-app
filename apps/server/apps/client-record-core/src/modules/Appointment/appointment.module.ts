@@ -7,11 +7,15 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GqlAuthGuard } from '../../guards/gql-auth.guard';
 import { AppointmentStatusModule } from './appointment-status/appointment-status.module';
+import { Procedure } from '@client-record/data-source/core/models/procedure.model';
+import Master from '@client-record/data-source/core/models/master.model';
+import { AppointmentStatus } from '@client-record/data-source/core/models/appointment-status.model';
+import { Client } from '@client-record/data-source/core/models/client.model';
 
 @Module({
   imports: [
     AppointmentStatusModule,
-    TypeOrmModule.forFeature([Appointment]),
+    TypeOrmModule.forFeature([Appointment, Procedure, Client, Master, AppointmentStatus]),
     ClientsModule.registerAsync([
       {
         name: 'AUTH_SERVICE',

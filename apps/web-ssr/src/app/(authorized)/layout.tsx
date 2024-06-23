@@ -4,10 +4,13 @@ import { Sidebar } from "@/components/sidebar";
 import { GraphqlProvider } from "@/components/providers/graphql-provider.client";
 import { FC, PropsWithChildren } from "react";
 import { Box } from "@mui/material";
+import { getCookieServer } from "@/lib/get-cookie/get-cookie.server";
 
-const AuthorizedLayout: FC<PropsWithChildren> = ({ children }) => {
+const AuthorizedLayout: FC<PropsWithChildren> = async ({ children }) => {
+  const authToken = await getCookieServer("access_token");
+
   return (
-    <GraphqlProvider>
+    <GraphqlProvider authToken={authToken}>
       <SidebarProvider>
         <Box
           sx={{

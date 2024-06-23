@@ -1,0 +1,5 @@
+subscription OnAppointmentDeleted {
+    onAppointmentDeleted {
+        id
+    }
+}

@@ -26,11 +26,10 @@ const SignIn = () => {
       form={form}
       title="Log into your account"
       description="Enter your credentials below"
-      submitLabel="Sign In"
       onSubmit={handleLocal}
       submitButton={(isLoading: boolean) => (
         <LoadingButton
-          variant="outlined"
+          variant="contained"
           fullWidth
           type="submit"
           startIcon={<LoginIcon />}

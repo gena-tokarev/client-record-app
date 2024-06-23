@@ -1,23 +1,24 @@
-import { fetchQuery } from "@/graphql/graphql-client.server";
-import {
-  AppointmentsDocument,
-  AppointmentsQuery,
-} from "@/graphql/generated/graphql";
+import { PreloadQuery } from "@/graphql/graphql-client.server";
+import { AppointmentsDocument } from "@/graphql/generated/graphql";
 import { AppointmentList } from "@/components/appointment/appointment-list";
-import { transformData } from "@/components/appointment/utils";
+import { Suspense } from "react";
+import Loader from "@/components/loader";
 
 const AppointmentsPage = async () => {
-  const data = await fetchQuery<AppointmentsQuery>({
-    query: AppointmentsDocument,
-  });
-
-  if (!data) {
-    return null;
-  }
-
-  const transformedData = transformData(data.appointments);
-
-  return <AppointmentList initialData={transformedData} />;
+  return (
+    <PreloadQuery
+      query={AppointmentsDocument}
+      // context={{
+      //   fetchOptions: {
+      //     next: { revalidate: 2 },
+      //   },
+      // }}
+    >
+      <Suspense fallback={<Loader />}>
+        <AppointmentList />
+      </Suspense>
+    </PreloadQuery>
+  );
 };
 
 export default AppointmentsPage;

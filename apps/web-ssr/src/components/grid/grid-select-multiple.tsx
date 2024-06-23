@@ -1,21 +1,12 @@
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { GridRenderEditCellParams } from "@mui/x-data-grid";
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-export function GridSelectMultiple<O extends { id: string | number }>({
-  options,
-  getOptionLabel,
-  getOptionValue,
-  ...params
-}: GridRenderEditCellParams & {
-  options: O[];
-  getOptionValue: (option: O) => string | number;
-  getOptionLabel: (option: O) => ReactNode;
-}) {
+export function GridSelectMultiple(params: GridRenderEditCellParams) {
   const [open, setOpen] = useState(false);
-  const { id, value, field } = params;
-  const api = params.api;
+  const { id, value, field, colDef, api, row } = params;
   const inputRef = useRef<HTMLInputElement>(null);
+  const valueOptions = "valueOptions" in colDef ? colDef.valueOptions : null;
 
   const handleChange = useCallback(
     (event: SelectChangeEvent<{ value: unknown }>) => {
@@ -52,11 +43,25 @@ export function GridSelectMultiple<O extends { id: string | number }>({
       }}
       sx={{ width: "100%" }}
     >
-      {options.map((option) => (
-        <MenuItem key={option.id} value={getOptionValue(option)}>
-          {getOptionLabel(option)}
-        </MenuItem>
-      ))}
+      {valueOptions &&
+        (typeof valueOptions === "function"
+          ? valueOptions({ field, id, row })
+          : valueOptions
+        ).map((option) => {
+          let value = option;
+          let label = option;
+
+          if (typeof option === "object") {
+            value = option.value;
+            label = option.label;
+          }
+
+          return (
+            <MenuItem key={value as string} value={value as string}>
+              {label as string}
+            </MenuItem>
+          );
+        })}
     </Select>
   );
 }

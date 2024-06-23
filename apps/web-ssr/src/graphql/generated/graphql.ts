@@ -24,7 +24,7 @@ export type Appointment = {
   comments?: Maybe<Scalars['String']['output']>;
   complaints: Scalars['String']['output'];
   date: Scalars['DateTime']['output'];
-  id: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
   master: Master;
   price: Scalars['Float']['output'];
   procedures?: Maybe<Array<Procedure>>;
@@ -100,7 +100,7 @@ export type Mutation = {
   createClient: Client;
   createMaster: Master;
   createProcedure: Procedure;
-  deleteAppointment: Scalars['Boolean']['output'];
+  deleteAppointment: Scalars['ID']['output'];
   deleteAppointmentStatus: Scalars['Boolean']['output'];
   deleteClient: Scalars['Boolean']['output'];
   deleteMaster: Scalars['Boolean']['output'];
@@ -261,6 +261,7 @@ export type QueryProcedureByMasterArgs = {
 
 export type Subscription = {
   __typename?: 'Subscription';
+  onAppointmentDeleted?: Maybe<Appointment>;
   onAppointmentUpdated?: Maybe<Appointment>;
 };
 
@@ -269,7 +270,7 @@ export type UpdateAppointmentInput = {
   comments?: InputMaybe<Scalars['String']['input']>;
   complaints?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['ID']['input'];
   master?: InputMaybe<Scalars['ID']['input']>;
   price?: InputMaybe<Scalars['Float']['input']>;
   procedures?: InputMaybe<Array<Scalars['ID']['input']>>;
@@ -423,6 +424,37 @@ export function useCreateClientMutation(baseOptions?: Apollo.MutationHookOptions
 export type CreateClientMutationHookResult = ReturnType<typeof useCreateClientMutation>;
 export type CreateClientMutationResult = Apollo.MutationResult<CreateClientMutation>;
 export type CreateClientMutationOptions = Apollo.BaseMutationOptions<CreateClientMutation, CreateClientMutationVariables>;
+export const DeleteAppointmentDocument = gql`
+    mutation DeleteAppointment($id: ID!) {
+  deleteAppointment(id: $id)
+}
+    `;
+export type DeleteAppointmentMutationFn = Apollo.MutationFunction<DeleteAppointmentMutation, DeleteAppointmentMutationVariables>;
+
+/**
+ * __useDeleteAppointmentMutation__
+ *
+ * To run a mutation, you first call `useDeleteAppointmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAppointmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteAppointmentMutation, { data, loading, error }] = useDeleteAppointmentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteAppointmentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAppointmentMutation, DeleteAppointmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteAppointmentMutation, DeleteAppointmentMutationVariables>(DeleteAppointmentDocument, options);
+      }
+export type DeleteAppointmentMutationHookResult = ReturnType<typeof useDeleteAppointmentMutation>;
+export type DeleteAppointmentMutationResult = Apollo.MutationResult<DeleteAppointmentMutation>;
+export type DeleteAppointmentMutationOptions = Apollo.BaseMutationOptions<DeleteAppointmentMutation, DeleteAppointmentMutationVariables>;
 export const UpdateAppointmentDocument = gql`
     mutation UpdateAppointment($inputAppointment: UpdateAppointmentInput!) {
   updateAppointment(inputAppointment: $inputAppointment) {
@@ -868,6 +900,35 @@ export type AppointmentsQueryHookResult = ReturnType<typeof useAppointmentsQuery
 export type AppointmentsLazyQueryHookResult = ReturnType<typeof useAppointmentsLazyQuery>;
 export type AppointmentsSuspenseQueryHookResult = ReturnType<typeof useAppointmentsSuspenseQuery>;
 export type AppointmentsQueryResult = Apollo.QueryResult<AppointmentsQuery, AppointmentsQueryVariables>;
+export const OnAppointmentDeletedDocument = gql`
+    subscription OnAppointmentDeleted {
+  onAppointmentDeleted {
+    id
+  }
+}
+    `;
+
+/**
+ * __useOnAppointmentDeletedSubscription__
+ *
+ * To run a query within a React component, call `useOnAppointmentDeletedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnAppointmentDeletedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOnAppointmentDeletedSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOnAppointmentDeletedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<OnAppointmentDeletedSubscription, OnAppointmentDeletedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<OnAppointmentDeletedSubscription, OnAppointmentDeletedSubscriptionVariables>(OnAppointmentDeletedDocument, options);
+      }
+export type OnAppointmentDeletedSubscriptionHookResult = ReturnType<typeof useOnAppointmentDeletedSubscription>;
+export type OnAppointmentDeletedSubscriptionResult = Apollo.SubscriptionResult<OnAppointmentDeletedSubscription>;
 export const OnAppointmentUpdatedDocument = gql`
     subscription OnAppointmentUpdated {
   onAppointmentUpdated {
@@ -913,7 +974,7 @@ export function useOnAppointmentUpdatedSubscription(baseOptions?: Apollo.Subscri
       }
 export type OnAppointmentUpdatedSubscriptionHookResult = ReturnType<typeof useOnAppointmentUpdatedSubscription>;
 export type OnAppointmentUpdatedSubscriptionResult = Apollo.SubscriptionResult<OnAppointmentUpdatedSubscription>;
-export type CoreAppointmentFieldsFragment = { __typename?: 'Appointment', id: number, complaints: string, date: any, price: number, comments?: string | null };
+export type CoreAppointmentFieldsFragment = { __typename?: 'Appointment', id: string, complaints: string, date: any, price: number, comments?: string | null };
 
 export type CoreAppointmentStatusFieldsFragment = { __typename?: 'AppointmentStatus', id: string, value: string };
 
@@ -932,7 +993,7 @@ export type CreateAppointmentMutationVariables = Exact<{
 }>;
 
 
-export type CreateAppointmentMutation = { __typename?: 'Mutation', createAppointment: { __typename?: 'Appointment', id: number, complaints: string, date: any, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, channel: { __typename?: 'Channel', id: string, name: string }, phones: Array<{ __typename?: 'Phone', id: string, value: string }> }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null } };
+export type CreateAppointmentMutation = { __typename?: 'Mutation', createAppointment: { __typename?: 'Appointment', id: string, complaints: string, date: any, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, channel: { __typename?: 'Channel', id: string, name: string }, phones: Array<{ __typename?: 'Phone', id: string, value: string }> }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null } };
 
 export type CreateClientMutationVariables = Exact<{
   inputClient: ClientInput;
@@ -941,12 +1002,19 @@ export type CreateClientMutationVariables = Exact<{
 
 export type CreateClientMutation = { __typename?: 'Mutation', createClient: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, channel: { __typename?: 'Channel', id: string, name: string }, phones: Array<{ __typename?: 'Phone', id: string, value: string }> } };
 
+export type DeleteAppointmentMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteAppointmentMutation = { __typename?: 'Mutation', deleteAppointment: string };
+
 export type UpdateAppointmentMutationVariables = Exact<{
   inputAppointment: UpdateAppointmentInput;
 }>;
 
 
-export type UpdateAppointmentMutation = { __typename?: 'Mutation', updateAppointment: { __typename?: 'Appointment', id: number, complaints: string, date: any, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, channel: { __typename?: 'Channel', id: string, name: string }, phones: Array<{ __typename?: 'Phone', id: string, value: string }> }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null } };
+export type UpdateAppointmentMutation = { __typename?: 'Mutation', updateAppointment: { __typename?: 'Appointment', id: string, complaints: string, date: any, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, channel: { __typename?: 'Channel', id: string, name: string }, phones: Array<{ __typename?: 'Phone', id: string, value: string }> }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null } };
 
 export type ChannelsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -992,14 +1060,19 @@ export type AppointmentQueryVariables = Exact<{
 }>;
 
 
-export type AppointmentQuery = { __typename?: 'Query', appointment: { __typename?: 'Appointment', id: number, complaints: string, date: any, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string } } };
+export type AppointmentQuery = { __typename?: 'Query', appointment: { __typename?: 'Appointment', id: string, complaints: string, date: any, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string } } };
 
 export type AppointmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AppointmentsQuery = { __typename?: 'Query', appointments: Array<{ __typename?: 'Appointment', id: number, complaints: string, date: any, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string } }> };
+export type AppointmentsQuery = { __typename?: 'Query', appointments: Array<{ __typename?: 'Appointment', id: string, complaints: string, date: any, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string } }> };
+
+export type OnAppointmentDeletedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OnAppointmentDeletedSubscription = { __typename?: 'Subscription', onAppointmentDeleted?: { __typename?: 'Appointment', id: string } | null };
 
 export type OnAppointmentUpdatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type OnAppointmentUpdatedSubscription = { __typename?: 'Subscription', onAppointmentUpdated?: { __typename?: 'Appointment', id: number, complaints: string, date: any, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string } } | null };
+export type OnAppointmentUpdatedSubscription = { __typename?: 'Subscription', onAppointmentUpdated?: { __typename?: 'Appointment', id: string, complaints: string, date: any, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string } } | null };

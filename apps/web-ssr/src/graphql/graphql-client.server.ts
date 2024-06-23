@@ -6,12 +6,12 @@ import {
   HttpLink,
   InMemoryCache,
 } from "@apollo/client";
-import { registerApolloClient } from "@apollo/experimental-nextjs-app-support/rsc";
+import { registerApolloClient } from "@apollo/experimental-nextjs-app-support";
 import { getCookieServer } from "@/lib/get-cookie/get-cookie.server";
 import { redirect } from "next/navigation";
 import { getAuthLink } from "./get-auth-link";
 
-export const { getClient } = registerApolloClient(async () => {
+export const { getClient, PreloadQuery } = registerApolloClient(async () => {
   const token = await getCookieServer("access_token");
 
   return new ApolloClient({

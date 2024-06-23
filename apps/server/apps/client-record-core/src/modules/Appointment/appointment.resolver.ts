@@ -9,6 +9,7 @@ import { Injectable, UseGuards } from '@nestjs/common';
 import {
   Args,
   ID,
+  Int,
   Mutation,
   Query,
   Resolver,
@@ -19,6 +20,7 @@ import { PubSub } from 'graphql-subscriptions';
 import { GqlAuthGuard } from '../../guards/gql-auth.guard';
 import { UpdateAppointmentInput } from './inputs/update-appointment.input';
 import { ValidationPipe } from '../../pipes/validation-pipe';
+import { DeleteAppointmentOutput } from './outputs/delete-appointment.output';
 const pubSub = new PubSub();
 
 @Injectable()
@@ -60,9 +62,17 @@ export class AppointmentResolver {
     return this.appointmentService.save(inputAppointment);
   }
 
-  @Mutation(() => Boolean)
-  deleteAppointment(@Args('id', { type: () => ID }) id: number) {
-    return this.appointmentService.delete(id);
+  @Mutation(() => ID)
+  async deleteAppointment(@Args('id', { type: () => ID }) id: number) {
+    const isDeleted = await this.appointmentService.delete(id);
+
+    // if (isDeleted) {
+    //   await pubSub.publish('onAppointmentDeleted', {
+    //     onAppointmentDeleted: { id },
+    //   });
+    // }
+
+    return id;
   }
 
   @Subscription(() => Appointment, {
@@ -71,5 +81,13 @@ export class AppointmentResolver {
   })
   async appointmentsUpdated() {
     return pubSub.asyncIterator('onAppointmentUpdated');
+  }
+
+  @Subscription(() => Appointment, {
+    name: 'onAppointmentDeleted',
+    nullable: true,
+  })
+  async appointmentDeleted() {
+    return pubSub.asyncIterator('onAppointmentDeleted');
   }
 }

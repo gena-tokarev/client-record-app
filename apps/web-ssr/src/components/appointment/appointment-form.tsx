@@ -89,6 +89,8 @@ export function AppointmentForm<T extends "create" | "update">(
           render={({ field }) => (
             <TextField
               {...field}
+              multiline
+              minRows={2}
               label="Complaints"
               type="text"
               fullWidth
@@ -209,6 +211,8 @@ export function AppointmentForm<T extends "create" | "update">(
           render={({ field }) => (
             <TextField
               {...field}
+              multiline
+              minRows={2}
               label="Comments"
               type="text"
               fullWidth

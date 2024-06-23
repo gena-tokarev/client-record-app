@@ -17,17 +17,16 @@ export const Auth = () => {
 
   return (
     <>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        defaultValue="signin"
-        className="w-[400px]"
-        sx={{ with: "400px" }}
-      >
-        <Tab value={0} label="Sign in" />
-        <Tab value={1} label="Sign up" />
-      </Tabs>
       <Card>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          defaultValue="signin"
+          variant="fullWidth"
+        >
+          <Tab value={0} label="Sign in" sx={{ flex: 1 }} />
+          <Tab value={1} label="Sign up" sx={{ flex: 1 }} />
+        </Tabs>
         <CardContent>
           {value === 0 && <SignIn />}
           {value === 1 && <SignUp />}

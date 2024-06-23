@@ -2,62 +2,105 @@
 
 import {
   Appointment,
-  Procedure,
-  useAppointmentStatusesQuery,
-  useClientsQuery,
-  useMastersQuery,
+  Query,
+  useAppointmentStatusesSuspenseQuery,
+  useAppointmentsQuery,
+  useClientsSuspenseQuery,
+  useDeleteAppointmentMutation,
+  useMastersSuspenseQuery,
+  useOnAppointmentDeletedSubscription,
   useOnAppointmentUpdatedSubscription,
-  useProceduresQuery,
+  useProceduresSuspenseQuery,
 } from "@/graphql/generated/graphql";
-import { FC, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   DataGrid,
   GridActionsCellItem,
   GridColDef,
   GridRowParams,
 } from "@mui/x-data-grid";
-import { TransformedObject, transformItem } from "./utils";
 import { GridSelectMultiple } from "../grid/grid-select-multiple";
 import { Box } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
+import Loader from "../loader";
+import { ApolloCache } from "@apollo/client";
+import { getSelectOptions } from "../grid/utils/get-select-options";
 
-type TransformedAppointment = TransformedObject<Appointment>;
+export const AppointmentList = () => {
+  const { data: initialData, loading } = useAppointmentsQuery();
 
-export const AppointmentList: FC<{
-  initialData: TransformedAppointment[];
-}> = ({ initialData }) => {
-  const [data, setData] = useState(initialData);
+  const { data: dataClients } = useClientsSuspenseQuery();
+  const { data: dataMasters } = useMastersSuspenseQuery();
+  const { data: dataProcedures } = useProceduresSuspenseQuery();
+  const { data: dataStatuses } = useAppointmentStatusesSuspenseQuery();
 
-  const { data: dataClients } = useClientsQuery();
-  const { data: dataMasters } = useMastersQuery();
-  const { data: dataProcedures } = useProceduresQuery();
-  const { data: dataStatuses } = useAppointmentStatusesQuery();
+  const [deleteAppointment] = useDeleteAppointmentMutation({
+    update: (cache: ApolloCache<Query>, { data }) => {
+      if (!data) return;
 
-  const {
-    data: newAppointmentsData,
-    error,
-    loading,
-  } = useOnAppointmentUpdatedSubscription();
+      const deletedAppointmentId = data.deleteAppointment;
 
+      cache.modify<Query>({
+        fields: {
+          appointments(existingAppointmentRefs, { readField }) {
+            return existingAppointmentRefs.filter(
+              (appointmentRef) =>
+                readField<string>("id", appointmentRef) !==
+                deletedAppointmentId,
+            );
+          },
+        },
+      });
+    },
+  });
+  const { data: deletedAppointment } = useOnAppointmentDeletedSubscription();
+  const { data: newAppointmentsData } = useOnAppointmentUpdatedSubscription();
+
+  const deletedAppointmentId =
+    deletedAppointment?.onAppointmentDeleted?.id ?? null;
   const newAppointment = newAppointmentsData?.onAppointmentUpdated;
 
-  useEffect(() => {
-    if (newAppointment) {
-      setData((prevData) => {
-        const isNew = !prevData.some(
-          (appointment) => appointment.id === newAppointment.id,
-        );
-        if (isNew) {
-          return [...prevData, transformItem(newAppointment)];
-        }
-        return prevData;
+  const handleDeleteAppointment = useCallback(
+    (id: string) => {
+      deleteAppointment({
+        variables: { id },
+        optimisticResponse: () => {
+          return {
+            deleteAppointment: id,
+          };
+        },
       });
-    }
-  }, [newAppointment]);
+    },
+    [deleteAppointment],
+  );
 
-  const columns = useMemo<GridColDef<TransformedAppointment>[]>(
+  // useEffect(() => {
+  //   if (newAppointment) {
+  //     setData((prevData) => {
+  //       const isNew = !prevData.some(
+  //         (appointment) => appointment.id === newAppointment.id,
+  //       );
+  //       if (isNew) {
+  //         return [...prevData, newAppointment];
+  //       }
+  //       return prevData;
+  //     });
+  //   }
+  // }, [newAppointment]);
+
+  // useEffect(() => {
+  //   if (deletedAppointmentId) {
+  //     setData((prevData) => {
+  //       return prevData.filter(
+  //         (appointment) => appointment.id !== deletedAppointmentId,
+  //       );
+  //     });
+  //   }
+  // }, [deletedAppointmentId]);
+
+  const columns = useMemo<GridColDef<Appointment>[]>(
     () => [
       { field: "id", headerName: "ID" },
       { field: "date", headerName: "Date", editable: true },
@@ -67,45 +110,27 @@ export const AppointmentList: FC<{
         headerName: "Client",
         editable: true,
         type: "singleSelect",
-        valueOptions: dataClients?.clients.map((client) => {
-          return {
-            value: client.id,
-            label: client.fullName,
-          };
-        }),
+        ...getSelectOptions(dataClients?.clients, (client) => client.fullName),
       },
       {
         field: "master",
         headerName: "Master",
         editable: true,
         type: "singleSelect",
-        valueOptions: dataMasters?.masters.map((master) => {
-          return {
-            value: master.id,
-            label: master.name,
-          };
-        }),
+        ...getSelectOptions(dataMasters?.masters, (master) => master.name),
       },
       {
         field: "procedures",
         headerName: "Procedures",
         editable: true,
-        valueFormatter: (value: Procedure["id"][]) => {
-          return value.map((valueProcedure) => {
-            const foundProcedure = dataProcedures?.procedures.find(
-              (procedure) => procedure.id === valueProcedure,
-            );
-
-            if (foundProcedure) {
-              return foundProcedure.name;
-            }
-          });
-        },
+        ...getSelectOptions(
+          dataProcedures?.procedures,
+          (procedure) => procedure.name,
+          true,
+        ),
         renderEditCell: (params) => (
           <GridSelectMultiple
             options={dataProcedures?.procedures ?? []}
-            getOptionValue={(option: Procedure) => option.id}
-            getOptionLabel={(option: Procedure) => option.name}
             {...params}
           />
         ),
@@ -115,12 +140,10 @@ export const AppointmentList: FC<{
         headerName: "Status",
         editable: true,
         type: "singleSelect",
-        valueOptions: dataStatuses?.appointmentStatuses.map((status) => {
-          return {
-            value: status.id,
-            label: status.value,
-          };
-        }),
+        ...getSelectOptions(
+          dataStatuses?.appointmentStatuses,
+          (status) => status.value,
+        ),
       },
       {
         field: "complaints",
@@ -137,14 +160,32 @@ export const AppointmentList: FC<{
             <Link key={1} href={`/appointment/update/${params.id}`}>
               <GridActionsCellItem icon={<EditIcon />} label="Edit" />
             </Link>,
+            <GridActionsCellItem
+              key={2}
+              icon={<DeleteIcon />}
+              label="Delete"
+              onClick={() => {
+                handleDeleteAppointment(params.id as string);
+              }}
+            />,
           ];
         },
       },
     ],
-    [dataClients, dataMasters, dataProcedures, dataStatuses],
+    [
+      dataClients,
+      dataMasters,
+      dataProcedures,
+      dataStatuses,
+      handleDeleteAppointment,
+    ],
   );
 
-  if (!dataClients || !data) return null;
+  const [initialized, setInitialized] = useState(false);
+
+  const handleStateChange = useCallback(() => {
+    setInitialized(true);
+  }, []);
 
   return (
     <Box
@@ -153,14 +194,25 @@ export const AppointmentList: FC<{
         padding: 3,
       }}
     >
+      {!initialized && <Loader />}
       <DataGrid
+        loading={
+          !dataClients ||
+          !initialData?.appointments ||
+          !dataMasters ||
+          !dataProcedures ||
+          !dataStatuses ||
+          loading
+        }
+        disableRowSelectionOnClick
         autosizeOnMount
-        rows={data}
+        rows={initialData?.appointments}
         columns={columns}
         showCellVerticalBorder
         showColumnVerticalBorder
         pageSizeOptions={[10, 20, 30, 50, 100]}
         checkboxSelection
+        onStateChange={handleStateChange}
       />
     </Box>
   );

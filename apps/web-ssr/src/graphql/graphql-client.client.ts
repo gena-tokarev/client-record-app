@@ -21,7 +21,8 @@ const wsLink = new GraphQLWsLink(
   }),
 );
 
-export const authLink = getAuthLink(getCookieClient("access_token"));
+export const authLink = (authToken?: string) =>
+  getAuthLink(authToken ?? getCookieClient("access_token"));
 
 const batchHttpLink = new BatchHttpLink({
   uri: process.env.API_HOST_GRAPHQL_ROUTE,
@@ -35,7 +36,11 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     for (const err of graphQLErrors) {
       switch (err.extensions?.code) {
         case "UNAUTHENTICATED":
-          window.location.href = process.env.NEXT_APP_LOGIN_PATH;
+          if (typeof window !== "undefined") {
+            window.location.href = process.env.NEXT_APP_LOGIN_PATH;
+          } else {
+            return;
+          }
           break;
         default:
           console.log(`[GraphQL error]: ${err.message}`);
@@ -48,20 +53,21 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 
-const splitLink = split(
-  ({ query }) => {
-    const definition = getMainDefinition(query);
-    return (
-      definition.kind === "OperationDefinition" &&
-      definition.operation === "subscription"
-    );
-  },
-  wsLink,
-  ApolloLink.from([authLink, errorLink, batchHttpLink]),
-);
+const splitLink = (authToken?: string) =>
+  split(
+    ({ query }) => {
+      const definition = getMainDefinition(query);
+      return (
+        definition.kind === "OperationDefinition" &&
+        definition.operation === "subscription"
+      );
+    },
+    wsLink,
+    ApolloLink.from([authLink(authToken), errorLink, batchHttpLink]),
+  );
 
 // have a function to create a client for you
-export const makeClient = () => {
+export const makeClient = (authToken?: string) => () => {
   return new NextSSRApolloClient({
     // use the `NextSSRInMemoryCache`, not the normal `InMemoryCache`
     cache: new NextSSRInMemoryCache(),
@@ -74,8 +80,8 @@ export const makeClient = () => {
             new SSRMultipartLink({
               stripDefer: true,
             }),
-            splitLink,
+            splitLink(authToken),
           ])
-        : splitLink,
+        : splitLink(authToken),
   });
 };

@@ -16,6 +16,21 @@ const theme = createTheme({
     fontFamily: roboto.style.fontFamily,
   },
   components: {
+    MuiTextField: {
+      defaultProps: {
+        size: "small",
+      },
+    },
+    MuiSelect: {
+      defaultProps: {
+        size: "small",
+      },
+    },
+    MuiFormControl: {
+      defaultProps: {
+        size: "small",
+      },
+    },
     MuiAlert: {
       styleOverrides: {
         root: ({ ownerState }) => ({
