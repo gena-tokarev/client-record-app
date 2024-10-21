@@ -4,8 +4,6 @@ services:
   db:
     image: postgres:14.7
     restart: always
-    volumes:
-      - ./db:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -19,6 +17,8 @@ services:
       - "${API_GATEWAY_APP_PORT}:${API_GATEWAY_APP_PORT}"
     depends_on:
       - db
+    environment:
+      - DB_HOST=db
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules

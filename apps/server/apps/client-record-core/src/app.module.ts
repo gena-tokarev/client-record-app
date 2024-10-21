@@ -5,11 +5,11 @@ import { ProcedureModule } from './modules/Procedure/procedure.module';
 import { PhoneModule } from './modules/Phone/phone.module';
 import { ClientModule } from './modules/Client/client.module';
 import { ChannelModule } from './modules/Channel/channel.module';
-import { AppointmentModule } from './modules/appointment/appointment.module';
 import { MasterModule } from './modules/Master/master.module';
 import { DataSourceCoreModule } from '@client-record/data-source';
 import { UserModule } from './modules/User/user.module';
 import { ConfigModule } from '@client-record/config/config.module';
+import { AppointmentModule } from './modules/Appointment/appointment.module';
 
 @Module({
   imports: [

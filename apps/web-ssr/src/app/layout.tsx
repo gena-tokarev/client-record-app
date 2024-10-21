@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
-import { AuthProviderClient } from "@/components/providers/auth/auth-provider.client";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/theme";
 import CssBaseline from "@mui/material/CssBaseline";
 import { LocalizationProviderClient } from "@/components/providers/localization";
+import { AuthProviderClient } from "@/components/providers/Auth/auth-provider.client";
 
 export const metadata: Metadata = {
   title: "Client Record",

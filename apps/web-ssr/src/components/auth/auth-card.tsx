@@ -8,10 +8,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { PropsWithChildren, ReactNode, useContext } from "react";
-import AuthContext from "@/components/providers/auth/auth-context";
 import { FieldValues, UseFormReturn } from "react-hook-form";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import AuthContext from "../providers/Auth/auth-context";
 
 interface AuthCardProps<T extends FieldValues> {
   form: UseFormReturn<T>;

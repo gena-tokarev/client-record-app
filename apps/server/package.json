@@ -11,7 +11,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "demo": "yarn fixtures && yarn start:dev",
+    "demo": "yarn start:dev && yarn fixtures",
     "start": "nest start",
     "start:dev": "concurrently -n \"api-gateway,auth,core\" -c \"#00F,#0FF,#F0F\" \"nest start --watch client-record-api-gateway\" \"nest start --watch client-record-auth\" \"nest start --watch client-record-core\"",
     "start:debug": "nest start --debug --watch",

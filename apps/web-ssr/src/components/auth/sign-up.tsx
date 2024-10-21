@@ -4,11 +4,11 @@ import { Controller, useForm } from "react-hook-form";
 import AuthCard from "./auth-card";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";
 import { memo, useCallback, useContext } from "react";
-import AuthContext from "@/components/providers/auth/auth-context";
 import { SignUpValidator } from "@/components/auth/validators/sign-up.validator";
 import { TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import AuthContext from "../providers/Auth/auth-context";
 
 const SignUp = () => {
   const form = useForm<SignUpValidator>({

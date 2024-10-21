@@ -5,10 +5,10 @@ import AuthCard from "./auth-card";
 import { UserSignInRequestDto } from "@client-record/shared/src/schemas/user-sign-in.request.dto";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";
 import { memo, useContext } from "react";
-import AuthContext from "@/components/providers/auth/auth-context";
 import { TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import LoginIcon from '@mui/icons-material/Login';
+import LoginIcon from "@mui/icons-material/Login";
+import AuthContext from "../providers/Auth/auth-context";
 
 const SignIn = () => {
   const form = useForm<UserSignInRequestDto>({

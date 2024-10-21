@@ -2,12 +2,10 @@ FROM node:20.12.2
 
 WORKDIR /usr/src/app
 
-COPY package.json yarn.lock ./
+COPY . .
 
 RUN yarn install
 
-COPY . .
-
 EXPOSE 3000
 
-CMD ["yarn", "demo"]
+CMD ["yarn", "start:demo"]
