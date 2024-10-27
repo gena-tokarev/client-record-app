@@ -9,7 +9,7 @@
     "hoistingLimits": "workspaces"
   },
   "scripts": {
-    "build": "nest build",
+    "build": "concurrently -n \"api-gateway,auth,core\" -c \"#00F,#0FF,#F0F\" \"nest build client-record-api-gateway\" \"nest build client-record-auth\" \"nest build client-record-core\"",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "demo": "yarn start:dev && yarn fixtures",
     "start": "nest start",
@@ -74,6 +74,7 @@
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
+    "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

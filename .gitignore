@@ -35,5 +35,5 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 .env
-db
+.env.local=
 .yarn/install-state.gz

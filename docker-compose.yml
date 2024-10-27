@@ -11,7 +11,9 @@ services:
     ports:
       - "${DB_PORT}:${DB_PORT}"
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.development
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
       - "${API_GATEWAY_APP_PORT}:${API_GATEWAY_APP_PORT}"
@@ -19,9 +21,9 @@ services:
       - db
     environment:
       - DB_HOST=db
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-      - /usr/src/app/apps/server/node_modules
-      - /usr/src/app/apps/server/dist
-      - /usr/src/app/apps/web-ssr/node_modules
+    # volumes:
+    #   - .:/usr/src/app
+    #   - /usr/src/app/node_modules
+    #   - /usr/src/app/apps/server/node_modules
+    #   - /usr/src/app/apps/server/dist
+    #   - /usr/src/app/apps/web-ssr/node_modules

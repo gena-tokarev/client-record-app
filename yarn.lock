@@ -2138,6 +2138,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:^7.4.0"
     axios: "npm:^1.6.8"
     bcryptjs: "npm:^2.4.3"
+    concurrently: "npm:^8.2.2"
     eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-prettier: "npm:^5.1.3"

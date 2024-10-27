@@ -1,8 +1,5 @@
 import * as dotenv from "dotenv";
-dotenv.config({ path: ["../../.env.development"] });
-
-console.log(process.env)
-
+dotenv.config({ path: ["../../.env", "../../.env.local"] });
 const API_HOST_BASE_URL = `${process.env.API_GATEWAY_BASE_URL}:${process.env.API_GATEWAY_APP_PORT}`;
 
 /** @type {import('next').NextConfig} */
