@@ -24,7 +24,7 @@ powered by:
 3. Run `docker-compose up --build`.
 
 ## Log in
-You can either register a new user or use an existing one if you ran the project locally and ran `yarn db:fill`:
+You can either register a new user or use an existing one if you ran the project locally and passed the step with `yarn db:fill`:
 
 *Login:* `dev-user@example.com`
 *Password:* `Dev-user-example-password$1`
