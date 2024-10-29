@@ -25,8 +25,9 @@ powered by:
 
 ## Log in
 You can either register a new user or use an existing one if you ran the project locally and ran `yarn db:fill`:
-*Login:* `dev-user@example.com`
-*Password:* `Dev-user-example-password$1`
+
+##### *Login:* `dev-user@example.com`
+##### *Password:* `Dev-user-example-password$1`
 
 #### NOTES:
 Google OAuth will work only after you provide values for `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`
