@@ -17,11 +17,13 @@ powered by:
 3. Run `docker-compose up db`.
 4. Run `yarn start:dev`.
 5. Fill the db with test data: `yarn db:fill`. (Optional).
+6. Open `localhost:3000`
 
 ### Docker development (Quick demo)
 1. Change the `DB_HOST` env variable value to `DB_HOST=db`
 2. Make sure you have `docker` installed.
 3. Run `docker-compose up --build`.
+4. Open `localhost:3000`
 
 ## Log in
 You can either register a new user or use an existing one if you ran the project locally and passed the step with `yarn db:fill`:
