@@ -3,7 +3,7 @@ Client Record application monorepo
 powered by:
 1. next.js/react.js
 2. nest.js
-3. graphql
+3. graphql (apollo)
 4. postgreSQL
 
 ## Run in dev mode
