@@ -9,7 +9,7 @@ powered by:
 ## Run in dev mode
 
 ### General steps
-- Create `.env` file and copy there the contents of `.env.example`
+- Create `.env` file and copy in it the contents of `.env.example`
 
 ### Local development
 1. Change the `DB_HOST` env variable value to `DB_HOST=localhost`
