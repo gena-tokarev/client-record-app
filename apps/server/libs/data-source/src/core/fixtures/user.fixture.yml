@@ -1,8 +1,7 @@
 entity: User
 items:
   user1:
-    username: user@example.com
-    password: Dev-user-example-password$1
-    refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6InVzZXJAZXhhbXBsZS5jb20ifQ.oY0BPDINjpejNLzD6i8GKDZmDSMhwI3ljqiGyKJ3s_E
+    username: dev-user@example.com
+    password: $2a$10$ORR4C6v1FmmEnpGJuBcOxeJ3OoegrONuAtN6a0HmIlUTdm.0FXke.
+    refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRldi11c2VyQGV4YW1wbGUuY29tIiwic3ViIjoiNzA3NTQ3NzgtYmUxOS00OWVkLTg1ZDctM2NhM2YyYmE2NjQ0IiwiaWF0IjoxNzMwMTk4NzkwLCJleHAiOjE3MzAyMDIzOTB9.4exCrwurNGixPuWkWX8z4rfFOrynU_9u5HEs5a_SrCI
     confirmed: false
-

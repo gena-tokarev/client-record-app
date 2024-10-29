@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useContext, useState, MouseEvent } from "react";
-import AuthContext from "../providers/auth/auth-context";
 import { Box, IconButton, Menu, MenuItem } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import AuthContext from "../providers/Auth/auth-context";
 
 export const AccountDropdown = () => {
   const { logout } = useContext(AuthContext);

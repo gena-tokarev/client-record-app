@@ -10,6 +10,8 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "${DB_PORT}:${DB_PORT}"
+    expose:
+      - ${DB_PORT}
   app:
     build:
       context: .
@@ -17,13 +19,16 @@ services:
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
       - "${API_GATEWAY_APP_PORT}:${API_GATEWAY_APP_PORT}"
+    expose:
+      - ${WEB_PORT}
+      - ${AUTH_SERVICE_PORT}
+      - ${CORE_SERVICE_PORT}
     depends_on:
       - db
+    command: yarn start:demo
     environment:
-      - DB_HOST=db
-    # volumes:
-    #   - .:/usr/src/app
-    #   - /usr/src/app/node_modules
-    #   - /usr/src/app/apps/server/node_modules
-    #   - /usr/src/app/apps/server/dist
-    #   - /usr/src/app/apps/web-ssr/node_modules
+      API_GATEWAY_APP_PORT: ${API_GATEWAY_APP_PORT}
+    volumes:
+      - ./apps/server/apps:/usr/src/app/apps/server/apps
+      - ./apps/server/libs:/usr/src/app/apps/server/libs
+      - ./apps/web-ssr/src:/usr/src/app/apps/web-ssr/src

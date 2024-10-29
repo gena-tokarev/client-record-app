@@ -11,7 +11,7 @@
   "scripts": {
     "build": "concurrently -n \"api-gateway,auth,core\" -c \"#00F,#0FF,#F0F\" \"nest build client-record-api-gateway\" \"nest build client-record-auth\" \"nest build client-record-core\"",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "demo": "yarn start:dev && yarn fixtures",
+    "demo": "yarn start:dev & wait-on tcp:${API_GATEWAY_APP_PORT} && yarn fixtures",
     "start": "nest start",
     "start:dev": "concurrently -n \"api-gateway,auth,core\" -c \"#00F,#0FF,#F0F\" \"nest start --watch client-record-api-gateway\" \"nest start --watch client-record-auth\" \"nest start --watch client-record-core\"",
     "start:debug": "nest start --debug --watch",
@@ -56,6 +56,7 @@
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.20",
     "typeorm-fixtures-cli": "^4.0.0",
+    "wait-on": "^8.0.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {

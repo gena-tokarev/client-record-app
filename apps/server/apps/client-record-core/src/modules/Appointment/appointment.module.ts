@@ -24,7 +24,7 @@ import { Client } from '@client-record/data-source/core/models/client.model';
         useFactory: (configService: ConfigService) => ({
           transport: Transport.TCP,
           options: {
-            host: 'localhost',
+            host: '::1',
             port: configService.get('AUTH_SERVICE_PORT'),
           },
         }),
