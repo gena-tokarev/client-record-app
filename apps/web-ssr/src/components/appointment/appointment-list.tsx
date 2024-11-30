@@ -2,21 +2,16 @@
 
 import {
   Appointment,
+  AppointmentsOutput,
   Query,
-  useAppointmentStatusesSuspenseQuery,
-  useAppointmentsQuery,
-  useClientsSuspenseQuery,
   useDeleteAppointmentMutation,
-  useMastersSuspenseQuery,
-  useOnAppointmentDeletedSubscription,
-  useOnAppointmentUpdatedSubscription,
-  useProceduresSuspenseQuery,
 } from "@/graphql/generated/graphql";
 import { useCallback, useMemo, useState } from "react";
 import {
   DataGrid,
   GridActionsCellItem,
   GridColDef,
+  GridPaginationModel,
   GridRowParams,
 } from "@mui/x-data-grid";
 import { GridSelectMultiple } from "../grid/grid-select-multiple";
@@ -27,14 +22,31 @@ import Link from "next/link";
 import Loader from "../loader";
 import { ApolloCache } from "@apollo/client";
 import { getSelectOptions } from "../grid/utils/get-select-options";
+import { useAppointmentListSubscriptions } from "./hooks/useAppointmentListSubsctiptions";
+import { useAppointmentListData } from "./hooks/useAppointmentListData";
+import { AsStoreObject } from "@apollo/client/utilities";
+
+const PAGE_SIZE = 5;
+
+const SERVER_OPTIONS = {
+  useCursorPagination: true,
+  paginationModel: {
+    page: 0,
+    pageSize: PAGE_SIZE,
+  },
+};
 
 export const AppointmentList = () => {
-  const { data: initialData, loading } = useAppointmentsQuery();
+  const {
+    appointments,
+    appointmentsCount,
+    appointmentStatuses,
+    clients,
+    masters,
+    procedures,
+  } = useAppointmentListData();
 
-  const { data: dataClients } = useClientsSuspenseQuery();
-  const { data: dataMasters } = useMastersSuspenseQuery();
-  const { data: dataProcedures } = useProceduresSuspenseQuery();
-  const { data: dataStatuses } = useAppointmentStatusesSuspenseQuery();
+  useAppointmentListSubscriptions();
 
   const [deleteAppointment] = useDeleteAppointmentMutation({
     update: (cache: ApolloCache<Query>, { data }) => {
@@ -45,22 +57,22 @@ export const AppointmentList = () => {
       cache.modify<Query>({
         fields: {
           appointments(existingAppointmentRefs, { readField }) {
-            return existingAppointmentRefs.filter(
-              (appointmentRef) =>
-                readField<string>("id", appointmentRef) !==
-                deletedAppointmentId,
-            );
+            const appointmentsQuery =
+              existingAppointmentRefs as unknown as AsStoreObject<AppointmentsOutput>;
+            return {
+              ...appointmentsQuery,
+              total: appointmentsQuery.count - 1,
+              data: appointmentsQuery.data.filter(
+                (appointmentRef) =>
+                  readField<string>("id", appointmentRef) !==
+                  deletedAppointmentId,
+              ),
+            };
           },
         },
       });
     },
   });
-  const { data: deletedAppointment } = useOnAppointmentDeletedSubscription();
-  const { data: newAppointmentsData } = useOnAppointmentUpdatedSubscription();
-
-  const deletedAppointmentId =
-    deletedAppointment?.onAppointmentDeleted?.id ?? null;
-  const newAppointment = newAppointmentsData?.onAppointmentUpdated;
 
   const handleDeleteAppointment = useCallback(
     (id: string) => {
@@ -76,30 +88,6 @@ export const AppointmentList = () => {
     [deleteAppointment],
   );
 
-  // useEffect(() => {
-  //   if (newAppointment) {
-  //     setData((prevData) => {
-  //       const isNew = !prevData.some(
-  //         (appointment) => appointment.id === newAppointment.id,
-  //       );
-  //       if (isNew) {
-  //         return [...prevData, newAppointment];
-  //       }
-  //       return prevData;
-  //     });
-  //   }
-  // }, [newAppointment]);
-
-  // useEffect(() => {
-  //   if (deletedAppointmentId) {
-  //     setData((prevData) => {
-  //       return prevData.filter(
-  //         (appointment) => appointment.id !== deletedAppointmentId,
-  //       );
-  //     });
-  //   }
-  // }, [deletedAppointmentId]);
-
   const columns = useMemo<GridColDef<Appointment>[]>(
     () => [
       { field: "id", headerName: "ID" },
@@ -110,29 +98,22 @@ export const AppointmentList = () => {
         headerName: "Client",
         editable: true,
         type: "singleSelect",
-        ...getSelectOptions(dataClients?.clients, (client) => client.fullName),
+        ...getSelectOptions(clients, (client) => client.fullName),
       },
       {
         field: "master",
         headerName: "Master",
         editable: true,
         type: "singleSelect",
-        ...getSelectOptions(dataMasters?.masters, (master) => master.name),
+        ...getSelectOptions(masters, (master) => master.name),
       },
       {
         field: "procedures",
         headerName: "Procedures",
         editable: true,
-        ...getSelectOptions(
-          dataProcedures?.procedures,
-          (procedure) => procedure.name,
-          true,
-        ),
+        ...getSelectOptions(procedures, (procedure) => procedure.name, true),
         renderEditCell: (params) => (
-          <GridSelectMultiple
-            options={dataProcedures?.procedures ?? []}
-            {...params}
-          />
+          <GridSelectMultiple options={procedures ?? []} {...params} />
         ),
       },
       {
@@ -140,10 +121,7 @@ export const AppointmentList = () => {
         headerName: "Status",
         editable: true,
         type: "singleSelect",
-        ...getSelectOptions(
-          dataStatuses?.appointmentStatuses,
-          (status) => status.value,
-        ),
+        ...getSelectOptions(appointmentStatuses, (status) => status.value),
       },
       {
         field: "complaints",
@@ -173,10 +151,10 @@ export const AppointmentList = () => {
       },
     ],
     [
-      dataClients,
-      dataMasters,
-      dataProcedures,
-      dataStatuses,
+      clients,
+      masters,
+      procedures,
+      appointmentStatuses,
       handleDeleteAppointment,
     ],
   );
@@ -186,6 +164,14 @@ export const AppointmentList = () => {
   const handleStateChange = useCallback(() => {
     setInitialized(true);
   }, []);
+
+  const handlePaginationModelChange = (
+    newPaginationModel: GridPaginationModel,
+  ) => {
+    if (newPaginationModel.page > 0) {
+      
+    }
+  };
 
   return (
     <Box
@@ -197,22 +183,25 @@ export const AppointmentList = () => {
       {!initialized && <Loader />}
       <DataGrid
         loading={
-          !dataClients ||
-          !initialData?.appointments ||
-          !dataMasters ||
-          !dataProcedures ||
-          !dataStatuses ||
-          loading
+          !clients ||
+          !appointments ||
+          !masters ||
+          !procedures ||
+          !appointmentStatuses
         }
         disableRowSelectionOnClick
         autosizeOnMount
-        rows={initialData?.appointments}
+        rows={appointments}
         columns={columns}
         showCellVerticalBorder
         showColumnVerticalBorder
         pageSizeOptions={[10, 20, 30, 50, 100]}
         checkboxSelection
         onStateChange={handleStateChange}
+        paginationMode="server"
+        rowCount={appointmentsCount}
+        onPaginationModelChange={handlePaginationModelChange}
+        {...SERVER_OPTIONS}
       />
     </Box>
   );

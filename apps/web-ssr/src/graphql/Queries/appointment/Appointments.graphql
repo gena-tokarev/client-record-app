@@ -1,17 +1,21 @@
 query Appointments {
     appointments {
-        ...CoreAppointmentFields
-        client {
-            ...CoreClientFields
-        }
-        master {
-            ...CoreMasterFields
-        }
-        procedures {
-            ...CoreProcedureFields
-        }
-        status {
-            ...CoreAppointmentStatusFields
+        count
+        cursor
+        data {
+            ...CoreAppointmentFields
+            client {
+                ...CoreClientFields
+            }
+            master {
+                ...CoreMasterFields
+            }
+            procedures {
+                ...CoreProcedureFields
+            }
+            status {
+                ...CoreAppointmentStatusFields
+            }
         }
     }
 }
