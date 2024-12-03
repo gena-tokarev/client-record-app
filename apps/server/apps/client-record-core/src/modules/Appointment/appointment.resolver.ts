@@ -30,8 +30,10 @@ export class AppointmentResolver {
 
   @Query(() => AppointmentsOutput)
   // @UseGuards(GqlAuthGuard)
-  appointments(@Args('appointmentsInput') params: AppointmentsInput) {
-    return this.appointmentService.findMany(params.cursor, params.limit);
+  appointments(
+    @Args('appointmentsInput') params: AppointmentsInput,
+  ): Promise<AppointmentsOutput> {
+    return this.appointmentService.findMany(params.cursor, params.pageSize);
   }
 
   @Query(() => Appointment)

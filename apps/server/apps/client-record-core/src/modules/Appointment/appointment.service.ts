@@ -40,7 +40,7 @@ export class AppointmentService {
     });
   }
 
-  async findMany(cursor?: string, pageSize?: number) {
+  async findMany(cursor?: number | null, pageSize?: number) {
     const query = this.appointmentRepository
       .createQueryBuilder('appointment')
       .leftJoinAndSelect('appointment.client', 'client')
@@ -55,7 +55,7 @@ export class AppointmentService {
       .take(pageSize);
 
     if (cursor) {
-      query.where('appointment.id > :cursor', { cursor });
+      query.where('appointment.id > :cursor', { cursor: String(cursor) });
     }
 
     const appointments = await query.getMany();
@@ -72,9 +72,7 @@ export class AppointmentService {
     };
   }
 
-  async save<T>(
-    data: UpdateAppointmentInput | CreateAppointmentInput,
-  ) {
+  async save(data: UpdateAppointmentInput | CreateAppointmentInput) {
     const {
       client: clientId,
       master: masterId,
@@ -84,9 +82,9 @@ export class AppointmentService {
     } = data;
 
     if ('id' in data) {
-      const a = data
+      const a = data;
 
-      a.id
+      a.id;
     }
 
     const procedures = procedureIds

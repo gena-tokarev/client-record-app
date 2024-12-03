@@ -6,8 +6,8 @@ export class AppointmentsOutput {
   @Field(() => Int)
   count: number;
 
-  @Field(() => String)
-  cursor: string;
+  @Field(() => Int, { nullable: true })
+  cursor: number | null;
 
   @Field(() => [Appointment])
   data: Appointment[];

@@ -37,10 +37,15 @@ export type AppointmentStatus = {
   value: Scalars['String']['output'];
 };
 
+export type AppointmentsInput = {
+  cursor?: InputMaybe<Scalars['Float']['input']>;
+  pageSize: Scalars['Float']['input'];
+};
+
 export type AppointmentsOutput = {
   __typename?: 'AppointmentsOutput';
   count: Scalars['Int']['output'];
-  cursor: Scalars['String']['output'];
+  cursor?: Maybe<Scalars['Int']['output']>;
   data: Array<Appointment>;
 };
 
@@ -220,7 +225,6 @@ export type Query = {
   appointmentStatus: AppointmentStatus;
   appointmentStatuses: Array<AppointmentStatus>;
   appointments: AppointmentsOutput;
-  appointmentsCount: Scalars['Int']['output'];
   channel: Channel;
   channels: Array<Channel>;
   client: Client;
@@ -240,6 +244,11 @@ export type QueryAppointmentArgs = {
 
 export type QueryAppointmentStatusArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryAppointmentsArgs = {
+  appointmentsInput: AppointmentsInput;
 };
 
 
@@ -853,46 +862,9 @@ export type AppointmentQueryHookResult = ReturnType<typeof useAppointmentQuery>;
 export type AppointmentLazyQueryHookResult = ReturnType<typeof useAppointmentLazyQuery>;
 export type AppointmentSuspenseQueryHookResult = ReturnType<typeof useAppointmentSuspenseQuery>;
 export type AppointmentQueryResult = Apollo.QueryResult<AppointmentQuery, AppointmentQueryVariables>;
-export const AppointmentsCountDocument = gql`
-    query AppointmentsCount {
-  appointmentsCount
-}
-    `;
-
-/**
- * __useAppointmentsCountQuery__
- *
- * To run a query within a React component, call `useAppointmentsCountQuery` and pass it any options that fit your needs.
- * When your component renders, `useAppointmentsCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useAppointmentsCountQuery({
- *   variables: {
- *   },
- * });
- */
-export function useAppointmentsCountQuery(baseOptions?: Apollo.QueryHookOptions<AppointmentsCountQuery, AppointmentsCountQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AppointmentsCountQuery, AppointmentsCountQueryVariables>(AppointmentsCountDocument, options);
-      }
-export function useAppointmentsCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AppointmentsCountQuery, AppointmentsCountQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AppointmentsCountQuery, AppointmentsCountQueryVariables>(AppointmentsCountDocument, options);
-        }
-export function useAppointmentsCountSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AppointmentsCountQuery, AppointmentsCountQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<AppointmentsCountQuery, AppointmentsCountQueryVariables>(AppointmentsCountDocument, options);
-        }
-export type AppointmentsCountQueryHookResult = ReturnType<typeof useAppointmentsCountQuery>;
-export type AppointmentsCountLazyQueryHookResult = ReturnType<typeof useAppointmentsCountLazyQuery>;
-export type AppointmentsCountSuspenseQueryHookResult = ReturnType<typeof useAppointmentsCountSuspenseQuery>;
-export type AppointmentsCountQueryResult = Apollo.QueryResult<AppointmentsCountQuery, AppointmentsCountQueryVariables>;
 export const AppointmentsDocument = gql`
-    query Appointments {
-  appointments {
+    query Appointments($appointmentsInput: AppointmentsInput!) {
+  appointments(appointmentsInput: $appointmentsInput) {
     count
     cursor
     data {
@@ -930,10 +902,11 @@ ${CoreAppointmentStatusFieldsFragmentDoc}`;
  * @example
  * const { data, loading, error } = useAppointmentsQuery({
  *   variables: {
+ *      appointmentsInput: // value for 'appointmentsInput'
  *   },
  * });
  */
-export function useAppointmentsQuery(baseOptions?: Apollo.QueryHookOptions<AppointmentsQuery, AppointmentsQueryVariables>) {
+export function useAppointmentsQuery(baseOptions: Apollo.QueryHookOptions<AppointmentsQuery, AppointmentsQueryVariables> & ({ variables: AppointmentsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<AppointmentsQuery, AppointmentsQueryVariables>(AppointmentsDocument, options);
       }
@@ -1111,15 +1084,12 @@ export type AppointmentQueryVariables = Exact<{
 
 export type AppointmentQuery = { __typename?: 'Query', appointment: { __typename?: 'Appointment', id: string, complaints: string, date: any, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string } } };
 
-export type AppointmentsCountQueryVariables = Exact<{ [key: string]: never; }>;
+export type AppointmentsQueryVariables = Exact<{
+  appointmentsInput: AppointmentsInput;
+}>;
 
 
-export type AppointmentsCountQuery = { __typename?: 'Query', appointmentsCount: number };
-
-export type AppointmentsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type AppointmentsQuery = { __typename?: 'Query', appointments: { __typename?: 'AppointmentsOutput', count: number, cursor: string, data: Array<{ __typename?: 'Appointment', id: string, complaints: string, date: any, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string } }> } };
+export type AppointmentsQuery = { __typename?: 'Query', appointments: { __typename?: 'AppointmentsOutput', count: number, cursor?: number | null, data: Array<{ __typename?: 'Appointment', id: string, complaints: string, date: any, price: number, comments?: string | null, client: { __typename?: 'Client', id: string, firstName: string, lastName: string, middleName: string, instagramName: string, fullName: string, phones: Array<{ __typename?: 'Phone', id: string, value: string }>, channel: { __typename?: 'Channel', id: string, name: string } }, master: { __typename?: 'Master', id: string, name: string }, procedures?: Array<{ __typename?: 'Procedure', id: string, name: string }> | null, status: { __typename?: 'AppointmentStatus', id: string, value: string } }> } };
 
 export type OnAppointmentDeletedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 

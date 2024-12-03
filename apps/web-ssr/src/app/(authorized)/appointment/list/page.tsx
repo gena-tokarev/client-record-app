@@ -1,27 +1,27 @@
 import { PreloadQuery } from "@/graphql/graphql-client.server";
-import {
-  AppointmentsCountDocument,
-  AppointmentsDocument,
-} from "@/graphql/generated/graphql";
-import { AppointmentList } from "@/components/appointment/appointment-list";
+import { AppointmentsDocument } from "@/graphql/generated/graphql";
 import { Suspense } from "react";
 import Loader from "@/components/loader";
+import { Appointments } from "@/components/appointment/appointments";
 
 const AppointmentsPage = async () => {
   return (
-    <PreloadQuery query={AppointmentsCountDocument}>
-      <PreloadQuery
-        query={AppointmentsDocument}
-        // context={{
-        //   fetchOptions: {
-        //     next: { revalidate: 2 },
-        //   },
-        // }}
-      >
-        <Suspense fallback={<Loader />}>
-          <AppointmentList />
-        </Suspense>
-      </PreloadQuery>
+    <PreloadQuery
+      query={AppointmentsDocument}
+      variables={{
+        appointmentsInput: {
+          pageSize: 5,
+        },
+      }}
+      // context={{
+      //   fetchOptions: {
+      //     next: { revalidate: 2 },
+      //   },
+      // }}
+    >
+      <Suspense fallback={<Loader />}>
+        <Appointments />
+      </Suspense>
     </PreloadQuery>
   );
 };

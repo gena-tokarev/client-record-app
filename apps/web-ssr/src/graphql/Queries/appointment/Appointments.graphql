@@ -1,5 +1,5 @@
-query Appointments {
-    appointments {
+query Appointments($appointmentsInput: AppointmentsInput!) {
+    appointments(appointmentsInput: $appointmentsInput) {
         count
         cursor
         data {

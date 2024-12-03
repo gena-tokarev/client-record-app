@@ -3,13 +3,13 @@ Client Record application monorepo
 powered by:
 1. next.js/react.js
 2. nest.js
-3. graphql (apollo)
+3. graphql
 4. postgreSQL
 
 ## Run in dev mode
 
 ### General steps
-- Create `.env` file and copy in it the contents of `.env.example`
+- Create `.env` file and copy there the contents of `.env.example`
 
 ### Local development
 1. Change the `DB_HOST` env variable value to `DB_HOST=localhost`
@@ -17,17 +17,14 @@ powered by:
 3. Run `docker-compose up db`.
 4. Run `yarn start:dev`.
 5. Fill the db with test data: `yarn db:fill`. (Optional).
-6. Open `localhost:3000`
 
 ### Docker development (Quick demo)
 1. Change the `DB_HOST` env variable value to `DB_HOST=db`
 2. Make sure you have `docker` installed.
 3. Run `docker-compose up --build`.
-4. Open `localhost:3000`
 
 ## Log in
-You can either register a new user or use an existing one if you ran the project locally and passed the step with `yarn db:fill`:
-
+You can either register a new user or use an existing one if you ran the project locally and ran `yarn db:fill`:
 *Login:* `dev-user@example.com`
 *Password:* `Dev-user-example-password$1`
 
