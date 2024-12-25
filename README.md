@@ -5,7 +5,7 @@ Powered by:
 3. graphql
 
 ## Run in dev mode
-1. Make sure you have all the insfrastructure up and running (db, elasticsearch, replication etc.). Follow the instructions here: [Infrastructure README](https://github.com/gena-tokarev/client-record/README.md)
+1. Make sure you have all the insfrastructure up and running (db, elasticsearch, replication etc.). Follow the instructions in the [infrastructure repository](https://github.com/gena-tokarev/client-record)
 2. Create `.env` file and copy in it the contents of `.env.example`
 3. Make sure you have `node.js` and `yarn` installed.
 4. Run `yarn start:dev`.
