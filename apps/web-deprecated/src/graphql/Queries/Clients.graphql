@@ -1,5 +1,0 @@
-query Clients {
-    clients {
-        ...CoreClientFields
-    }
-}

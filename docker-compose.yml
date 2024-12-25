@@ -2,8 +2,7 @@ version: '3.9'
 
 services:
   db:
-    image: postgres:14.7
-    restart: always
+    image: postgres:15
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -12,23 +11,35 @@ services:
       - "${DB_PORT}:${DB_PORT}"
     expose:
       - ${DB_PORT}
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile.development
+    volumes:
+      - ./db/postgresql.conf:/etc/postgresql/custom-postgresql.conf
+    command:
+      - postgres
+      - -c
+      - config_file=/etc/postgresql/custom-postgresql.conf
+  search:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false
     ports:
-      - "${WEB_PORT}:${WEB_PORT}"
-      - "${API_GATEWAY_APP_PORT}:${API_GATEWAY_APP_PORT}"
-    expose:
-      - ${WEB_PORT}
-      - ${AUTH_SERVICE_PORT}
-      - ${CORE_SERVICE_PORT}
+      - "${ELASTICSEARCH_PORT}:${ELASTICSEARCH_PORT}"
+  db2search:
+    build:
+      context: ./db2search
+    restart: always
     depends_on:
       - db
-    command: yarn start:demo
-    environment:
-      API_GATEWAY_APP_PORT: ${API_GATEWAY_APP_PORT}
+      - search
     volumes:
-      - ./apps/server/apps:/usr/src/app/apps/server/apps
-      - ./apps/server/libs:/usr/src/app/apps/server/libs
-      - ./apps/web-ssr/src:/usr/src/app/apps/web-ssr/src
+      - ./db2search/src:/app/src
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: ${DB_PORT}
+      DB_HOST: db
+      ELASTICSEARCH_HOST: search
+      ELASTICSEARCH_PORT: ${ELASTICSEARCH_PORT}
+    command: ["sh", "-c", "air"]

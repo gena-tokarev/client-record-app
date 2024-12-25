@@ -20,4 +20,7 @@ export interface Env {
   GOOGLE_CLIENT_SECRET: string;
   GOOGLE_CALLBACK_URL: string;
   SESSION_SECRET: string;
+
+  ELASTICSEARCH_HOST: string;
+  ELASTICSEARCH_PORT: number;
 }

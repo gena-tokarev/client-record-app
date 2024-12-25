@@ -1,5 +1,0 @@
-query Channels {
-    channels {
-        ...CoreChannelFields
-    }
-}

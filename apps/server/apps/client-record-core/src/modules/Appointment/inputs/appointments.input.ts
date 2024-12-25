@@ -1,10 +1,31 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
+
+@InputType()
+export class PaginationModel {
+  @Field(() => Int)
+  pageSize: number;
+
+  @Field(() => Int, { nullable: true })
+  cursor: number;
+}
+
+@InputType()
+export class FilterModel {
+  @Field()
+  field: string;
+
+  @Field()
+  operator: string;
+
+  @Field({ nullable: true })
+  value: string;
+}
 
 @InputType()
 export class AppointmentsInput {
-  @Field({ nullable: true })
-  cursor: number;
+  @Field(() => PaginationModel, { nullable: true })
+  paginationModel: PaginationModel;
 
-  @Field()
-  pageSize: number;
+  @Field(() => [FilterModel], { nullable: true })
+  filterModel: FilterModel[];
 }

@@ -3,6 +3,7 @@ import { AppointmentsDocument } from "@/graphql/generated/graphql";
 import { Suspense } from "react";
 import Loader from "@/components/loader";
 import { Appointments } from "@/components/appointment/appointments";
+import { INITIAL_PAGINATION_MODEL } from "@/components/appointment/constants";
 
 const AppointmentsPage = async () => {
   return (
@@ -10,7 +11,7 @@ const AppointmentsPage = async () => {
       query={AppointmentsDocument}
       variables={{
         appointmentsInput: {
-          pageSize: 5,
+          paginationModel: INITIAL_PAGINATION_MODEL,
         },
       }}
       // context={{

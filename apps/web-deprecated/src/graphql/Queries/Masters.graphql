@@ -1,8 +1,0 @@
-query Masters {
-    masters {
-        ...CoreMasterFields
-        procedures {
-            ...CoreProcedureFields
-        }
-    }
-}

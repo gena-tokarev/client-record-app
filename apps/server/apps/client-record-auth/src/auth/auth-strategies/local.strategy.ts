@@ -6,7 +6,7 @@ import { ErrorMessagesEnum } from '@client-record/server-shared/enums/error-mess
 import { User } from '@client-record/data-source/core/models/user.model';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
-import { UserSignInRequestDto } from '@client-record/packages/shared/dto/user-sign-in.request.dto';
+import { UserSignInRequestDto } from '@client-record/packages/shared/modules/user/dto/user-sign-in.request.dto';
 import { StrategyNamesEnum } from '../enums/strategy-names.enum';
 
 @Injectable()

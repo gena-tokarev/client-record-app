@@ -1,9 +1,0 @@
-fragment CoreAppointmentFields on Appointment {
-    id
-    complaints
-    date
-    results
-    withCoating
-    price
-    comments
-}

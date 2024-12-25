@@ -1,5 +1,5 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
-import { CreateAppointmentDto } from '@client-record/packages/shared/schemas/appointment.schema';
+import { CreateAppointmentDto } from '@client-record/packages/shared/modules/appointment/schemas/appointment.schema';
 
 @InputType()
 export class CreateAppointmentInput implements CreateAppointmentDto {

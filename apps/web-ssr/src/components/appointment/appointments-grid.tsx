@@ -6,6 +6,7 @@ import { PAGE_SIZE } from "./constants";
 import { useAppointmentsColumns } from "./hooks/use-appointments-columns";
 import { useAppointmentsDataPagination } from "./hooks/use-appointments-data-pagination";
 import { AppointmensDataContext } from "./providers/appointments-data-provider";
+import { useAppointmentsDataFiltering } from "./hooks/use-appointments-data-filtering";
 
 const pageSizeOptions = [PAGE_SIZE];
 
@@ -20,6 +21,8 @@ export const AppointmentsGrid = () => {
 
   const { onPaginationModelChange, paginationModel } =
     useAppointmentsDataPagination();
+  const { onFilterModelChange } = useAppointmentsDataFiltering();
+
   const { data, loading } = useContext(AppointmensDataContext);
 
   return (
@@ -44,7 +47,7 @@ export const AppointmentsGrid = () => {
         rowCount={data.count}
         onPaginationModelChange={onPaginationModelChange}
         paginationModel={paginationModel}
-        // onFilterModelChange={onFilterModelChange}
+        onFilterModelChange={onFilterModelChange}
         paginationMode="server"
         filterMode="server"
         // sortingMode="server"

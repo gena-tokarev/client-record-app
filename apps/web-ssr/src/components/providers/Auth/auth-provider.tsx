@@ -1,10 +1,10 @@
 "use client";
 
 import React, { FC, ReactNode, useCallback, useState } from "react";
-import { UserSignUpRequestDto } from "@client-record/shared/src/schemas/user-sign-up.request.dto";
-import { useRouter } from "next/navigation";
-import { UserSignInRequestDto } from "@client-record/shared/src/schemas/user-sign-in.request.dto";
+import { UserSignUpRequestDto } from "@client-record/shared/src/modules/user/dto/user-sign-up.request.dto";
+import { UserSignInRequestDto } from "@client-record/shared/src/modules/user/dto/user-sign-in.request.dto";
 import AuthContext from "./auth-context";
+import { useRouter } from "next/navigation";
 
 interface Props {
   children?: ReactNode;

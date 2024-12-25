@@ -7,7 +7,7 @@ items:
     date: "2023-06-07T15:30:00"
     price: 200
     results:
-    comments: None
+    comments: test
     procedures:
       - '@procedure($current)'
       - '@procedure2'
@@ -19,7 +19,7 @@ items:
     master: '@master($current)'
     date: "2023-06-07T15:30:00"
     price: 100
-    comments: None
+    comments: test
     procedures:
       - '@procedure($current)'
       - '@procedure3'
@@ -31,7 +31,7 @@ items:
     master: '@master($current)'
     date: "2023-06-07T15:30:00"
     price: 50
-    comments: None
+    comments: test
     procedures:
       - '@procedure($current)'
     status: '@appointmentStatus($current)'
@@ -42,7 +42,7 @@ items:
     master: '@master1'
     date: "2023-06-07T15:30:00"
     price: 50
-    comments: None
+    comments: test
     procedures:
       - '@procedure1'
     status: '@appointmentStatus4'

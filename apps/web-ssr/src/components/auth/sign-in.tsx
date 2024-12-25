@@ -2,7 +2,7 @@
 
 import { Controller, useForm } from "react-hook-form";
 import AuthCard from "./auth-card";
-import { UserSignInRequestDto } from "@client-record/shared/src/schemas/user-sign-in.request.dto";
+import { UserSignInRequestDto } from "@client-record/shared/src/modules/user/dto/user-sign-in.request.dto";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";
 import { memo, useContext } from "react";
 import { TextField } from "@mui/material";

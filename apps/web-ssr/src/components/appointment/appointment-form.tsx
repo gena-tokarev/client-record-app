@@ -10,7 +10,7 @@ import {
 import {
   CreateAppointmentDto,
   UpdateAppointmentDto,
-} from "@client-record/shared/src/schemas/appointment.schema";
+} from "@client-record/shared/src/modules/appointment/schemas/appointment.schema";
 import {
   Box,
   Button,

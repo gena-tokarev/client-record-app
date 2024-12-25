@@ -12,12 +12,11 @@ import {
   useRef,
   useState,
 } from "react";
-import { PAGE_SIZE } from "../constants";
+import { INITIAL_PAGINATION_MODEL } from "../constants";
 import { ApolloError } from "@apollo/client";
 
 const defaultVariables = {
-  cursor: 0,
-  pageSize: PAGE_SIZE,
+  paginationModel: INITIAL_PAGINATION_MODEL,
 };
 
 type AppointmensDataContextType = {
@@ -42,9 +41,9 @@ export const AppointmensDataProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
   const [variables, setVariables] =
-    useState<AppointmentsInput>(defaultVariables);
+    useState<Partial<AppointmentsInput>>(defaultVariables);
 
-  const variablesRef = useRef<AppointmentsInput>(defaultVariables);
+  const variablesRef = useRef<Partial<AppointmentsInput>>(defaultVariables);
 
   const updateVariables = useCallback((newVariables: AppointmentsInput) => {
     variablesRef.current = {
@@ -61,7 +60,7 @@ export const AppointmensDataProvider: FC<PropsWithChildren> = ({
     },
   });
 
-  const { data, loading, error } = useAppointmentsQuery({
+  const { data, loading, error, previousData } = useAppointmentsQuery({
     variables: {
       appointmentsInput: variables,
     },
@@ -72,7 +71,10 @@ export const AppointmensDataProvider: FC<PropsWithChildren> = ({
       value={{
         loading,
         error,
-        data: data?.appointments ?? initialData.appointments,
+        data:
+          data?.appointments ??
+          previousData?.appointments ??
+          initialData.appointments,
         setVariables: updateVariables,
       }}
     >

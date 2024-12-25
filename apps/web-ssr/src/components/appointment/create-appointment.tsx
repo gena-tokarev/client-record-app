@@ -4,7 +4,7 @@ import { useCreateAppointmentMutation } from "@/graphql/generated/graphql";
 import {
   CreateAppointmentDto,
   createAppointmentSchema,
-} from "@client-record/shared/src/schemas/appointment.schema";
+} from "@client-record/shared/src/modules/appointment/schemas/appointment.schema";
 import { useCallback } from "react";
 import { AppointmentForm } from "./appointment-form";
 import { useForm } from "react-hook-form";

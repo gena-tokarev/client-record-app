@@ -38,8 +38,8 @@ export type AppointmentStatus = {
 };
 
 export type AppointmentsInput = {
-  cursor?: InputMaybe<Scalars['Float']['input']>;
-  pageSize: Scalars['Float']['input'];
+  filterModel?: InputMaybe<Array<FilterModel>>;
+  paginationModel?: InputMaybe<PaginationModel>;
 };
 
 export type AppointmentsOutput = {
@@ -90,6 +90,12 @@ export type CreateAppointmentInput = {
 
 export type CreateAppointmentStatusInput = {
   value: Scalars['String']['input'];
+};
+
+export type FilterModel = {
+  field: Scalars['String']['input'];
+  operator: Scalars['String']['input'];
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Master = {
@@ -197,6 +203,11 @@ export type MutationUpdateMasterArgs = {
 
 export type MutationUpdateProcedureArgs = {
   inputProcedure: ProcedureInput;
+};
+
+export type PaginationModel = {
+  cursor?: InputMaybe<Scalars['Int']['input']>;
+  pageSize: Scalars['Int']['input'];
 };
 
 export type Phone = {

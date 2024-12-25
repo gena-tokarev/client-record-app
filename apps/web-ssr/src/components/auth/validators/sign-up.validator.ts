@@ -1,5 +1,5 @@
 import { Match } from "@/validation/class-validator/decorators/match.decorator";
-import { UserSignUpRequestDto } from "@client-record/shared/src/schemas/user-sign-up.request.dto";
+import { UserSignUpRequestDto } from "@client-record/shared/src/modules/user/dto/user-sign-up.request.dto";
 import { IsNotEmpty } from "class-validator";
 
 export class SignUpValidator extends UserSignUpRequestDto {

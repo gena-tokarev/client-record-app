@@ -1,4 +1,0 @@
-fragment CorePhoneFields on Phone {
-    id
-    value
-}

@@ -66,9 +66,14 @@ export const useAppointmentsColumns = () => {
         type: "actions",
         getActions: (params: GridRowParams) => {
           return [
-            <Link key={1} href={`/appointment/update/${params.id}`}>
-              <GridActionsCellItem icon={<EditIcon />} label="Edit" />
-            </Link>,
+            <GridActionsCellItem
+              key={1}
+              LinkComponent={Link}
+              // @ts-expect-error it works, but for some reason ts does not recognize it
+              href={`/appointment/update/${params.id}`}
+              icon={<EditIcon />}
+              label="Edit"
+            />,
             <GridActionsCellItem
               key={2}
               icon={<DeleteIcon />}

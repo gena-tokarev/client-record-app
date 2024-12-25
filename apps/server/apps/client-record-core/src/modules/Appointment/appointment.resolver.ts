@@ -2,7 +2,7 @@ import { Appointment } from '@client-record/data-source/core/models/appointment.
 import {
   CreateAppointmentDto,
   createAppointmentSchema,
-} from '@client-record/packages/shared/schemas/appointment.schema';
+} from '@client-record/packages/shared/modules/appointment/schemas/appointment.schema';
 import { AppointmentService } from './appointment.service';
 import { CreateAppointmentInput } from './inputs/create-appointment.input';
 import { Injectable, UseGuards } from '@nestjs/common';
@@ -33,7 +33,10 @@ export class AppointmentResolver {
   appointments(
     @Args('appointmentsInput') params: AppointmentsInput,
   ): Promise<AppointmentsOutput> {
-    return this.appointmentService.findMany(params.cursor, params.pageSize);
+    return this.appointmentService.findMany(
+      params.paginationModel.cursor,
+      params.paginationModel.pageSize,
+    );
   }
 
   @Query(() => Appointment)

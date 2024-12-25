@@ -4,9 +4,10 @@ import { GridPaginationModel } from "@mui/x-data-grid";
 import { AppointmensDataContext } from "../providers/appointments-data-provider";
 
 export const useAppointmentsDataPagination = () => {
-  const [paginationModel, setPaginationModel] = useState(
-    INITIAL_PAGINATION_MODEL,
-  );
+  const [paginationModel, setPaginationModel] = useState({
+    ...INITIAL_PAGINATION_MODEL,
+    page: 0,
+  });
 
   const mapPageToNextCursor = useRef<{ [page: number]: number }>({});
 
@@ -28,10 +29,12 @@ export const useAppointmentsDataPagination = () => {
 
   useEffect(() => {
     setVariables({
-      cursor,
-      pageSize: paginationModel.pageSize,
+      paginationModel: {
+        pageSize: paginationModel.pageSize,
+        cursor,
+      },
     });
-  }, [setVariables, cursor, paginationModel.pageSize]);
+  }, [setVariables, cursor, paginationModel]);
 
   useEffect(() => {
     if (!loading && data.cursor) {

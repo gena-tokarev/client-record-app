@@ -7,7 +7,7 @@ import {
 import {
   UpdateAppointmentDto,
   updateAppointmentSchema,
-} from "@client-record/shared/src/schemas/appointment.schema";
+} from "@client-record/shared/src/modules/appointment/schemas/appointment.schema";
 import { FC, useCallback, useEffect } from "react";
 import { AppointmentForm } from "./appointment-form";
 import { useForm } from "react-hook-form";

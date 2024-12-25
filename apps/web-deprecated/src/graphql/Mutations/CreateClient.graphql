@@ -1,8 +1,0 @@
-mutation CreateClient($inputClient: ClientInput!) {
-    createClient(inputClient: $inputClient) {
-        ...CoreClientFields
-        channel {
-            ...CoreChannelFields
-        }
-    }
-}

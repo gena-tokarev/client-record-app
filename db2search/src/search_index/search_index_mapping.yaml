@@ -1,0 +1,16 @@
+tables:
+  - name: appointment
+    index: appointment_index
+    fields:
+      - name: id
+        type: keyword
+      - name: comments
+        type: text
+  - name: procedure
+    index: procedure_index
+    fields:
+      - name: id
+        type: keyword
+      - name: name
+        type: text
+

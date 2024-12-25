@@ -8,11 +8,11 @@ import { UpdateAppointment } from "@/components/appointment/update-appointment";
 const UpdateAppointmentPage = async ({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) => {
   const data = await fetchQuery<AppointmentQuery>({
     query: AppointmentDocument,
-    variables: { appointmentId: params.id },
+    variables: { appointmentId: (await params).id },
   });
 
   const appointment = data?.appointment;
