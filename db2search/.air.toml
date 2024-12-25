@@ -1,5 +1,0 @@
-[build]
-cmd = "go build -o ./main ./src"
-bin = "./main"
-include_ext = ["go"]
-exclude_dir = ["vendor", "node_modules"]
